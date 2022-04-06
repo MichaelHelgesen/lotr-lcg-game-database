@@ -1,0 +1,9 @@
+{"_createdAt":"2022-03-09T20:01:50Z","_id":"01001","_rev":"DsHc46whJxIpNrcPyMJFki","_type":"card","_updatedAt":"2022-03-10T08:03:15Z","name":"Aragorn","pack":{"_ref":"Core","_type":"reference"},"pack_code":"Core","sphere":{"_ref":"leadership","_type":"reference"}}
+{"_createdAt":"2022-03-09T20:40:20Z","_id":"11001","_rev":"DmK61VtPyEhMsfOjcmB8Cy","_type":"card","_updatedAt":"2022-03-09T20:44:00Z","name":"Círdan the Shipwright","pack":{"_ref":"TGH","_type":"reference"},"sphere":{"_ref":"spirit","_type":"reference"}}
+{"_createdAt":"2022-03-09T20:49:38Z","_id":"11002","_rev":"DmK61VtPyEhMsfOjcmcoy2","_type":"card","_updatedAt":"2022-03-10T07:27:23Z","name":"Galdor of the Havens","pack":{"_ref":"TGH","_type":"reference"},"pack_code":"TGH","sphere":{"_ref":"lore","_type":"reference"}}
+{"_createdAt":"2022-03-10T08:05:16Z","_id":"01002","_rev":"DmK61VtPyEhMsfOjcml3YP","_type":"card","_updatedAt":"2022-03-10T08:05:16Z","name":"Théodred","pack":{"_ref":"Core","_type":"reference"},"pack_code":"Core","sphere":{"_ref":"leadership","_type":"reference"}}
+{"_createdAt":"2022-03-09T20:42:05Z","_id":"TGH","_rev":"DmK61VtPyEhMsfOjcmcoy2","_type":"pack","_updatedAt":"2022-03-10T06:27:28Z","card":{"_ref":"11002","_type":"reference"},"code":"TGH","name":"The Grey Havens"}
+{"_createdAt":"2022-03-10T08:03:15Z","_id":"Core","_rev":"DmK61VtPyEhMsfOjcml3YP","_type":"pack","_updatedAt":"2022-03-10T08:05:16Z","card":{"_ref":"01002","_type":"reference"},"code":"Core","name":"Core Set"}
+{"_createdAt":"2022-03-09T20:01:50Z","_id":"leadership","_rev":"DmK61VtPyEhMsfOjcml3YP","_type":"sphere","_updatedAt":"2022-03-09T20:01:50Z","name":"Leadership"}
+{"_createdAt":"2022-03-09T20:49:38Z","_id":"lore","_rev":"DmK61VtPyEhMsfOjcmcoy2","_type":"sphere","_updatedAt":"2022-03-09T20:49:38Z","name":"Lore"}
+{"_createdAt":"2022-03-09T20:40:20Z","_id":"spirit","_rev":"DmK61VtPyEhMsfOjcmB8Cy","_type":"sphere","_updatedAt":"2022-03-09T20:40:20Z","name":"Spirit"}
