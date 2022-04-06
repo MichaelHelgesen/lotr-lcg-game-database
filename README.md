@@ -33,6 +33,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
 It´s a personal project that I hope will allow me to get a deep understanding of how Sanity works, and experience all it has to offer.
 
 - [ ] Sanity custom inputs
+- [ ] Sanity exec command
 - [x] Sanity UI
 - [x] Sanity javascript client (import, delete, patch)
 - [ ] Sanity API
