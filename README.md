@@ -3,7 +3,8 @@
 I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headless CMS to keep track of different aspects regarding the card game [Lord Of The Rings The Living Card Game](https://www.fantasyflightgames.com/en/products/the-lord-of-the-rings-the-card-game/) by [Fantasy Flight](https://www.fantasyflightgames.com/en/index/).
 
 ## Desired features
-- [ ] Import player cards, spheres, card types, traits, scenarios and encounters from sets / packs. This way one can expand Sanity Studio with new data when buying new cards. The source is [RingsDBs API](https://ringsdb.com/api/)
+- [x] Import player cards, spheres, card types, traits, scenarios and encounters from sets / packs. This way one can expand Sanity Studio with new data when buying new cards. The source is [RingsDBs API](https://ringsdb.com/api/)
+  - [ ] Choose what to import direct from Sanity Studio, and select if one wants to overwrite or update the chosen data
 - [ ] Create relevant references between documents on import
   - [x] Card -> "card type", "sphere" and "pack"
   - [ ] Packs -> "scenarios"?
