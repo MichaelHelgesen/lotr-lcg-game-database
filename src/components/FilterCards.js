@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { FormField } from '@sanity/base/components'
-import PatchEvent, { set, unset } from '@sanity/form-builder/PatchEvent'
+import PatchEvent, { set, unset, prepend, insert, setIfMissing } from '@sanity/form-builder/PatchEvent'
 
 
 import sanityClient from 'part:@sanity/base/client'
@@ -37,7 +37,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
             .then((cards) => {
                 if (isSubscribed) {
                     setCardList(cards.map(card => {
-                        return card.name
+                        return {...card}
                     }))
                 }
             })
@@ -46,14 +46,13 @@ export const FilterCards = React.forwardRef((props, ref) => {
 
     const handleClick = React.useCallback(
         // useCallback will help with performance
-        (event) => {
-            const inputValue = [{
-                _key: "d4b87cde6398",
-                _ref: "01001",
-                _type: "reference"
-            }]
-            // if the value exists, set the data, if not, unset the data
-            onChange(PatchEvent.from(inputValue ? set(inputValue) : unset()))
+        (event, id) => {
+            const inputValue = insert(
+                [{ _ref: id, _type: "reference" }],
+                'after',
+                [-1]
+              )
+            onChange(PatchEvent.from(inputValue).prepend(setIfMissing([])))
         },
         [onChange] // Verdien å se etter for oppdatering
     )
@@ -80,7 +79,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                 <Card>Deck
                 <Card>
                     <ul>
-                        {value.map(card => card._ref)}
+                        {value ? value.map(card => <li>card._ref</li>) : <li>No cards in deck</li>}
                     </ul>
                     <p onClick={clearReferences}>Clear references</p>
                 </Card>
@@ -90,7 +89,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     <Card>Cardlist</Card>
                     <Card>
                         {
-                            cardList.length ? cardList.map((card, index) => <Card onClick={handleClick} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card}</Card>) : null
+                            cardList.length ? cardList.map((card, index) => <Card onClick={(event) => handleClick(event, card._id)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : null
                         }
                     </Card>
                 </Card>
