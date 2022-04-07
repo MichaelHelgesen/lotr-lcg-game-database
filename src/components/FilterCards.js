@@ -97,15 +97,10 @@ export const FilterCards = React.forwardRef((props, ref) => {
             <Grid columns={[1, 2, 2, 2]} gap={[1, 1, 2, 3]} padding={0}>
                 <Stack space={[3, 3, 4]}>
                     <Card><Label>Deck</Label></Card>
-
                     <Card>
                         {chosenCards.length ? chosenCards.map((card, index) => <Card className={styles.cardCard} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : <Text>No cards in deck</Text>}
                     </Card>
-
-                    {chosenCards.length ? <Card className={styles.cardCard_delete} tone="primary" padding={[3, 3, 4]} radius={2} shadow={1} onClick={clearReferences}><Text align="center">Clear references</Text></Card> : null }
-
-
-
+                    {chosenCards.length ? <Card className={styles.cardCard_delete} tone="primary" padding={[3, 3, 4]} radius={2} shadow={1} onClick={clearReferences}><Text align="center">Clear references</Text></Card> : null}
                 </Stack>
                 <Stack space={[3, 3, 4]}>
                     <Card><Label>Cardpool</Label></Card>
@@ -113,7 +108,6 @@ export const FilterCards = React.forwardRef((props, ref) => {
                         {
                             cardList.length ? cardList.map((card, index) => <Card className={styles.cardCard} onClick={(event) => handleClick(event, card)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : null
                         }
-
                     </Card>
                 </Stack>
             </Grid>
