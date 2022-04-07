@@ -38,7 +38,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
   - [x]  May refer to all other document types
 - [ ] Present the journal and other data on a web page
 
-## Experience
+## Experience Sanity
 It´s a personal project that I hope will allow me to get a deep understanding of how Sanity works, and experience all it has to offer.
 
 - [ ] Sanity custom inputs
@@ -50,6 +50,13 @@ It´s a personal project that I hope will allow me to get a deep understanding o
 - [x] Sanity schema types
 - [ ] Sanity docs
 - [x] Import data from external source
+
+## Experience React
+Since Sanity is built with React I´m repeating a lot and learning more about this language.
+
+- [x] React.useEffect
+- [x] React.forwardRef
+- [x] React.useCallback
 
 ## Technology
 - HTML
