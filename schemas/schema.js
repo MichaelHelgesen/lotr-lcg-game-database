@@ -351,10 +351,22 @@ export default createSchema({
           name: 'name',
           type: 'string',
         },
-        {
+        /* {
           name: "cardSelection",
           type: "text",
           title: "Card selection",
+          inputComponent: FilterCards
+        }, */
+        {
+          name: "cardSelection",
+          title: "Card selection",
+          type: "array",
+          of: [{
+            type: "reference",
+            to: {
+              type: "card"
+            }
+          }],
           inputComponent: FilterCards
         },
         {
