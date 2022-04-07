@@ -86,6 +86,14 @@ export const FilterCards = React.forwardRef((props, ref) => {
         [onChange] // Verdien å se etter for oppdatering
     )
 
+    const setQuantity = (quantity) => {
+        let quantityOfGivenCard = [];
+        for (let i = 0; i <= quantity; i++){
+            quantityOfGivenCard.push(i)
+        }
+        return quantityOfGivenCard
+    } 
+
     return (
         <FormField
             description={type.description}
@@ -106,7 +114,11 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     <Card><Label>Cardpool</Label></Card>
                     <Card>
                         {
-                            cardList.length ? cardList.map((card, index) => <Card className={styles.cardCard} onClick={(event) => handleClick(event, card)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : null
+                            cardList.length ? cardList.map((card, index) => <Card>
+                                <Card className={styles.cardCard} onClick={(event) => handleClick(event, card)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}><Grid columns={[2]}>{card.name}
+                                    <Flex align={"center"} justify={"flex-end"}>{setQuantity(card.quantity).map(num => <Box padding={[0, 1]} style={{outline: '1px solid gray'}}><Text align={"right"}>{num}</Text></Box>)}</Flex></Grid>
+                                </Card>
+                            </Card>) : null
                         }
                     </Card>
                 </Stack>
