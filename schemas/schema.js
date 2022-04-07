@@ -45,6 +45,7 @@ client.patch("Core").unset(cardsToRemove).commit() */
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 import CardLightboxImage from '../src/components/CardLightboxImage'
 import StarRating from '../src/components/StarRating'
+import { FilterCards } from '../src/components/FilterCards'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -349,6 +350,12 @@ export default createSchema({
         {
           name: 'name',
           type: 'string',
+        },
+        {
+          name: "cardSelection",
+          type: "text",
+          title: "Card selection",
+          inputComponent: FilterCards
         },
         {
           name: "scenarios",

@@ -67,7 +67,6 @@ export const CardLightboxImage = React.forwardRef((props, ref) => {
                 <Card radius={2}
                   shadow={1}
                   tone="primary" padding={3}><Text align="center">Health: {props.parent.health}</Text></Card>
-
               </Grid>
 
         
