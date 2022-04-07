@@ -1,0 +1,11 @@
+.cardCard, .cardCard_delete {
+    cursor: pointer;
+}
+
+.cardCard_delete:hover {
+    background: #f03e2f;
+}
+
+.cardCard:hover {
+    background: #f2f3f5;
+}
