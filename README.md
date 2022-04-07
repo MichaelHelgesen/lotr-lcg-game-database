@@ -18,11 +18,18 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
 - [x] Create decks out of cards imported to Sanity Studio
   - [x] Decks may refer to "scenario", "spheres", and "cards"
   - [x] Custom component for filtering cards to add to the deck
-    - [ ] Filter by spheres
-    - [ ] Filter by traits
-    - [ ] Filter by packs
-    - [ ] Filter by stats?
+    - [ ] Add filters
+      - [ ] Filter by spheres
+      - [ ] Filter by traits
+      - [ ] Filter by packs
+      - [ ] Filter by stats?
     - [ ] Change order of list (ascending / descending etc.)
+    - [ ] Card presentation
+      - [ ] See image and stats on hover?
+      - [ ] See inage and stats on click?
+      - [ ] Button for "go to card"?
+      - [ ] Function for how many of each card to add: up to three if standard, and one if unique
+      - [ ] Ability to delete or change number of current card on card in deck
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
