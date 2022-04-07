@@ -29,8 +29,9 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [ ] See image and stats on hover?
       - [ ] See inage and stats on click?
       - [ ] Button for "go to card"?
+      - [x] See quantity of each card in cardpool
       - [ ] Function for how many of each card to add: up to three if standard, and one if unique
-      - [ ] Ability to delete or change number of current card on card in deck
+      - [ ] Ability to delete or change quantity of current card on card in deck
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
@@ -63,5 +64,5 @@ Sanity Studio with custom components
 ![Sanity Studio with lightbox effect](https://res.cloudinary.com/mikkesblogg/image/upload/v1649188200/Samples/Skjermbilde_2022-04-05_kl._21.48.19_ewc4jg.png)
 Sanity Studio with lightbox effect
 
-![Custom component for adding cards to a deck](https://res.cloudinary.com/mikkesblogg/image/upload/v1649350690/Samples/Skjermbilde_2022-04-07_kl._18.57.38_spblzh.png)
-An early version of a custom component for adding cards and remove all cards if needed.
+![Custom component for adding cards to a deck](https://res.cloudinary.com/mikkesblogg/image/upload/v1649354721/Samples/Skjermbilde_2022-04-07_kl._20.04.51_erar23.png)
+An early version of a custom component for adding quantity of cards, and remove all cards if needed.
