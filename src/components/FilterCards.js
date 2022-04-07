@@ -3,18 +3,24 @@
 import React, { useState, useEffect } from 'react'
 import { FormField } from '@sanity/base/components'
 import PatchEvent, { set, unset, prepend, insert, setIfMissing } from '@sanity/form-builder/PatchEvent'
-
+import styles from "../components/filterCards.css"
 
 import sanityClient from 'part:@sanity/base/client'
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` })
 const { dataset, projectId, useCdn } = client.clientConfig
 
-const query = '*[_type == "card"]'
+const queryCardType = '*[_type == "card"]'
+
 
 // Import UI components from Sanity UI
 import { TextInput, Stack, Label, Grid, Card, Text, Flex, Box } from '@sanity/ui'
 
+const cardStyle = {
+    cursor: "pointer"
+}
+
 export const FilterCards = React.forwardRef((props, ref) => {
+
     const {
         type,
         value,
@@ -33,11 +39,20 @@ export const FilterCards = React.forwardRef((props, ref) => {
 
     useEffect(() => {
         let isSubscribed = true;
-        client.fetch(query)
+        client.fetch(queryCardType)
             .then((cards) => {
                 if (isSubscribed) {
                     setCardList(cards.map(card => {
-                        return {...card}
+                        if (value) {
+                            value.forEach(obj => {
+                                if (obj._ref === card._id) {
+                                    chooseCard(prevState => {
+                                        return [...prevState, card]
+                                    })
+                                }
+                            })
+                        }
+                        return { ...card }
                     }))
                 }
             })
@@ -46,12 +61,15 @@ export const FilterCards = React.forwardRef((props, ref) => {
 
     const handleClick = React.useCallback(
         // useCallback will help with performance
-        (event, id) => {
+        (event, card) => {
+            chooseCard(prevState => {
+                return [...prevState, card]
+            })
             const inputValue = insert(
-                [{ _ref: id, _type: "reference" }],
+                [{ _ref: card._id, _type: "reference" }],
                 'after',
                 [-1]
-              )
+            )
             onChange(PatchEvent.from(inputValue).prepend(setIfMissing([])))
         },
         [onChange] // Verdien å se etter for oppdatering
@@ -60,6 +78,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
     const clearReferences = React.useCallback(
         // useCallback will help with performance
         (event) => {
+            chooseCard([])
             const inputValue = null
             // if the value exists, set the data, if not, unset the data
             onChange(PatchEvent.from(inputValue ? set(inputValue) : unset()))
@@ -76,23 +95,27 @@ export const FilterCards = React.forwardRef((props, ref) => {
             compareValue={compareValue}
         >
             <Grid columns={[1, 2, 2, 2]} gap={[1, 1, 2, 3]} padding={0}>
-                <Card>Deck
-                <Card>
-                    <ul>
-                        {value ? value.map(card => <li>card._ref</li>) : <li>No cards in deck</li>}
-                    </ul>
-                    <p onClick={clearReferences}>Clear references</p>
-                </Card>
-                </Card>
-                
-                <Card>
-                    <Card>Cardlist</Card>
+                <Stack space={[3, 3, 4]}>
+                    <Card><Label>Deck</Label></Card>
+
+                    <Card>
+                        {chosenCards.length ? chosenCards.map((card, index) => <Card className={styles.cardCard} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : <Text>No cards in deck</Text>}
+                    </Card>
+
+                    {chosenCards.length ? <Card className={styles.cardCard_delete} tone="primary" padding={[3, 3, 4]} radius={2} shadow={1} onClick={clearReferences}><Text align="center">Clear references</Text></Card> : null }
+
+
+
+                </Stack>
+                <Stack space={[3, 3, 4]}>
+                    <Card><Label>Cardpool</Label></Card>
                     <Card>
                         {
-                            cardList.length ? cardList.map((card, index) => <Card onClick={(event) => handleClick(event, card._id)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : null
+                            cardList.length ? cardList.map((card, index) => <Card className={styles.cardCard} onClick={(event) => handleClick(event, card)} padding={[3, 3, 4]} radius={2} shadow={1} key={index}>{card.name}</Card>) : null
                         }
+
                     </Card>
-                </Card>
+                </Stack>
             </Grid>
         </FormField>
     )
