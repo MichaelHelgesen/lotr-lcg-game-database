@@ -17,7 +17,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
 - [x] Comment fields on most documents for writing down experiences and thoughts
 - [x] Create decks out of cards imported to Sanity Studio
   - [x] Decks may refer to "scenario", "spheres", and "cards"
-  - [ ] Custom component for filtering cards to add to the deck
+  - [x] Custom component for filtering cards to add to the deck
     - [ ] Filter by spheres
     - [ ] Filter by traits
     - [ ] Filter by packs
