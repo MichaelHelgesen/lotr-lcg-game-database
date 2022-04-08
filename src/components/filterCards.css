@@ -2,6 +2,14 @@
     cursor: pointer;
 }
 
+.numBox:hover {
+    background: #e5e5e5;
+}
+
+.numBox {
+    background: white;
+}
+
 .cardCard_delete:hover {
     background: #f03e2f;
 }
