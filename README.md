@@ -27,7 +27,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
     - [ ] Change order of list (ascending / descending etc.)
     - [ ] Card presentation
       - [ ] See image and stats on hover?
-      - [ ] See inage and stats on click?
+      - [ ] See image and stats on click?
       - [ ] Button for "go to card"?
       - [x] See quantity of each card in cardpool
       - [ ] Function for how many of each card to add: up to three if standard, and one if unique
