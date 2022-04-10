@@ -72,5 +72,5 @@ Sanity Studio with custom components
 ![Sanity Studio with lightbox effect](https://res.cloudinary.com/mikkesblogg/image/upload/v1649188200/Samples/Skjermbilde_2022-04-05_kl._21.48.19_ewc4jg.png)
 Sanity Studio with lightbox effect
 
-![Custom component for adding cards to a deck](https://res.cloudinary.com/mikkesblogg/image/upload/v1649354721/Samples/Skjermbilde_2022-04-07_kl._20.04.51_erar23.png)
+![Custom component for adding cards to a deck](https://res.cloudinary.com/mikkesblogg/image/upload/v1649576842/Samples/Skjermbilde_2022-04-10_kl._09.45.27_p7ll0v.png)
 An early version of a custom component for adding quantity of cards, and remove all cards if needed.
