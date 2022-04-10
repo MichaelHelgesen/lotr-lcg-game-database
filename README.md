@@ -31,7 +31,8 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [ ] Button for "go to card"?
       - [x] See quantity of each card in cardpool
       - [ ] Function for how many of each card to add: up to three if standard, and one if unique
-      - [ ] Ability to delete or change quantity of current card on card in deck
+      - [x] Ability to delete or change quantity of current card in deck on card in cardpool
+      - [x] Ability to delete or change quantity of current card in deck on card in deck
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
