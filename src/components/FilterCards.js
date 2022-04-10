@@ -50,24 +50,6 @@ export const FilterCards = React.forwardRef((props, ref) => {
     } = props;
 
 
-    const checkForDeck = () => {
-        const newArr = []
-        if (value.length) {
-             cardList.map((card) => {
-                    value.forEach((obj) => {
-                        if (obj._ref === card._id) {
-                            newArr.push(card)
-                        }
-                    });
-            })
-            return newArr
-        } else {
-            return []
-        }
-    }
-
-
-
     const [cardList, setCardList] = useState([]);
     const [chosenCards, chooseCard] = useState([]);
     //const [deck, setDeck] = useState(value);
@@ -80,9 +62,9 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     cards.map((card) => {
                         if (value) {
                             value.forEach((obj) => {
-                                if (obj._ref === card._id) {
+                                if (obj._ref === card._id ) {
                                     chooseCard((prevState) => {
-                                        return [...prevState, card];
+                                        return [...prevState.filter(el => el._id != card._id), card];
                                     });
                                 }
                             });
@@ -95,21 +77,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
         return () => (isSubscribed = false);
     }, []);
 
-    const handleClick = React.useCallback(
-        (event, card) => {
-            chooseCard((prevState) => {
-                return [...prevState.filter(el => el._id != card._id), card];
-            });
-            const action = insert(
-                [{ _ref: card._id, _type: "reference" }],
-                "after",
-                [-1]
-            );
-            onChange(PatchEvent.from(action).prepend(setIfMissing([])));
-        },
-        [onChange]
-        
-    );
+
 
     const clearReferences = React.useCallback(
         // useCallback will help with performance
@@ -122,19 +90,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
         [onChange] // Verdien å se etter for oppdatering
     );
 
-    //{ "unset": [`cardSelection[_ref==${cardId}]`] }
-    /*
-    client
-      .patch(id)
-      .unset([`save[userId == "${user.googleId}"]`])
-      .commit()
-      .then((res) => {
-        console.log(res, ' updated')
-      })
-      .catch((err) => {
-        console.error('Transaction failed: ', err.message)
-      })
-    */
+
       const deleteAndAddCards = React.useCallback(
           (event) => {
             //console.log(event)
@@ -156,17 +112,104 @@ export const FilterCards = React.forwardRef((props, ref) => {
           }, [onChange]
       )
 
-    const deleteAndAddCard = React.useCallback(
-        (number, cardId) => {
-
+      const handleClick = React.useCallback(
+        (event, card) => {
             chooseCard((prevState) => {
+                return [...prevState.filter(el => el._id != card._id), card];
+            });
+            const action = insert(
+                [{ _ref: card._id, _type: "reference" }],
+                "after",
+                [-1]
+            );
+            onChange(PatchEvent.from(action).prepend(setIfMissing([])));
+        },
+        [onChange]
+        
+    );
+
+    const deleteAndAddCard = React.useCallback(
+        (number, card) => {
+            console.log("PROPS PARENT", props.parent.cardSelection)
+            //const cardsReducedToId = props.parent.cardSelection.map(card => card._ref)
+            const numberOfCardsInDeck = props.parent.cardSelection.filter(existingCard => existingCard._ref == card._id).length
+            const numberOfCardsInDeck2 = props.parent.cardSelection.map(existingCard => existingCard._ref)
+            //console.log("chosencards", chosenCards)
+            //console.log(chosenCards.indexOf(card))
+            const index = numberOfCardsInDeck2.indexOf(card._id)
+
+            if (number > 0 && number < numberOfCardsInDeck) {
+                console.log("number less")
+                for (let i = number; i <  numberOfCardsInDeck; i++){
+                    console.log("lower", i)
+                    console.log(numberOfCardsInDeck2.indexOf(card._id))
+                    console.log(numberOfCardsInDeck2)
+                    /* chooseCard((prevState) => {
+                        prevState.splice(chosenCards.indexOf(card), 1)
+                        return [...prevState];
+                    }); */
+                    client
+                    .patch(props.parent._id)
+                    .unset([`cardSelection[${index}]`])
+                    .commit()
+                    .then((res) => {
+                        console.log(res, 'removed')
+                        //onChange(PatchEvent.from(set(res.cardSelection)))
+                        console.log("chosencards", res.cardSelection)
+                    })
+                    .catch((err) => {
+                        console.error('Transaction failed: ', err.message)
+                    })
+                /* chooseCard((prevState) => {
+                    return [...prevState.filter(existingCard => {
+                        return (existingCard._id != card._id)
+                    })];
+                }); */
+                    console.log(chosenCards)
+                }
+            } else if (number > 0 && number > numberOfCardsInDeck) {
+                for (let i = numberOfCardsInDeck; i <  number; i++){
+                    chooseCard((prevState) => {
+                        return [...prevState.filter(el => el._id != card._id), card];
+                    });
+                    const action = insert(
+                        [{ _ref: card._id, _type: "reference" }],
+                        "after",
+                        [-1]
+                    );
+                    onChange(PatchEvent.from(action).prepend(setIfMissing([])));
+                    console.log("higher", i)
+                }
+            } else if (number === 0) {
+                client
+                    .patch(props.parent._id)
+                    .unset([`cardSelection[_ref == "${card._id}"]`])
+                    .commit()
+                    .then((res) => {
+                        console.log(res, 'removed')
+                        //onChange(PatchEvent.from(set(res.cardSelection)))
+                        console.log("chosencards", res.cardSelection)
+                    })
+                    .catch((err) => {
+                        console.error('Transaction failed: ', err.message)
+                    })
+                chooseCard((prevState) => {
+                    return [...prevState.filter(existingCard => {
+                        return (existingCard._id != card._id)
+                    })];
+                });
+            }
+            //numArray.splice(index, 1);
+            /* if(cardsReducedToId.indexOf(cardId) > -1) {
+
+            } */
+            /* chooseCard((prevState) => {
                 return [...prevState.filter(card => {
                     return (card._id != cardId)
                 })];
             });
-            const action =
-                // .patch(props.parent._id)
-                //unset([`cardSelection[_ref == ${cardId}]`])
+            console.log("chosencards", props.parent.cardSelection) */
+            /* const action =
                 client
                     .patch(props.parent._id)
                     .unset([`cardSelection[_ref == "${cardId}"]`])
@@ -174,25 +217,26 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     .then((res) => {
                         console.log(res, 'removed')
                         onChange(PatchEvent.from(set(res.cardSelection)))
+                        console.log("chosencards", res.cardSelection)
                     })
                     .catch((err) => {
                         console.error('Transaction failed: ', err.message)
-                    })
+                    }) */
 
-
+                    
             //onChange(PatchEvent.from(action ? console.log(action) : console.log("null").commit()));
-        },
-        [onChange]
+        }/* ,
+        [onChange] */
     );
 
     const testClick = (numberClicked, cardId) => {
         //console.log(numberClicked, cardId);
-        deleteAndAddCard(numberClicked, cardId);
+        deleteAndAddCard(numberClicked, card);
     };
 
-    const setQuantity = (quantity, cardId) => {
+    const setQuantity = (quantity, card) => {
         const filteredValue = value
-            ? value.filter((ref) => ref._ref === cardId)
+            ? value.filter((ref) => ref._ref === card._id)
             : [];
         let quantityOfGivenCard = [];
 
@@ -212,7 +256,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     <Box
                         key={i}
                         className={styles.numBox}
-                        onClick={(event) => deleteAndAddCard(i, cardId)}
+                        onClick={(event) => deleteAndAddCard(i, card)}
                         padding={[0, 1]}
                         style={{ outline: "1px solid gray" }}
                     >
@@ -257,7 +301,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                                                 onFocus={onFocus}
                                                 onBlur={onBlur} onClick={(event) => handleClick(event, card)}>{card.name}</Text>
                                             <Flex align={"center"} justify={"flex-end"}>
-                                                {setQuantity(card.quantity, card._id)}
+                                                {setQuantity(card.quantity, card)}
                                             </Flex>
                                         </Grid>
                                     </Card>
@@ -303,7 +347,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                                                 onFocus={onFocus}
                                                 onBlur={onBlur} onClick={(event) => handleClick(event, card)}>{card.name}</Text>
                                             <Flex align={"center"} justify={"flex-end"}>
-                                                {setQuantity(card.quantity, card._id)}
+                                                {setQuantity(card.quantity, card)}
                                             </Flex>
                                         </Grid>
                                     </Card>
