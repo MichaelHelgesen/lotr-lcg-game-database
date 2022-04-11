@@ -1,5 +1,3 @@
-// /src/MyCustomString.js
-
 import React, { useState, useEffect } from "react";
 import { FormField } from "@sanity/base/components";
 import { nanoid } from 'nanoid'
@@ -24,6 +22,7 @@ import {
     Grid,
     Card,
     Text,
+    Button,
     Flex,
     Box,
 } from "@sanity/ui";
@@ -175,15 +174,23 @@ export const FilterCards = React.forwardRef((props, ref) => {
     );
 
     const createQuantity = (num, card, isvalue) => {
-        let quantityArray = [<span onClick={(event) => { handleClick(0, card) }} key={0}>0</span>]
-        for (let i = 1; i <= num; i++) {
+        let quantityArray = []
+        for (let i = 0; i <= num; i++) {
             if (card.selected && card.selected === i) {
                 quantityArray.push(
-                    <span style={{ background: "grey" }} key={i}>{i}</span>
+                    <Button radius={0} shadow={1} padding={1} tone="positive" key={i}>{i}</Button>
+                )
+            } else if (!card.selected && i === 0) {
+                quantityArray.push(
+                    <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={1} key={0}>0</Box>
+                )
+            } else if (i === 0) {
+                quantityArray.push(
+                    <Button mode="ghost" radius={0} shadow={1} padding={1} onClick={(event) => { handleClick(0, card) }} key={0}>0</Button>
                 )
             } else {
                 quantityArray.push(
-                    <span key={i} onClick={(event) => { handleClick(i, card, isvalue) }}>{i}</span>
+                    <Button mode="ghost" radius={0} shadow={1} padding={1} key={i} onClick={(event) => { handleClick(i, card, isvalue) }}>{i}</Button>
                 )
             }
         }
@@ -200,22 +207,54 @@ export const FilterCards = React.forwardRef((props, ref) => {
             compareValue={compareValue}
         //ref={ref}
         >
-            <p onClick={clearReferences}>Clear references</p>
-            Deck:
-            <ul>
-                {deck.map((card, index) =>
-                    <li ref={ref} onFocus={onFocus} onBlur={onBlur} key={index}>
-                        {card.name} {createQuantity(card.quantity, card, value)}
-                    </li>
-                )}
-            </ul>
-            Carpool:
-            <ul>
-                {cardList.map((card, index) =>
-                    <li key={index}>
-                        {card.name} {createQuantity(card.quantity, card, value)}
-                    </li>)}
-            </ul>
+            <Flex>
+                <Box flex="1">
+                    <Box marginY="3">
+                        <Label>Deck:</Label>
+                    </Box>
+                    {deck.map((card, index) =>
+                        <Box key={index}>
+                            <Stack>
+                                <Card shadow={1} padding={2}>
+                                    <Flex align="center">
+                                        <Box flex="1">
+                                            <Text>{card.name}</Text>
+                                        </Box>
+                                        <Flex flex="1" justify="flex-end">
+                                            {createQuantity(card.quantity, card, value)}
+                                        </Flex>
+                                    </Flex>
+                                </Card>
+                            </Stack>
+                        </Box>
+                    )}
+                    <Box marginY="3">
+                        {deck.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
+                        
+                    </Box>
+                </Box>
+                <Box flex="1" marginLeft={[2, 2, 3, 3]}>
+                    <Box marginY="3">
+                        <Label>Cardpool:</Label>
+                    </Box>
+                    {cardList.map((card, index) =>
+                        <Box key={index}>
+                            <Stack>
+                                <Card shadow={1} padding={2}>
+                                    <Flex align="center">
+                                        <Box flex="1">
+                                            <Text>{card.name}</Text>
+                                        </Box>
+                                        <Flex flex="1" justify="flex-end">
+                                            {createQuantity(card.quantity, card, value)}
+                                        </Flex>
+                                    </Flex>
+                                </Card>
+                            </Stack>
+                        </Box>
+                    )}
+                </Box>
+            </Flex>
         </FormField>
     )
 })
