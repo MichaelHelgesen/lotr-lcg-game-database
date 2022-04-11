@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FormField } from "@sanity/base/components";
+import { nanoid } from 'nanoid'
 import PatchEvent, {
     set,
     unset,
@@ -27,14 +28,11 @@ import {
     Box,
 } from "@sanity/ui";
 
-
-
 export const FilterCards = React.forwardRef((props, ref) => {
+
     const {
         type,
         value,
-        readOnly,
-        placeholder,
         markers,
         presence,
         compareValue,
@@ -42,13 +40,28 @@ export const FilterCards = React.forwardRef((props, ref) => {
         onBlur,
         onChange,
     } = props;
+
     const queryCardType = '*[_type == "card"]';
 
-    // Adding all cards from database on load
+    // Adding all cards from database on load and update quantity
     const [cardList, setCardList] = useState([]);
 
     // Adding and removing cards from deck
     const [deck, setDeck] = useState([]);
+
+    const sortFunction = (a, b) => {
+        let navnA = a.name.toUpperCase();
+        let navnB = b.name.toUpperCase();
+        if (navnA < navnB) {
+            return -1;
+        }
+        if (navnA > navnB) {
+            return 1;
+        }
+
+        // Hvis navn er like
+        return 0;
+    }
 
     useEffect(() => {
         client.fetch(queryCardType).then((cards) => {
@@ -64,19 +77,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     }
                     if (numberOfExistingCards) {
                         setDeck(prevState => {
-                            return [...prevState, { ...card, selected: numberOfExistingCards }].sort(function(a, b) {
-                                let navnA = a.name.toUpperCase(); // Ignorere store og små bokstaver
-                                let navnB = b.name.toUpperCase(); // Ignorere store og små bokstaver
-                                if (navnA < navnB) {
-                                  return -1;
-                                }
-                                if (navnA > navnB) {
-                                  return 1;
-                                }
-                              
-                                // Hvis navn er like
-                                return 0;
-                              })
+                            return [...prevState, { ...card, selected: numberOfExistingCards }].sort(sortFunction)
                         })
                     }
                     return { ...card, selected: numberOfExistingCards }
@@ -85,6 +86,8 @@ export const FilterCards = React.forwardRef((props, ref) => {
 
         })
     }, []);
+
+
 
     useEffect(() => {
         setCardList(prevState => {
@@ -104,118 +107,83 @@ export const FilterCards = React.forwardRef((props, ref) => {
 
     }, [value]);
 
+
+
+
     const handleClick = React.useCallback(
-        (num, card) => {
-
-            console.log(card.selected)
-            console.log(num)
-
+        (num, card, isvalue) => {
+            // Increase quantity of current card
             if (num > card.selected && num > 0) {
-                console.log("higher number")
-                const action = insert(
-                    [{ _ref: card._id, _type: "reference" }],
-                    "after",
-                    [-1]
-                );
                 for (let i = card.selected; i < num; i++) {
+                    const action = insert(
+                        [{ _ref: card._id, _type: "reference", _key: nanoid() }],
+                        "after",
+                        [-1]
+                    );
                     onChange(PatchEvent.from(action).prepend(setIfMissing([])));
                 }
                 setDeck(prevState => {
-                    return [...prevState.filter(existingCard => existingCard._id != card._id), { ...card, selected: num }].sort(function(a, b) {
-                        let navnA = a.name.toUpperCase(); // Ignorere store og små bokstaver
-                        let navnB = b.name.toUpperCase(); // Ignorere store og små bokstaver
-                        if (navnA < navnB) {
-                          return -1;
-                        }
-                        if (navnA > navnB) {
-                          return 1;
-                        }
-                      
-                        // Hvis navn er like
-                        return 0;
-                      })
+                    return [...prevState.filter(existingCard => existingCard._id != card._id), { ...card, selected: num }].sort(sortFunction)
                 })
-
+                // Decrease quantity of current card
             } else if (num < card.selected && num > 0) {
-                console.log("lower number")
-                //console.log(props.parent.cardSelection.map(obj => obj._ref).indexOf(card._id))
+                const currentRefs = isvalue.filter(obj => obj._ref === card._id)
 
-                for (let i = card.selected; i > num; i--) {
-                    let index = props.parent.cardSelection.map(obj => obj._ref).indexOf(card._id)
-                    client
-                        .patch(props.parent._id)
-                        .unset([`cardSelection[${index}]`])
-                        .commit()
+                for (let i = num; i < card.selected; i++) {
+                    const action = unset(
+                        [{ _key: currentRefs[i - 1]._key }]
+                    );
+                    onChange(PatchEvent.from(action).prepend(setIfMissing([])));
                 }
-
                 setDeck(prevState => {
-                    return [...prevState.filter(existingCard => existingCard._id != card._id), { ...card, selected: num }].sort(function(a, b) {
-                        let navnA = a.name.toUpperCase(); // Ignorere store og små bokstaver
-                        let navnB = b.name.toUpperCase(); // Ignorere store og små bokstaver
-                        if (navnA < navnB) {
-                          return -1;
-                        }
-                        if (navnA > navnB) {
-                          return 1;
-                        }
-                      
-                        // Hvis navn er like
-                        return 0;
-                      })
+                    return [...prevState.filter(existingCard => existingCard._id != card._id), { ...card, selected: num }].sort(sortFunction)
                 })
-
+                // Delete card
             } else if (num === 0 && card.selected) {
-                console.log("zero")
-                client
-                    .patch(props.parent._id)
-                    .unset([`cardSelection[_ref == "${card._id}"]`])
-                    .commit()
+                const action = unset(
+                    [{ _ref: card._id }]
+                );
+                onChange(PatchEvent.from(action).prepend(setIfMissing([])));
                 setDeck((prevState) => {
                     return [...prevState.filter(existingCard => {
                         return (existingCard._id != card._id)
-                    })].sort(function(a, b) {
+                    })].sort(function (a, b) {
                         let navnA = a.name.toUpperCase(); // Ignorere store og små bokstaver
                         let navnB = b.name.toUpperCase(); // Ignorere store og små bokstaver
                         if (navnA < navnB) {
-                          return -1;
+                            return -1;
                         }
                         if (navnA > navnB) {
-                          return 1;
+                            return 1;
                         }
-                      
                         // Hvis navn er like
                         return 0;
-                      })
+                    })
                 });
-                //onChange(PatchEvent.from(num ? set(inputValue) : unset()));
             }
+        }, [onChange]
+    );
+
+    // Delete all references and all cards in deck
+    const clearReferences = React.useCallback(
+        (event) => {
+            setDeck([]);
+            const inputValue = [];
+            onChange(PatchEvent.from(set(inputValue)));
         },
         [onChange]
     );
 
-    const clearReferences = React.useCallback(
-        // useCallback will help with performance
-        (event) => {
-            setDeck([]);
-            const inputValue = [];
-            // if the value exists, set the data, if not, unset the data
-            onChange(PatchEvent.from(set(inputValue)));
-        },
-        [onChange] // Verdien å se etter for oppdatering
-    );
-
-    const createQuantity = (num, card) => {
-
+    const createQuantity = (num, card, isvalue) => {
         let quantityArray = [<span onClick={(event) => { handleClick(0, card) }} key={0}>0</span>]
-
         for (let i = 1; i <= num; i++) {
             if (card.selected && card.selected === i) {
                 quantityArray.push(
-                    <span style={{ background: "green" }} key={i}>{i}</span>
+                    <span style={{ background: "grey" }} key={i}>{i}</span>
                 )
             } else {
                 quantityArray.push(
-                    <span key={i} onClick={(event) => { handleClick(i, card) }}>{i}</span>
+                    <span key={i} onClick={(event) => { handleClick(i, card, isvalue) }}>{i}</span>
                 )
             }
         }
@@ -230,18 +198,22 @@ export const FilterCards = React.forwardRef((props, ref) => {
             __unstable_markers={markers}
             __unstable_presence={presence}
             compareValue={compareValue}
-            //ref={ref}
+        //ref={ref}
         >
             <p onClick={clearReferences}>Clear references</p>
             Deck:
             <ul>
-                {deck.map((card, index) => <li ref={ref} onFocus={onFocus} onBlur={onBlur} key={index}>{card.name} - Quantity to add: {createQuantity(card.quantity, card)} / {card.selected}</li>)}
+                {deck.map((card, index) =>
+                    <li ref={ref} onFocus={onFocus} onBlur={onBlur} key={index}>
+                        {card.name} {createQuantity(card.quantity, card, value)}
+                    </li>
+                )}
             </ul>
             Carpool:
             <ul>
                 {cardList.map((card, index) =>
                     <li key={index}>
-                        {card.name} - Quantity to add: {createQuantity(card.quantity, card)} / {card.selected}
+                        {card.name} {createQuantity(card.quantity, card, value)}
                     </li>)}
             </ul>
         </FormField>
