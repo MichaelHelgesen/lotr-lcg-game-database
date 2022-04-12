@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormField } from "@sanity/base/components";
+import FilterBySpheres from "./FilterBySpheres";
 import { nanoid } from 'nanoid'
 import PatchEvent, {
     set,
@@ -28,6 +29,7 @@ import {
 } from "@sanity/ui";
 
 export const FilterCards = React.forwardRef((props, ref) => {
+let filterActivated = false;
 
     const {
         type,
@@ -48,6 +50,32 @@ export const FilterCards = React.forwardRef((props, ref) => {
     // Adding and removing cards from deck
     const [deck, setDeck] = useState([]);
 
+    // Object for sorting
+    const [sorting, setSorting] = useState({
+        sphere: {},
+    });
+
+    const [originalCardList, setOriginalCardList] = useState([])
+
+    function handleChange(sphere) {
+        setSorting(prevState => {
+            const oldObj = { ...prevState.sphere }
+            for (const key in oldObj) {
+                if (oldObj[key]) {
+                    oldObj[key] = false
+                }
+            }
+            return {
+                ...prevState,
+                sphere: {
+                    ...oldObj,
+                    [sphere]: true
+                }
+            }
+
+        })
+    }
+
     const sortFunction = (a, b) => {
         let navnA = a.name.toUpperCase();
         let navnB = b.name.toUpperCase();
@@ -57,57 +85,86 @@ export const FilterCards = React.forwardRef((props, ref) => {
         if (navnA > navnB) {
             return 1;
         }
-
-        // Hvis navn er like
         return 0;
     }
 
+    const createCardObjects = (arr) => {
+        return arr.map(card => {
+            // Change this
+            setSorting(prevState => {
+                return {
+                    ...prevState,
+                    sphere: {
+                        ...prevState.sphere,
+                        [card.sphere._ref]: false
+                    }
+                }
+            })
+            //--
+            let numberOfExistingCards = 0
+            if (value) {
+                value.forEach(obj => {
+                    if (obj._ref === card._id) {
+                        numberOfExistingCards++
+                    }
+                })
+            }
+            if (numberOfExistingCards) {
+                setDeck(prevState => {
+                    return [...prevState, { ...card, selected: numberOfExistingCards }].sort(sortFunction)
+                })
+            }
+            return { ...card, selected: numberOfExistingCards }
+        })
+    }
+
+    const createCardObjects2 = (arr) => {
+        return arr.map(card => {
+            let numberOfExistingCards = 0
+            if (value) {
+                value.forEach(obj => {
+                    if (obj._ref === card._id) {
+                        numberOfExistingCards++
+                    }
+                })
+            }
+            return { ...card, selected: numberOfExistingCards }
+        })
+    }
+
+    // First run to generate cardlist and deck if exists.
     useEffect(() => {
         client.fetch(queryCardType).then((cards) => {
-            setCardList(
-                cards.map(card => {
-                    let numberOfExistingCards = 0
-                    if (value) {
-                        value.forEach(obj => {
-                            if (obj._ref === card._id) {
-                                numberOfExistingCards++
-                            }
-                        })
-                    }
-                    if (numberOfExistingCards) {
-                        setDeck(prevState => {
-                            return [...prevState, { ...card, selected: numberOfExistingCards }].sort(sortFunction)
-                        })
-                    }
-                    return { ...card, selected: numberOfExistingCards }
-                })
-            )
-
+            setOriginalCardList(createCardObjects(cards))
         })
     }, []);
 
+    // First run to generate cardlist and deck if exists.
+    /* useEffect(() => {
+            setCardList(createCardObjects2([...originalCardList]))
+    }, [originalCardList]); */
 
-
+    // Update cardlist when references change
     useEffect(() => {
+        setOriginalCardList(prevState => {
+            return createCardObjects2(prevState)
+        })
         setCardList(prevState => {
-            return prevState.map(card => {
-                let numberOfExistingCards = 0
-                if (value) {
-                    value.forEach(obj => {
-                        if (obj._ref === card._id) {
-                            numberOfExistingCards++
-                        }
-                    })
-                }
-                return { ...card, selected: numberOfExistingCards }
-            })
-        }
-        )
+            return createCardObjects2(prevState)
+        })
 
     }, [value]);
 
-
-
+    useEffect(() => {
+        let filterKey
+        const oldObj = { ...sorting.sphere }
+        for (const key in oldObj) {
+            if (oldObj[key]) {
+                filterKey = key
+            }
+        }
+        if (filterKey) {setCardList([...originalCardList.filter(card => card.sphere._ref === filterKey)])}
+    }, [sorting]);
 
     const handleClick = React.useCallback(
         (num, card, isvalue) => {
@@ -146,18 +203,7 @@ export const FilterCards = React.forwardRef((props, ref) => {
                 setDeck((prevState) => {
                     return [...prevState.filter(existingCard => {
                         return (existingCard._id != card._id)
-                    })].sort(function (a, b) {
-                        let navnA = a.name.toUpperCase(); // Ignorere store og små bokstaver
-                        let navnB = b.name.toUpperCase(); // Ignorere store og små bokstaver
-                        if (navnA < navnB) {
-                            return -1;
-                        }
-                        if (navnA > navnB) {
-                            return 1;
-                        }
-                        // Hvis navn er like
-                        return 0;
-                    })
+                    })].sort(sortFunction)
                 });
             }
         }, [onChange]
@@ -197,7 +243,6 @@ export const FilterCards = React.forwardRef((props, ref) => {
         return quantityArray
     }
 
-
     return (
         <FormField
             description={type.description}
@@ -230,14 +275,35 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     )}
                     <Box marginY="3">
                         {deck.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
-                        
+
                     </Box>
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
                     <Box marginY="3">
                         <Label>Cardpool:</Label>
                     </Box>
-                    {cardList.map((card, index) =>
+                    <Box>
+                        <FilterBySpheres sorting={sorting.sphere} onClick={handleChange} />
+                    </Box>
+                    {cardList.length ? 
+                    cardList.map((card, index) =>
+                        <Box key={index}>
+                            <Stack>
+                                <Card shadow={1} padding={2}>
+                                    <Flex align="center">
+                                        <Box flex="1">
+                                            <Text>{card.name}</Text>
+                                        </Box>
+                                        <Flex flex="1" justify="flex-end">
+                                            {createQuantity(card.quantity, card, value)}
+                                        </Flex>
+                                    </Flex>
+                                </Card>
+                            </Stack>
+                        </Box>
+                    )
+                    :
+                    originalCardList.map((card, index) =>
                         <Box key={index}>
                             <Stack>
                                 <Card shadow={1} padding={2}>
@@ -258,8 +324,5 @@ export const FilterCards = React.forwardRef((props, ref) => {
         </FormField>
     )
 })
-
-
-
 
 export default FilterCards;
