@@ -24,7 +24,7 @@ export const FilterBySpheres = React.forwardRef((props, ref) => {
 
     const spheres = Object.keys(sorting)
 
-    function handleChange(val) {
+    function filterBySphere(val) {
         props.onClick(val);
     }
     //console.log("Filterbuttons running")
@@ -36,11 +36,11 @@ export const FilterBySpheres = React.forwardRef((props, ref) => {
                 return (
                     sorting[sphere]
                         ?
-                        <Card key={sphere} tone="positive" flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { handleChange(sphere) }}>
+                        <Card key={sphere} tone="positive" flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterBySphere(sphere) }}>
                             <Text align="center" size="1">{newName}</Text>
                         </Card>
                         :
-                        <Card key={sphere} flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { handleChange(sphere) }}>
+                        <Card key={sphere} flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterBySphere(sphere) }}>
                             <Text align="center" size="1">{newName}</Text>
                         </Card>
                 )
