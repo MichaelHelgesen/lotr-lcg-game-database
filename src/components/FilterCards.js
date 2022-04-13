@@ -67,6 +67,9 @@ export const FilterCards = React.forwardRef((props, ref) => {
         type: {}
     });
 
+    const [selectValue, setSelectValue] = useState();
+
+
     // Adding all cards from database on load and update quantity
     const [originalCardList, setOriginalCardList] = useState([])
 
@@ -377,7 +380,42 @@ export const FilterCards = React.forwardRef((props, ref) => {
                     <Box>
                         <FilterByType sorting={sorting.type} onClick={filterByType} />
                     </Box>
-                    
+                    <Card padding={[0]}>
+                        <Autocomplete
+                        radius="0"
+                            // custom search filter
+                            filterOption={(query, option) =>
+                                option.name
+                                    .toLowerCase()
+                                    .indexOf(query.toLowerCase()) > -1
+                            }
+                            fontSize={[1]}
+                            icon={SearchIcon}
+                            openButton
+                            // options with `payload`
+                            options={originalCardList.map(card => ({...card, value: card._id}))}
+                            padding={[3]}
+                            placeholder="Type to select card from cardpool …"
+                            // custom option render function
+                            renderOption={(option) => (
+                                <Card as="button">
+                                    <Flex align="center">
+                                        <Box flex={1} padding={1}>
+                                            <Text size={[1]}>
+                                                {option.name}
+                                            </Text>
+                                        </Box>
+                                    </Flex>
+                                </Card>
+                            )}
+                            // custom value render function
+                            renderValue={(value, option) =>
+                                option?.name || value
+                            }
+                            value={selectValue}
+                            onSelect={(value) => {console.log(originalCardList); setSelectValue(value)}}
+                        />
+                    </Card>
                     {cardList.length ?
                         cardList.map((card, index) =>
                             <Box key={index}>
