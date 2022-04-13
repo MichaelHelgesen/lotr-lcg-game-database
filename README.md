@@ -77,3 +77,13 @@ Sanity Studio with lightbox effect
 
 ![Custom component for adding cards to a deck](https://res.cloudinary.com/mikkesblogg/image/upload/v1649576842/Samples/Skjermbilde_2022-04-10_kl._09.45.27_p7ll0v.png)
 An early version of a custom component for adding quantity of cards, and remove all cards if needed.
+
+![Updated version of the deckbuilder, with several filter options](https://res.cloudinary.com/mikkesblogg/image/upload/v1649854279/Samples/Skjermbilde_2022-04-13_kl._14.46.23_eecjke.png)
+Updated version of the deckbuilder, with several filter options.
+
+![Added the ability to define packs to filter by](https://res.cloudinary.com/mikkesblogg/image/upload/v1649854279/Samples/Skjermbilde_2022-04-13_kl._14.46.55_hk5nbq.png)
+Added the ability to define packs to filter by.
+
+![Added a text field for searching all cards regardless of active filters](https://res.cloudinary.com/mikkesblogg/image/upload/v1649854279/Samples/Skjermbilde_2022-04-13_kl._14.47.30_k2kcdm.png)
+Added a text field for searching all cards in cardpool regardless of active filters.
+
