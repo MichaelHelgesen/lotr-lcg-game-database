@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FormField } from "@sanity/base/components";
 import FilterBySpheres from "./FilterBySpheres";
+import FilterByType from "./FilterByType";
+//import FilterByPack from "./FilterByPack";
 import { nanoid } from 'nanoid'
 import PatchEvent, {
     set,
@@ -26,10 +28,15 @@ import {
     Button,
     Flex,
     Box,
+    Dialog,
+    Avatar,
+    Autocomplete,
+    SearchIcon
+
 } from "@sanity/ui";
+import FilterByPack from "./FilterByPack";
 
 export const FilterCards = React.forwardRef((props, ref) => {
-let filterActivated = false;
 
     const {
         type,
@@ -44,7 +51,10 @@ let filterActivated = false;
 
     const queryCardType = '*[_type == "card"]';
 
-    // Adding all cards from database on load and update quantity
+    const [open, setOpen] = useState(false)
+
+
+    // List that is copy from original list. This is for filtering etc.
     const [cardList, setCardList] = useState([]);
 
     // Adding and removing cards from deck
@@ -53,11 +63,14 @@ let filterActivated = false;
     // Object for sorting
     const [sorting, setSorting] = useState({
         sphere: {},
+        pack: {},
+        type: {}
     });
 
+    // Adding all cards from database on load and update quantity
     const [originalCardList, setOriginalCardList] = useState([])
 
-    function handleChange(sphere) {
+    function filterBySphere(sphere) {
         setSorting(prevState => {
             const oldObj = { ...prevState.sphere }
             for (const key in oldObj) {
@@ -70,6 +83,44 @@ let filterActivated = false;
                 sphere: {
                     ...oldObj,
                     [sphere]: true
+                }
+            }
+
+        })
+    }
+
+    function filterByType(type) {
+        setSorting(prevState => {
+            const oldObj = { ...prevState.type }
+            for (const key in oldObj) {
+                if (oldObj[key]) {
+                    oldObj[key] = false
+                }
+            }
+            return {
+                ...prevState,
+                type: {
+                    ...oldObj,
+                    [type]: true
+                }
+            }
+
+        })
+    }
+
+    function filterByPack(pack) {
+        setSorting(prevState => {
+            //const oldObj = { ...prevState.pack }
+            /* for (const key in oldObj) {
+                if (oldObj[key]) {
+                    oldObj[key] = false
+                }
+            } */
+            return {
+                ...prevState,
+                pack: {
+                    //...oldObj,
+                    [pack]: !prevState.pack[pack]
                 }
             }
 
@@ -97,6 +148,14 @@ let filterActivated = false;
                     sphere: {
                         ...prevState.sphere,
                         [card.sphere._ref]: false
+                    },
+                    pack: {
+                        ...prevState.pack,
+                        [card.pack._ref]: false
+                    },
+                    type: {
+                        ...prevState.type,
+                        [card.cardType._ref]: false
                     }
                 }
             })
@@ -132,6 +191,21 @@ let filterActivated = false;
         })
     }
 
+    const onClose = React.useCallback(
+        () => {
+            setOpen(false)
+        }, []
+    );
+
+    const onOpen = React.useCallback(
+        () => {
+            setOpen(true)
+        }, []
+    );
+
+    //const onClose = useCallback(() => setOpen(false), [])
+    //const onOpen = useCallback(() => setOpen(true), [])
+
     // First run to generate cardlist and deck if exists.
     useEffect(() => {
         client.fetch(queryCardType).then((cards) => {
@@ -163,7 +237,16 @@ let filterActivated = false;
                 filterKey = key
             }
         }
-        if (filterKey) {setCardList([...originalCardList.filter(card => card.sphere._ref === filterKey)])}
+        let filterKey2
+        const oldObj2 = { ...sorting.type }
+        for (const key in oldObj2) {
+            if (oldObj2[key]) {
+                filterKey2 = key
+            }
+        }
+        if (filterKey && !filterKey2) { setCardList([...originalCardList.filter(card => card.sphere._ref === filterKey)]) }
+        if (filterKey2 && !filterKey) { setCardList([...originalCardList.filter(card => card.cardType._ref === filterKey2)]) }
+        if (filterKey && filterKey2) { setCardList([...originalCardList.filter(card => card.sphere._ref === filterKey && card.cardType._ref === filterKey2)]) }
     }, [sorting]);
 
     const handleClick = React.useCallback(
@@ -282,43 +365,53 @@ let filterActivated = false;
                     <Box marginY="3">
                         <Label>Cardpool:</Label>
                     </Box>
+                    <Flex>
+                        <FilterByPack sorting={sorting.pack} /* onClick={handleChange} */ onOpen={onOpen} onClose={onClose} open={open} onClick={filterByPack} />
+                        <Card flex="1" radius={0} shadow={1} padding={2} style={{ textAlign: 'center' }}>
+                            <Text align="center" size="1">Select trait</Text>
+                        </Card>
+                    </Flex>
                     <Box>
-                        <FilterBySpheres sorting={sorting.sphere} onClick={handleChange} />
+                        <FilterBySpheres sorting={sorting.sphere} onClick={filterBySphere} />
                     </Box>
-                    {cardList.length ? 
-                    cardList.map((card, index) =>
-                        <Box key={index}>
-                            <Stack>
-                                <Card shadow={1} padding={2}>
-                                    <Flex align="center">
-                                        <Box flex="1">
-                                            <Text>{card.name}</Text>
-                                        </Box>
-                                        <Flex flex="1" justify="flex-end">
-                                            {createQuantity(card.quantity, card, value)}
+                    <Box>
+                        <FilterByType sorting={sorting.type} onClick={filterByType} />
+                    </Box>
+                    
+                    {cardList.length ?
+                        cardList.map((card, index) =>
+                            <Box key={index}>
+                                <Stack>
+                                    <Card shadow={1} padding={2}>
+                                        <Flex align="center">
+                                            <Box flex="1">
+                                                <Text>{card.name}</Text>
+                                            </Box>
+                                            <Flex flex="1" justify="flex-end">
+                                                {createQuantity(card.quantity, card, value)}
+                                            </Flex>
                                         </Flex>
-                                    </Flex>
-                                </Card>
-                            </Stack>
-                        </Box>
-                    )
-                    :
-                    originalCardList.map((card, index) =>
-                        <Box key={index}>
-                            <Stack>
-                                <Card shadow={1} padding={2}>
-                                    <Flex align="center">
-                                        <Box flex="1">
-                                            <Text>{card.name}</Text>
-                                        </Box>
-                                        <Flex flex="1" justify="flex-end">
-                                            {createQuantity(card.quantity, card, value)}
+                                    </Card>
+                                </Stack>
+                            </Box>
+                        )
+                        :
+                        originalCardList.map((card, index) =>
+                            <Box key={index}>
+                                <Stack>
+                                    <Card shadow={1} padding={2}>
+                                        <Flex align="center">
+                                            <Box flex="1">
+                                                <Text>{card.name}</Text>
+                                            </Box>
+                                            <Flex flex="1" justify="flex-end">
+                                                {createQuantity(card.quantity, card, value)}
+                                            </Flex>
                                         </Flex>
-                                    </Flex>
-                                </Card>
-                            </Stack>
-                        </Box>
-                    )}
+                                    </Card>
+                                </Stack>
+                            </Box>
+                        )}
                 </Box>
             </Flex>
         </FormField>
