@@ -17,12 +17,14 @@ import {
 export const CardListComponent = React.forwardRef((props, ref) => {
     const { card, value, onChange } = props
     return (
-        <Flex>
-            <Box flex="1">
-                <Text>{card.name}</Text>
-            </Box>
-            <CardListComponentQuantity deckLimit={card.deckLimit} value={value.length} cardId={card._id} onChange={onChange}/>
-        </Flex>
+        <Card shadow={1} padding={2}>
+            <Flex align="center">
+                <Box flex="1">
+                    <Text>{card.name}</Text>
+                </Box>
+                <CardListComponentQuantity deckLimit={card.deckLimit} value={value.length} cardId={card._id} onChange={onChange} />
+            </Flex>
+        </Card>
     )
 })
 

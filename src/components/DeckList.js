@@ -20,7 +20,7 @@ export const DeckList = React.forwardRef((props, ref) => {
     const filteredCardList = cardList.filter(card => references.indexOf(card._id) != -1)
 
     return (
-        <Box>
+        <Stack>
             {filteredCardList.map(card => {
                 return (
                     <CardListComponent
@@ -33,7 +33,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                     />
                 )
             })}
-        </Box>
+        </Stack>
     )
 })
 

@@ -21,8 +21,8 @@ export const CardListComponentQuantity = React.forwardRef((props, ref) => {
         countArray.push(i)
     }
     return (
-        <Box flex="1">
-            <Flex>
+        <Box flex="1" >
+            <Flex justify="flex-end">
                 <QuantityNumber deckLimit={countArray} value={value} cardId={cardId} onChange={onChange} />
             </Flex>
         </Box>
