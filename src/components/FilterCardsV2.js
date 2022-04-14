@@ -64,16 +64,29 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     }, []
     )
 
+    // Sort array by name
+    const sortFunction = (a, b) => {
+        let navnA = a.name.toUpperCase();
+        let navnB = b.name.toUpperCase();
+        if (navnA < navnB) {
+            return -1;
+        }
+        if (navnA > navnB) {
+            return 1;
+        }
+        return 0;
+    }
+
     return (
         <FormField
             title={type.title}
         >
             <Flex>
                 <Box flex="1">
-                    <DeckList cardList={cardList} value={value} onChange={onChange}/>
+                    <DeckList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange}/>
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
-                    <CardList cardList={cardList} value={value} onChange={onChange}/>
+                    <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange}/>
                 </Box>
             </Flex>
         </FormField>
