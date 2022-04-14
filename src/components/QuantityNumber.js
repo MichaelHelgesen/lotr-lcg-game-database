@@ -25,6 +25,7 @@ import PatchEvent, {
 export const QuantityNumber = React.forwardRef((props, ref) => {
     const { deckLimit, value, cardId, onChange } = props
     const handleClick = (number) => {
+        // If  higher number
         if (number > value) {
             let i = value
             do {
@@ -36,8 +37,8 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 );
                 onChange(PatchEvent.from(action).prepend(setIfMissing([])));
             } while (i < number);
-            
         }
+        // If lower number and not zero
         if (number < value && number != 0) {
             let i = value
             do {
@@ -47,8 +48,8 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 );
                 onChange(PatchEvent.from(action));
             } while (i > number);
-
         }
+        // If zero (delete)
         if (number === 0) {
             const action = unset(
                 [{ _ref: cardId }]
@@ -58,7 +59,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     }
     const numberElement = (color, number) => {
         return (
-            <Text onClick={(event) => { handleClick(number) }} key={number} style={{ background: `${color}` }}>{number}</Text>
+            <Button onClick={(event) => {handleClick(number)}} radius={0} shadow={1} padding={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}>{number || "0"}</Button>
         )
     }
 
@@ -67,18 +68,17 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
             {deckLimit.map(number => {
                 if (number != 0 && number === value) {
                     return (
-                        numberElement("green", number)
+                        numberElement("positive", number)
                     )
                 } else if (number === 0 && value === 0) {
                     return (
-                        numberElement("gray", number)
+                        <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={1} key={0}>{number}</Box>
                     )
                 } else {
                     return (
-                        numberElement("none", number)
+                        numberElement("default", number)
                     )
                 }
-
             })
             }
         </Flex>
