@@ -46,6 +46,7 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import CardLightboxImage from '../src/components/CardLightboxImage'
 import StarRating from '../src/components/StarRating'
 import { FilterCards } from '../src/components/FilterCards'
+import { FilterCardsV2 } from '../src/components/FilterCardsV2'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -367,7 +368,7 @@ export default createSchema({
               type: "card"
             }
           }],
-          inputComponent: FilterCards
+          inputComponent: FilterCardsV2
         },
         {
           name: "scenarios",
