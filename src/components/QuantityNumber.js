@@ -26,11 +26,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     const { deckLimit, value, cardId, onChange } = props
     const handleClick = (number) => {
         if (number > value) {
-            console.log("higher number")
             let i = value
             do {
                 i++
-                console.log(i)
                 const action = insert(
                     [{ _ref: cardId, _type: "reference", _key: `${cardId}-${i}` }],
                     "after",
@@ -41,12 +39,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
             
         }
         if (number < value && number != 0) {
-            console.log("lower number")
-            //console.log(number)
             let i = value
             do {
                 i--
-                console.log(i)
                 const action = unset(
                     [{ _key: `${cardId}-${i + 1}` }]
                 );
@@ -55,7 +50,6 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
 
         }
         if (number === 0) {
-            console.log("zero")
             const action = unset(
                 [{ _ref: cardId }]
             );

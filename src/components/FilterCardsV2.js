@@ -73,7 +73,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                     <DeckList cardList={cardList} value={value} onChange={onChange}/>
                 </Box>
                 <Box flex="1">
-                    <CardList cardList={cardList} value={value} />
+                    <CardList cardList={cardList} value={value} onChange={onChange}/>
                 </Box>
             </Flex>
         </FormField>
