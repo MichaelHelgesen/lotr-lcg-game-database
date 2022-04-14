@@ -2,17 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { FormField } from "@sanity/base/components";
 import CardList from "./CardList";
 import DeckList from "./DeckList";
-
-import { nanoid } from 'nanoid'
-import PatchEvent, {
-    set,
-    unset,
-    prepend,
-    insert,
-    setIfMissing,
-} from "@sanity/form-builder/PatchEvent";
-import styles from "../components/filterCards.css";
-
+import FilterBySpheres from "./FilterBySpheres"
+import FilterByPack from "./FilterByPack"
+import FilterByType from "./FilterByType"
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
@@ -34,7 +26,6 @@ import {
     SearchIcon
 
 } from "@sanity/ui";
-import FilterByPack from "./FilterByPack";
 
 export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
@@ -50,24 +41,64 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         onChange,
     } = props;
 
-    const queryCardType = '*[_type == "card"]';
-
     // STATE HANDLING //
     const [cardList, SetCardList] = useState([])
+    const [sphereList, setSphereList] = useState([])
+    const [packList, setPackList] = useState([])
+    const [typeList, setTypeList] = useState([])
+    const [traitsList, setTraitsList] = useState([])
+    const [filterList, setFilterList] = useState({
+        types: [],
+        spheres: []
+    })
 
     // FUNCTIONS //
     // Get all cards
     useEffect(() => {
-        client.fetch(queryCardType).then((cards) => {
+        client.fetch('*[_type == "card"]').then((cards) => {
             SetCardList([...cards])
         })
     }, []
     )
-
+    // Get all spheres
+    useEffect(() => {
+        client.fetch('*[_type == "sphere"]').then((spheres) => {
+            setSphereList([...spheres])
+        })
+    }, []
+    )
+    // Get all packs
+    useEffect(() => {
+        client.fetch('*[_type == "deck"]').then((packs) => {
+            setPackList([...packs])
+        })
+    }, []
+    )
+    // Get all types
+    useEffect(() => {
+        client.fetch('*[_type == "cardType"]').then((types) => {
+            setTypeList([...types])
+        })
+    }, []
+    )
+    // Get all traits
+    useEffect(() => {
+        client.fetch('*[_type == "trait"]').then((traits) => {
+            setTraitsList([...traits])
+        })
+    }, []
+    )
+    // Replace special characters for sorting
+    const replaceSpecialCharacters = (string) => {
+        return string.replace(/[é]/g, 'e')
+            .replace(/[ó]/g, 'o')
+            .replace(/[í]/g, 'i')
+            .replace(/[^a-zA-Z0-9 ]/g, "");
+    }
     // Sort array by name
     const sortFunction = (a, b) => {
-        let navnA = a.name.toUpperCase();
-        let navnB = b.name.toUpperCase();
+        let navnA = replaceSpecialCharacters(a.name.toLowerCase());
+        let navnB = replaceSpecialCharacters(b.name.toLowerCase());
         if (navnA < navnB) {
             return -1;
         }
@@ -83,10 +114,16 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         >
             <Flex>
                 <Box flex="1">
-                    <DeckList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange}/>
+                    <DeckList cardList={cardList} value={value} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters}/>
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
-                    <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange}/>
+                    <Box>
+                        <FilterByType types={typeList} setFilterList={setFilterList}/>
+                    </Box>
+                    <Box>
+                        <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} />
+                    </Box>
+                    <CardList cardList={cardList} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
             </Flex>
         </FormField>

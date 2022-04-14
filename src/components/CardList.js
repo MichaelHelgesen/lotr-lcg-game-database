@@ -15,8 +15,16 @@ import {
 } from "@sanity/ui";
 
 export const CardList = React.forwardRef((props, ref) => {
-    const { cardList, value, onChange } = props
+    const { cardList, value, onChange, filterList } = props
     const references = value.map(reference => reference._ref)
+    /* let filterArray = []
+    console.log("FILTERARRAY", filterArray)
+    for (const key in filterList) {
+        filterArray = [...filterList[key]]
+    } */
+
+    cardList
+
     return (
         <Box>
             {cardList.map(card => {

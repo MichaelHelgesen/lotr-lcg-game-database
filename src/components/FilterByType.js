@@ -1,5 +1,3 @@
-// /src/MyCustomString.js
-
 import React, { useState } from 'react'
 import {
     TextInput,
@@ -13,36 +11,32 @@ import {
     Box,
 } from "@sanity/ui";
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
-
 export const FilterByType = React.forwardRef((props, ref) => {
 
-    const { sorting } = props
+    const { types, setFilterList } = props
+    const [status, setStatus] = useState([])
 
-    const types = Object.keys(sorting)
-
-    function filterByType(val) {
-        props.onClick(val);
+    const handleClick = (name) => {
+        // Se om denne kan gjøres annerledes? Føles dobbelt opp.
+        setStatus(prevState => {
+            return prevState.indexOf(name) != -1 ? prevState.filter(type => type != name) : [...prevState, name]
+        })
+        setFilterList(prevState => {
+            return (
+                {
+                    ...prevState,
+                    types: prevState.types.indexOf(name) != -1 ? prevState.types.filter(type => type != name) : [...prevState.types, name]
+                }
+            )
+        })
     }
-    //console.log("Filterbuttons running")
-
     return (
         <Flex wrap="wrap">
             {types.map(type => {
-                let newName = type.slice(0, 1).toUpperCase() + type.slice(1, 3);
                 return (
-                    sorting[type]
-                        ?
-                        <Card key={type} tone="positive" flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterByType(type) }}>
-                            <Text align="center" size="1">{newName}</Text>
-                        </Card>
-                        :
-                        <Card key={type} flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterByType(type) }}>
-                            <Text align="center" size="1">{newName}</Text>
-                        </Card>
+                    <Card flex="1" padding={1} shadow={1} key={type.name} tone={`${status.indexOf(type.name) != -1 ? "positive" : ""}`}>
+                        <Text onClick={(event) => {handleClick(type.name)}} size={1} align="center">{type.name.slice(0, 3)}</Text>
+                    </Card>
                 )
             })}
         </Flex>

@@ -13,36 +13,35 @@ import {
     Box,
 } from "@sanity/ui";
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
+
 
 
 export const FilterBySpheres = React.forwardRef((props, ref) => {
+    const { spheres, setFilterList } = props
+    
+    const [status, setStatus] = useState([])
 
-    const { sorting } = props
-
-    const spheres = Object.keys(sorting)
-
-    function filterBySphere(val) {
-        props.onClick(val);
+    const handleClick = (event, name) => {
+        // Se om denne kan gjøres annerledes? Føles dobbelt opp.
+        setStatus(prevState => {return prevState.indexOf(name) != -1 ? prevState.filter(type => type != name) : [...prevState, name]})
+        
+        setFilterList(prevState => {
+            return (
+                {
+                    ...prevState,
+                    spheres: prevState.spheres.indexOf(name) != -1 ? prevState.spheres.filter(type => type != name) : [...prevState.spheres, name]
+                }
+            )
+        })
     }
-    //console.log("Filterbuttons running")
 
     return (
-        <Flex wrap="wrap">
+        <Flex>
             {spheres.map(sphere => {
-                let newName = sphere.slice(0, 1).toUpperCase() + sphere.slice(1, 3);
                 return (
-                    sorting[sphere]
-                        ?
-                        <Card key={sphere} tone="positive" flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterBySphere(sphere) }}>
-                            <Text align="center" size="1">{newName}</Text>
-                        </Card>
-                        :
-                        <Card key={sphere} flex="1" radius={0} shadow={1} padding={2} onClick={(event) => { filterBySphere(sphere) }}>
-                            <Text align="center" size="1">{newName}</Text>
-                        </Card>
+                    <Card flex="1" padding={1} shadow={1} key={sphere.name} tone={`${status.indexOf(sphere.name) != -1 ? "positive" : ""}`}>
+                        <Text onClick={(event) => {handleClick(event, sphere.name)}} size={1} align="center">{sphere.name.slice(0, 3)}</Text>
+                    </Card>
                 )
             })}
         </Flex>
