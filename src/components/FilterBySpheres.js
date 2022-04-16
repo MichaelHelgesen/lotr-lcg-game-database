@@ -26,13 +26,14 @@ export const FilterBySpheres = React.forwardRef((props, ref) => {
         setStatus(prevState => {return prevState.indexOf(name) != -1 ? prevState.filter(type => type != name) : [...prevState, name]})
         
         setFilterList(prevState => {
-            return (
-                {
-                    ...prevState,
-                    spheres: prevState.spheres.indexOf(name) != -1 ? prevState.spheres.filter(type => type != name) : [...prevState.spheres, name]
-                }
-            )
-        })
+                return (
+                    {
+                        ...prevState,
+                        sphere: prevState.sphere.indexOf(name.toLowerCase()) != -1 ? prevState.sphere.filter(type => type != name.toLowerCase()) : [...prevState.sphere, name.toLowerCase()]
+                    }
+                )
+            }
+        )
     }
 
     return (

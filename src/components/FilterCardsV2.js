@@ -48,15 +48,16 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     const [typeList, setTypeList] = useState([])
     const [traitsList, setTraitsList] = useState([])
     const [filterList, setFilterList] = useState({
-        types: [],
-        spheres: []
+        sphere: [],
+        cardType: [],
+        pack: []
     })
 
     // FUNCTIONS //
     // Get all cards
     useEffect(() => {
         client.fetch('*[_type == "card"]').then((cards) => {
-            SetCardList([...cards])
+            SetCardList([...cards.filter(card => !card._id.includes("draft"))])
         })
     }, []
     )
@@ -69,8 +70,14 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     )
     // Get all packs
     useEffect(() => {
-        client.fetch('*[_type == "deck"]').then((packs) => {
+        client.fetch('*[_type == "pack"]').then((packs) => {
             setPackList([...packs])
+            setFilterList(prevState => {
+              return  {
+                ...prevState,
+                pack: packs.map(pack => pack._id).filter(id => !id.includes("draft"))
+                }
+            })
         })
     }, []
     )
@@ -114,16 +121,22 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         >
             <Flex>
                 <Box flex="1">
-                    <DeckList cardList={cardList} value={value} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters}/>
+                    <DeckList cardList={cardList} value={value} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
+                    <Flex>
+                        <FilterByPack />
+                        <Card flex="1" radius={0} shadow={1} padding={2} style={{ textAlign: 'center' }}>
+                            <Text align="center" size="1">Select trait</Text>
+                        </Card>
+                    </Flex>
                     <Box>
-                        <FilterByType types={typeList} setFilterList={setFilterList}/>
+                        <FilterByType types={typeList} setFilterList={setFilterList} />
                     </Box>
                     <Box>
                         <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} />
                     </Box>
-                    <CardList cardList={cardList} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                    <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
             </Flex>
         </FormField>

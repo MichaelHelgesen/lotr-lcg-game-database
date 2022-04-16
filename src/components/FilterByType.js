@@ -12,8 +12,8 @@ import {
 } from "@sanity/ui";
 
 export const FilterByType = React.forwardRef((props, ref) => {
-
     const { types, setFilterList } = props
+
     const [status, setStatus] = useState([])
 
     const handleClick = (name) => {
@@ -25,17 +25,18 @@ export const FilterByType = React.forwardRef((props, ref) => {
             return (
                 {
                     ...prevState,
-                    types: prevState.types.indexOf(name) != -1 ? prevState.types.filter(type => type != name) : [...prevState.types, name]
+                    cardType: prevState.cardType.indexOf(name.toLowerCase()) != -1 ? prevState.cardType.filter(type => type != name.toLowerCase()) : [...prevState.cardType, name.toLowerCase()]
                 }
             )
-        })
+        }
+    )
     }
     return (
         <Flex wrap="wrap">
             {types.map(type => {
                 return (
                     <Card flex="1" padding={1} shadow={1} key={type.name} tone={`${status.indexOf(type.name) != -1 ? "positive" : ""}`}>
-                        <Text onClick={(event) => {handleClick(type.name)}} size={1} align="center">{type.name.slice(0, 3)}</Text>
+                        <Text onClick={(event) => { handleClick(type.name) }} size={1} align="center">{type.name.slice(0, 3)}</Text>
                     </Card>
                 )
             })}
