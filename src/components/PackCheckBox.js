@@ -30,27 +30,25 @@ export const PackCheckBox = React.forwardRef((props, ref) => {
     const checkBox = (pack) => {
         return (
             <Card padding={1} key={pack._id}>
-                <Grid columns={[2, 3]} gap={[1, 2]} padding={1}>
-                    <Flex align="flex-start">
+                    <Flex align="center">
                         <Checkbox checked={filterList.indexOf(pack._id) != -1 ? true : false} id={`${pack._id}`} style={{ display: 'block' }} onChange={(event) => { handleChange(pack._id) }} />
-                        <Box paddingLeft={3}>
+                        <Box paddingLeft={3} flex="1">
                             <Text>
                                 <label htmlFor={`${pack._id}`}>{pack.name}</label>
                             </Text>
                         </Box>
                     </Flex>
-                </Grid>
             </Card>
         )
     }
 
     return (
-        <Box>
+        <Grid columns={[1, 2, 2, 3]} gap={[1, 2]} padding={4}>
             {packList.map(pack => {
                 return (checkBox(pack))
             })}
 
-        </Box>
+        </Grid>
     )
 })
 

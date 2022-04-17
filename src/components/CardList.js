@@ -19,11 +19,11 @@ export const CardList = React.forwardRef((props, ref) => {
 
     const references = value.map(reference => reference._ref)
 
-    let newArr = [...cardList]
+    let filteredCardList = [...cardList]
 
     for (const key in filterList) {
         if (filterList[key].length) {
-            newArr = newArr.filter(card => {
+            filteredCardList = filteredCardList.filter(card => {
                 let matchingCard = false
                 if (card[key]._ref) {
                     if (filterList[key].indexOf(card[key]._ref) != -1) {
@@ -42,7 +42,7 @@ export const CardList = React.forwardRef((props, ref) => {
 
     return (
         <Box>
-            {newArr.map(card => {
+            {filteredCardList.map(card => {
                 return (
                     <CardListComponent
                         key={card._id}

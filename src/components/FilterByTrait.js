@@ -17,7 +17,7 @@ import {
 export const FilterByTrait = React.forwardRef((props, ref) => {
     const { traitsList, filterList, setFilterList } = props
     const [open, setOpen] = useState(false)
-
+console.log(filterList)
     const onClose = React.useCallback(
         () => {
             setOpen(false)
@@ -32,7 +32,7 @@ export const FilterByTrait = React.forwardRef((props, ref) => {
 
     return (
         <Box flex="1">
-            <Card radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }}>
+            <Card radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }} tone={`${filterList.length ? "positive" : ""}`}>
                 <Box onClick={onOpen}>
                     <Text size="1">Select Traits</Text>
                 </Box>
@@ -42,14 +42,12 @@ export const FilterByTrait = React.forwardRef((props, ref) => {
                 open && (
                     <Dialog
                         width="100%"
-                        header="Example"
-                        id="dialog-example"
+                        header="Select traits"
+                        id="traits"
                         onClose={onClose}
                         zOffset={1000}
                     >
-                        <Box padding={2}>
                             <TraitCheckBox setFilterList={setFilterList} filterList={filterList} traitsList={traitsList}/>
-                        </Box>
                     </Dialog>
                 )
             }

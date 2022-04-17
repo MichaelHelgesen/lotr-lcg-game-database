@@ -6,6 +6,7 @@ import FilterBySpheres from "./FilterBySpheres"
 import FilterByPack from "./FilterByPack"
 import FilterByType from "./FilterByType"
 import FilterByTrait from "./FilterByTrait";
+import CardSearch from "./CardSearch";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
@@ -48,6 +49,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     const [packList, setPackList] = useState([])
     const [typeList, setTypeList] = useState([])
     const [traitsList, setTraitsList] = useState([])
+    const [selectValue, setSelectValue] = useState();
     const [filterList, setFilterList] = useState({
         sphere: [],
         cardType: [],
@@ -74,12 +76,12 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     useEffect(() => {
         client.fetch('*[_type == "pack"]').then((packs) => {
             setPackList([...packs.filter(card => !card._id.includes("draft"))])
-            setFilterList(prevState => {
+            /* setFilterList(prevState => {
                 return {
                     ...prevState,
                     pack: packs.map(pack => pack._id).filter(id => !id.includes("draft"))
                 }
-            })
+            }) */
         })
     }, []
     )
@@ -136,15 +138,15 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                     <Flex>
                         <FilterByPack filterList={filterList.pack} setFilterList={setFilterList} packList={packList} />
                         {<FilterByTrait filterList={filterList.traits} setFilterList={setFilterList} traitsList={traitsList} />}
-                        {/* <Card flex="1" radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }}>
-                            <Text align="center" size="1">Select trait</Text>
-                        </Card> */}
                     </Flex>
                     <Box>
-                        <FilterByType types={typeList} setFilterList={setFilterList} />
+                        <FilterByType types={typeList} setFilterList={setFilterList} traitsList={traitsList}/>
                     </Box>
                     <Box>
-                        <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} />
+                        <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} traitsList={traitsList}/>
+                    </Box>
+                    <Box>
+                        <CardSearch cardList={cardList} selectValue={selectValue} setSelectValue={setSelectValue}/>
                     </Box>
                     <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>

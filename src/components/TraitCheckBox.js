@@ -16,8 +16,6 @@ import {
 export const TraitCheckBox = React.forwardRef((props, ref) => {
     const { filterList, setFilterList, traitsList } = props
 
-    console.log(filterList)
-
     const handleChange = (id) => {
         setFilterList(prevState => {
             return (
@@ -33,27 +31,25 @@ export const TraitCheckBox = React.forwardRef((props, ref) => {
     const checkBox = (trait) => {
         return (
             <Card padding={1} key={trait._id}>
-                <Grid columns={[2, 3]} gap={[1, 2]} padding={1}>
-                    <Flex align="flex-start">
-                        <Checkbox checked={filterList.indexOf(trait._id) != -1 ? true : false} id={`${trait._id}`} style={{ display: 'block' }} onChange={(event) => { handleChange(trait._id) }} />
-                        <Box paddingLeft={3}>
+                    <Flex align="center">
+                        <Checkbox checked={filterList.indexOf(trait._id) != -1 ? true : false} id={`${trait._id}`}  onChange={(event) => { handleChange(trait._id) }} />
+                        <Box flex="1" paddingLeft={3}>
                             <Text>
                                 <label htmlFor={`${trait._id}`}>{trait.name}</label>
                             </Text>
                         </Box>
                     </Flex>
-                </Grid>
             </Card>
         )
     }
 
     return (
-        <Box>
+        <Grid columns={[2, 3, 3, 4]} gap={[1, 2]} padding={4}>
             {traitsList.map(trait => {
                 return (checkBox(trait))
             })}
 
-        </Box>
+        </Grid>
     )
 })
 
