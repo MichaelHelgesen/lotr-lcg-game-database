@@ -24,7 +24,8 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [x] Filter by traits
         - [ ] Disable if not avaliable with current sorting?
       - [x] Text search
-        - [ ] Click to get popup, or click to add to deck?
+        - [x] Click to add to deck
+        - [ ] Click for popup and then add to deck?
       - [x] Filter by packs
         - [x] Checkboxes for filter by multiple packs?
       - [ ] Filter by stats?
