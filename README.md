@@ -86,6 +86,9 @@ Updated version of the deckbuilder, with several filter options.
 ![Added the ability to define packs to filter by](https://res.cloudinary.com/mikkesblogg/image/upload/v1649854279/Samples/Skjermbilde_2022-04-13_kl._14.46.55_hk5nbq.png)
 Added the ability to define packs to filter by.
 
-![Added a text field for searching all cards regardless of active filters](https://res.cloudinary.com/mikkesblogg/image/upload/v1649854279/Samples/Skjermbilde_2022-04-13_kl._14.47.30_k2kcdm.png)
-Added a text field for searching all cards in cardpool regardless of active filters.
+![Added the ability to define traits to filter by](https://res.cloudinary.com/mikkesblogg/image/upload/v1650184579/Samples/Skjermbilde_2022-04-17_kl._10.33.57_xv4hzn.png)
+Added the ability to define traits to filter by.
+
+![Added a text field for searching all cards regardless of active filters](https://res.cloudinary.com/mikkesblogg/image/upload/v1650184579/Samples/Skjermbilde_2022-04-17_kl._10.33.45_mkyol5.png)
+Updated the text field. It's now possible to add and remove cards directly from the search results.
 

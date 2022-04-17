@@ -42,7 +42,7 @@ export const FilterByPack = React.forwardRef((props, ref) => {
                 open && (
                     <Dialog
                         width="100%"
-                        header="Example"
+                        header="Select Packs"
                         id="dialog-example"
                         onClose={onClose}
                         zOffset={1000}
