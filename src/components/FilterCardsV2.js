@@ -148,9 +148,9 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         >
             <Flex>
                 <Box flex="1">
-                    <DeckList cardList={cardList} value={value} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                    {value ? <DeckList cardList={cardList} value={value ? value : []} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} /> : null }
                     <Box marginY="3">
-                        {value.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
+                        {value && value.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
                     </Box>
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
@@ -165,9 +165,9 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                         <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} traitsList={traitsList} />
                     </Box>
                     <Box>
-                        <CardSearch cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
+                        <CardSearch cardList={cardList.sort(sortFunction)} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
                     </Box>
-                    <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                    <CardList cardList={cardList.sort(sortFunction)} value={value? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
             </Flex>
         </FormField>
