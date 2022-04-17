@@ -17,8 +17,8 @@ import {
 } from "@sanity/ui";
 
 export const CardSearch = React.forwardRef((props, ref) => {
-const { cardList, selectValue, setSelectValue } = props
-
+    const { cardList, value, onChange, filterList, selectValue, setSelectValue } = props
+    const references = value.map(reference => reference._ref)
     return (
         <Card padding={[0]}>
             <Autocomplete
@@ -38,15 +38,15 @@ const { cardList, selectValue, setSelectValue } = props
                 placeholder="Type to select card from cardpool …"
                 // custom option render function
                 renderOption={(option) => (
-                    <Card as="button">
-                        <Flex align="center">
-                            <Box flex={1} padding={1}>
-                                <Text size={[1]}>
-                                    {option.name}
-                                </Text>
-                            </Box>
-                        </Flex>
-                    </Card>
+                    <CardListComponent
+                        card={option}
+                        size={1}
+                        value={
+                            references.filter(reference => reference === option._id)
+                        }
+                        onChange={onChange}
+                    />
+
                 )}
                 // custom value render function
                 renderValue={(value, option) =>

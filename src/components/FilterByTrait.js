@@ -17,7 +17,6 @@ import {
 export const FilterByTrait = React.forwardRef((props, ref) => {
     const { traitsList, filterList, setFilterList } = props
     const [open, setOpen] = useState(false)
-console.log(filterList)
     const onClose = React.useCallback(
         () => {
             setOpen(false)

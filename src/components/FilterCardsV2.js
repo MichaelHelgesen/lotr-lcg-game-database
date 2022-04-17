@@ -7,6 +7,13 @@ import FilterByPack from "./FilterByPack"
 import FilterByType from "./FilterByType"
 import FilterByTrait from "./FilterByTrait";
 import CardSearch from "./CardSearch";
+import PatchEvent, {
+    set,
+    unset,
+    prepend,
+    insert,
+    setIfMissing,
+} from "@sanity/form-builder/PatchEvent";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
@@ -96,12 +103,12 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     useEffect(() => {
         client.fetch('*[_type == "trait"]').then((traits) => {
             setTraitsList([...traits.filter(card => !card._id.includes("draft"))])
- /*            setFilterList(prevState => {
-                return {
-                    ...prevState,
-                    traits: traits.map(trait => trait._id).filter(id => !id.includes("draft"))
-                }
-            }) */
+            /*            setFilterList(prevState => {
+                           return {
+                               ...prevState,
+                               traits: traits.map(trait => trait._id).filter(id => !id.includes("draft"))
+                           }
+                       }) */
         })
 
     }, []
@@ -125,6 +132,15 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         }
         return 0;
     }
+    // Delete all references and all cards in deck
+    const clearReferences = React.useCallback(
+        (event) => {
+            //setDeck([]);
+            const inputValue = [];
+            onChange(PatchEvent.from(set(inputValue)));
+        },
+        [onChange]
+    );
 
     return (
         <FormField
@@ -133,6 +149,9 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             <Flex>
                 <Box flex="1">
                     <DeckList cardList={cardList} value={value} onChange={onChange} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                    <Box marginY="3">
+                        {value.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
+                    </Box>
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
                     <Flex>
@@ -140,13 +159,13 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                         {<FilterByTrait filterList={filterList.traits} setFilterList={setFilterList} traitsList={traitsList} />}
                     </Flex>
                     <Box>
-                        <FilterByType types={typeList} setFilterList={setFilterList} traitsList={traitsList}/>
+                        <FilterByType types={typeList} setFilterList={setFilterList} traitsList={traitsList} />
                     </Box>
                     <Box>
-                        <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} traitsList={traitsList}/>
+                        <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} traitsList={traitsList} />
                     </Box>
                     <Box>
-                        <CardSearch cardList={cardList} selectValue={selectValue} setSelectValue={setSelectValue}/>
+                        <CardSearch cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
                     </Box>
                     <CardList cardList={cardList.sort(sortFunction)} value={value} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>

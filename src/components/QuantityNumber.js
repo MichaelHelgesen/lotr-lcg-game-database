@@ -23,7 +23,7 @@ import PatchEvent, {
 
 
 export const QuantityNumber = React.forwardRef((props, ref) => {
-    const { deckLimit, value, cardId, onChange } = props
+    const { deckLimit, value, cardId, onChange, size } = props
     const handleClick = (number) => {
         // If  higher number
         if (number > value) {
@@ -59,7 +59,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     }
     const numberElement = (color, number) => {
         return (
-            <Button onClick={(event) => {handleClick(number)}} radius={0} shadow={1} padding={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}>{number || "0"}</Button>
+            <Button onClick={(event) => {handleClick(number)}} radius={0} shadow={1} padding={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}><Text size={size}>{number || "0"}</Text></Button>
         )
     }
 
@@ -72,7 +72,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                     )
                 } else if (number === 0 && value === 0) {
                     return (
-                        <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={1} key={0}>{number}</Box>
+                        <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={1} key={0}><Text size={size}>{number}</Text></Box>
                     )
                 } else {
                     return (
