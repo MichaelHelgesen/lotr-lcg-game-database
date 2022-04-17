@@ -5,6 +5,7 @@ import DeckList from "./DeckList";
 import FilterBySpheres from "./FilterBySpheres"
 import FilterByPack from "./FilterByPack"
 import FilterByType from "./FilterByType"
+import FilterByTrait from "./FilterByTrait";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
@@ -50,7 +51,8 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     const [filterList, setFilterList] = useState({
         sphere: [],
         cardType: [],
-        pack: []
+        pack: [],
+        traits: []
     })
 
     // FUNCTIONS //
@@ -64,18 +66,18 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     // Get all spheres
     useEffect(() => {
         client.fetch('*[_type == "sphere"]').then((spheres) => {
-            setSphereList([...spheres])
+            setSphereList([...spheres.filter(card => !card._id.includes("draft"))])
         })
     }, []
     )
     // Get all packs
     useEffect(() => {
         client.fetch('*[_type == "pack"]').then((packs) => {
-            setPackList([...packs])
+            setPackList([...packs.filter(card => !card._id.includes("draft"))])
             setFilterList(prevState => {
-              return  {
-                ...prevState,
-                pack: packs.map(pack => pack._id).filter(id => !id.includes("draft"))
+                return {
+                    ...prevState,
+                    pack: packs.map(pack => pack._id).filter(id => !id.includes("draft"))
                 }
             })
         })
@@ -84,15 +86,22 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     // Get all types
     useEffect(() => {
         client.fetch('*[_type == "cardType"]').then((types) => {
-            setTypeList([...types])
+            setTypeList([...types.filter(card => !card._id.includes("draft"))])
         })
     }, []
     )
     // Get all traits
     useEffect(() => {
         client.fetch('*[_type == "trait"]').then((traits) => {
-            setTraitsList([...traits])
+            setTraitsList([...traits.filter(card => !card._id.includes("draft"))])
+ /*            setFilterList(prevState => {
+                return {
+                    ...prevState,
+                    traits: traits.map(trait => trait._id).filter(id => !id.includes("draft"))
+                }
+            }) */
         })
+
     }, []
     )
     // Replace special characters for sorting
@@ -125,10 +134,11 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                 </Box>
                 <Box flex="1" marginLeft={[2, 2, 3, 3]}>
                     <Flex>
-                        <FilterByPack />
-                        <Card flex="1" radius={0} shadow={1} padding={2} style={{ textAlign: 'center' }}>
+                        <FilterByPack filterList={filterList.pack} setFilterList={setFilterList} packList={packList} />
+                        {<FilterByTrait filterList={filterList.traits} setFilterList={setFilterList} traitsList={traitsList} />}
+                        {/* <Card flex="1" radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }}>
                             <Text align="center" size="1">Select trait</Text>
-                        </Card>
+                        </Card> */}
                     </Flex>
                     <Box>
                         <FilterByType types={typeList} setFilterList={setFilterList} />

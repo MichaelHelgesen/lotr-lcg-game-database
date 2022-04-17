@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PackCheckBox from './PackCheckBox';
 import {
     TextInput,
     Stack,
@@ -14,7 +15,7 @@ import {
 } from "@sanity/ui";
 
 export const FilterByPack = React.forwardRef((props, ref) => {
-    const { packs } = props
+    const { packList, filterList, setFilterList } = props
     const [open, setOpen] = useState(false)
 
     const onClose = React.useCallback(
@@ -31,22 +32,23 @@ export const FilterByPack = React.forwardRef((props, ref) => {
 
     return (
         <Box flex="1">
-            <Card radius={0} shadow={1} padding={2} style={{ textAlign: 'center' }}>
+            <Card radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }}>
                 <Box onClick={onOpen}>
-                    <Text size="1">Packs</Text>
+                    <Text size="1">Select Packs</Text>
                 </Box>
             </Card>
 
             {
                 open && (
                     <Dialog
+                        width="100%"
                         header="Example"
                         id="dialog-example"
                         onClose={onClose}
                         zOffset={1000}
                     >
-                        <Box padding={4}>
-                            <Text>Content</Text>
+                        <Box padding={2}>
+                            <PackCheckBox setFilterList={setFilterList} filterList={filterList} packList={packList}/>
                         </Box>
                     </Dialog>
                 )

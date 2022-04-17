@@ -17,14 +17,25 @@ import {
 export const CardList = React.forwardRef((props, ref) => {
     const { cardList, value, onChange, filterList, sortFunction } = props
 
-    console.log(filterList)
     const references = value.map(reference => reference._ref)
 
     let newArr = [...cardList]
 
     for (const key in filterList) {
         if (filterList[key].length) {
-            newArr = newArr.filter(card => filterList[key].indexOf(card[key]._ref) != -1
+            newArr = newArr.filter(card => {
+                let matchingCard = false
+                if (card[key]._ref) {
+                    if (filterList[key].indexOf(card[key]._ref) != -1) {
+                        matchingCard = true
+                    }
+                } else {
+                    if (card[key].filter(trait => filterList[key].indexOf(trait._ref) != -1).length) {
+                        matchingCard = true
+                    }
+                }
+                return matchingCard
+            }
             )
         }
     }

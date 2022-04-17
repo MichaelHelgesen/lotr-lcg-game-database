@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PackCheckBox2 from './PackCheckBox2';
+import TraitCheckBox from './TraitCheckBox';
 import {
     TextInput,
     Stack,
@@ -48,7 +48,7 @@ export const FilterByTrait = React.forwardRef((props, ref) => {
                         zOffset={1000}
                     >
                         <Box padding={2}>
-                            <PackCheckBox2 setFilterList={setFilterList} filterList={filterList} traitsList={traitsList}/>
+                            <TraitCheckBox setFilterList={setFilterList} filterList={filterList} traitsList={traitsList}/>
                         </Box>
                     </Dialog>
                 )
