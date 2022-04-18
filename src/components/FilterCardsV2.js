@@ -167,7 +167,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                     <Box>
                         <CardSearch cardList={cardList.sort(sortFunction)} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
                     </Box>
-                    <CardList cardList={cardList.sort(sortFunction)} value={value? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                    <CardList cardList={cardList.sort(sortFunction)} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
             </Flex>
         </FormField>

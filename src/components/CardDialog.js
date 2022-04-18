@@ -82,7 +82,6 @@ export const CardDialog = React.forwardRef((props, ref) => {
                                                 tone="primary" padding={3}><Text align="center">Health: {card.health}</Text></Card>
                                         </Grid>
                                         <CardListComponentQuantity size={size} deckLimit={card.deckLimit} value={value} cardId={card._id} onChange={onChange} closeDialog={onClose}/>
-                                        <Box onClick={onClose}>test</Box>
                                     </Stack>
                                 </Stack>
                             </Card>

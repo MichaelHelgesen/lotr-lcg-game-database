@@ -53,7 +53,7 @@ export const CardSearch = React.forwardRef((props, ref) => {
                     option?.name || value
                 }
                 value={selectValue}
-                onSelect={(value) => { console.log(cardList); setSelectValue(value) }}
+                onSelect={(value) => { setSelectValue(value) }}
             />
         </Card>
     )

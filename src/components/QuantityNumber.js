@@ -23,7 +23,7 @@ import PatchEvent, {
 
 
 export const QuantityNumber = React.forwardRef((props, ref) => {
-    const { deckLimit, value, cardId, onChange, size } = props
+    const { deckLimit, value, cardId, onChange, size, onClose} = props
     const handleClick = (number) => {
         // If  higher number
         if (number > value) {
@@ -55,6 +55,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 [{ _ref: cardId }]
             );
             onChange(PatchEvent.from(action));
+        }
+        if(onClose) {
+            onClose()
         }
     }
     const numberElement = (color, number) => {

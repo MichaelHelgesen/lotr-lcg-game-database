@@ -37,7 +37,6 @@ export const FilterByPack = React.forwardRef((props, ref) => {
                     <Text size="1">Select Packs</Text>
                 </Box>
             </Card>
-
             {
                 open && (
                     <Dialog
