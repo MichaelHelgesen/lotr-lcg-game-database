@@ -67,7 +67,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     }
 
     return (
-        <Flex>
+        <Flex wrap="wrap">
             {deckLimit.map(number => {
                 if (number != 0 && number === value) {
                     return (

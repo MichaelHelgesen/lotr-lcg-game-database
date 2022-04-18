@@ -19,6 +19,23 @@ import {
 export const CardSearch = React.forwardRef((props, ref) => {
     const { cardList, value, onChange, filterList, selectValue, setSelectValue } = props
     const references = value.map(reference => reference._ref)
+
+    const [open, setOpen] = useState(false)
+
+    const onClose = React.useCallback(
+        () => {
+            setOpen(false)
+        }, []
+    );
+
+    const onOpen = React.useCallback(
+        () => {
+            setOpen(true)
+        }, []
+    );
+
+    const selectedCard = cardList.filter(card => card._id == selectValue)
+
     return (
         <Card padding={[0]}>
             <Autocomplete
@@ -38,23 +55,40 @@ export const CardSearch = React.forwardRef((props, ref) => {
                 placeholder="Type to select card from cardpool …"
                 // custom option render function
                 renderOption={(option) => (
-                    <CardListComponent
-                        card={option}
-                        size={1}
-                        value={
-                            references.filter(reference => reference === option._id)
-                        }
-                        onChange={onChange}
-                    />
-
+                    <Box>{option.name}</Box>
                 )}
                 // custom value render function
                 renderValue={(value, option) =>
                     option?.name || value
                 }
                 value={selectValue}
-                onSelect={(value) => { setSelectValue(value) }}
+                onSelect={(value) => {
+                    setSelectValue(value)
+                    onOpen()
+                }}
             />
+            {
+                open && (
+                    <Dialog
+                        width="100%"
+                        header={selectedCard[0].name}
+                        id="id"
+                        onClose={onClose}
+                        zOffset={1000}
+                    >
+                        <Flex padding="4">
+                            <Card flex="1">
+                                image
+                            </Card>
+                            <Card flex="1" marginLeft={[2, 2, 3, 5]}>
+                                text
+                                <Box onClick={onClose}>Close</Box>
+                            </Card>
+
+                        </Flex>
+                    </Dialog>
+                )
+            }
         </Card>
     )
 })

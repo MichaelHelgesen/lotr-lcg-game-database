@@ -153,7 +153,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                         {value && value.length ? <Button tone="caution" onClick={clearReferences}>Remove all cards</Button> : <Text>Empty deck! Select cards from the cardpool on the right -{`>`}</Text>}
                     </Box>
                 </Box>
-                <Box flex="1" marginLeft={[2, 2, 3, 3]}>
+                <Box flex="2" marginLeft={[2, 2, 3, 3]}>
                     <Flex>
                         <FilterByPack filterList={filterList.pack} setFilterList={setFilterList} packList={packList} />
                         {<FilterByTrait filterList={filterList.traits} setFilterList={setFilterList} traitsList={traitsList} />}

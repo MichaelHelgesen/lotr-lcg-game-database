@@ -13,15 +13,13 @@ import {
     Button,
     Flex,
     Box,
-    Dialog
+    Dialog,
+    Portal
 } from "@sanity/ui";
 import sanityClient from 'part:@sanity/base/client'
-
 const client = sanityClient.withConfig({apiVersion: `2022-01-10`})
 const {dataset, projectId, useCdn} = client.clientConfig
-
 const builder = imageUrlBuilder({projectId, dataset, useCdn})
-
 function urlFor(source) {
     return builder.image(source)
   }
