@@ -25,14 +25,20 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
         - [ ] Disable if not avaliable with current sorting?
       - [x] Text search
         - [x] Click to add to deck
-        - [ ] Click for popup and then add to deck?
+        - [x] Click for card dialog
+          - [x] Quantity for adding to and removing from deck
+          - [x] Display current quantity if already in deck
+          - [x] Close dialog on selecting new quantity
       - [x] Filter by packs
         - [x] Checkboxes for filter by multiple packs?
       - [ ] Filter by stats?
     - [ ] Change order of list (ascending / descending) based on stats
     - [ ] Card presentation
-      - [ ] See image and stats on hover?
-      - [x] See image and stats on click?
+      - [x] See image and stats on hover?
+      - [x] See image and stats on click in dialog?
+        - [x] Quantity for adding to and removing from deck
+        - [x] Display current quantity if already in deck
+        - [x] Close dialog on selecting new quantity
       - [ ] Button for "go to card"?
       - [x] See quantity of each card in cardpool
       - [x] Function for how many of each card to add: up to three if standard, and one if unique
