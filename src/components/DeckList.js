@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import CardListComponent from './CardListComponent';
+import CardListDeckComponent from './CardListDeckComponent';
 import {
     TextInput,
     Stack,
@@ -23,7 +23,7 @@ export const DeckList = React.forwardRef((props, ref) => {
         <Stack>
             {filteredCardList.map(card => {
                 return (
-                    <CardListComponent
+                    <CardListDeckComponent
                         key={card._id}
                         card={card}
                         onChange={onChange}

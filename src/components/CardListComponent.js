@@ -86,7 +86,7 @@ export const CardListComponent = React.forwardRef((props, ref) => {
                         <Text onClick={onOpen} size={size}>{card.name}</Text>
                     </Tooltip>
                 </Box>
-                <Box flex="2">
+                <Box flex="1">
                         <Flex align="flex-end" justify="space-between">
                             <Box><Text size={[1]} align="center">{card.sphere._ref.slice(0,1)}</Text></Box>
                             <Box><Text size={[1]} align="center">{card.cardType._ref.slice(0,1)}</Text></Box>

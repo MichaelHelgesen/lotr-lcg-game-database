@@ -7,6 +7,7 @@ import FilterByPack from "./FilterByPack"
 import FilterByType from "./FilterByType"
 import FilterByTrait from "./FilterByTrait";
 import CardSearch from "./CardSearch";
+import CardListSort from "./CardListSort";
 import PatchEvent, {
     set,
     unset,
@@ -51,7 +52,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     } = props;
 
     // STATE HANDLING //
-    const [cardList, SetCardList] = useState([])
+    const [cardList, setCardList] = useState([])
     const [sphereList, setSphereList] = useState([])
     const [packList, setPackList] = useState([])
     const [typeList, setTypeList] = useState([])
@@ -68,7 +69,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     // Get all cards
     useEffect(() => {
         client.fetch('*[_type == "card"]').then((cards) => {
-            SetCardList([...cards.filter(card => !card._id.includes("draft"))])
+            setCardList([...cards.filter(card => !card._id.includes("draft"))])
         })
     }, []
     )
@@ -165,9 +166,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                         <FilterBySpheres spheres={sphereList} setFilterList={setFilterList} traitsList={traitsList} />
                     </Box>
                     <Box>
-                        <CardSearch cardList={cardList.sort(sortFunction)} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
+                        <CardSearch cardList={cardList} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} selectValue={selectValue} setSelectValue={setSelectValue} />
                     </Box>
-                    <CardList cardList={cardList.sort(sortFunction)} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
+                        <CardListSort cardList={cardList} value={value ? value : []} setCardList={setCardList}/>
+                    <CardList cardList={cardList} value={value ? value : []} onChange={onChange} filterList={filterList} sortFunction={sortFunction} replaceSpecialCharacters={replaceSpecialCharacters} />
                 </Box>
             </Flex>
         </FormField>
