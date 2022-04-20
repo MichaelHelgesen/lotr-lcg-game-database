@@ -32,7 +32,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [x] Filter by packs
         - [x] Checkboxes for filter by multiple packs?
       - [ ] Filter by stats?
-    - [ ] Change order of list (ascending / descending) based on stats
+    - [x] Change order of list (ascending / descending) based on stats
     - [ ] Card presentation
       - [x] See image and stats on hover?
       - [x] See image and stats on click in dialog?
@@ -44,6 +44,11 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [x] Function for how many of each card to add: up to three if standard, and one if unique
       - [x] Ability to delete or change quantity of current card in deck on card in cardpool
       - [x] Ability to delete or change quantity of current card in deck on card in deck
+      - [ ] Grouping and sorting of deck
+        - [ ] Titles for each card type in deck
+        - [ ] Sorting of the groups 
+        - [ ] Numbers of cards in deck
+        - [ ] Spheres and other stats.
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
