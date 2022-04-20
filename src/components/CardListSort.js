@@ -27,10 +27,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
           nameA = a[sortParam]._ref.toLowerCase();
           nameB = b[sortParam]._ref.toLowerCase();
         } else if (sortParam == "cost") {
-          nameA =
-            a[sortParam] && a.cost != "X" ? Number(a.cost) || 0 : a.threat;
-          nameB =
-            b[sortParam] && b.cost != "X" ? Number(b.cost) || 0 : b.threat;
+          a[sortParam] ? a[sortParam] != "X" ? nameA = Number(a.cost) || 0 : nameA = 100 : nameA = a.threat;
+          b[sortParam] ? b[sortParam] != "X" ? nameB = Number(b.cost) || 0 : nameB = 100 : nameB = b.threat;
         } else if (sortParam == "defense") {
           nameA = a[sortParam];
           nameB = b[sortParam];
@@ -43,20 +41,20 @@ export const CardListSort = React.forwardRef((props, ref) => {
         } else if (sortParam == "willpower") {
           nameA = a[sortParam];
           nameB = b[sortParam];
-          /* } else if (typeof a[sortParam] == "string") {
+        } else if (typeof a[sortParam] == "string") {
                 nameA = a[sortParam].toLowerCase()
                 nameB = b[sortParam].toLowerCase()
-            } else if (typeof a[sortParam] == "number") {
+           /* } else if (typeof a[sortParam] == "number") {
                 nameA = a[sortParam]
                 nameB = b[sortParam]*/
         }
-        if (typeof nameA != "number" && nameA === nameB) {
+        /* if (typeof nameA != "number" && nameA === nameB) {
           return 0;
         } else if (typeof nameA != "number") {
           return 1;
         } else if (typeof nameB != "number") {
           return -1;
-        } else if (nameA < nameB) {
+        } else */ if (nameA < nameB) {
           return order ? -1 : 1;
         } else if (nameA > nameB) {
           return order ? 1 : -1;
