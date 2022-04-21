@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardListComponent from "./CardListComponent";
 import {
   TextInput,
@@ -15,72 +15,107 @@ import {
 } from "@sanity/ui";
 
 export const CardListSort = React.forwardRef((props, ref) => {
-  const { cardList, setCardList, value } = props;
-  const [order, setOrder] = useState(true);
-  const [sortParameter, setSortParameter] = useState("")
+  const { cardList, setCardList, value, sortParameter, setSortParameter } = props;
+ 
 
-  const references = value.map(reference => reference._ref)
+  const references = value.map((reference) => reference._ref);
 
-  const sortList = (sortParam) => {
-    console.log(sortParameter)
-    if(!sortParameter) {
-      setSortParameter(sortParam)
-      //setOrder(true)
-    } else if (sortParameter != sortParam) {
-      setSortParameter(sortParam)
-      setOrder(true)
-    } else (
-      setOrder(prevState => !prevState)
-    )
+  useEffect(() => {
+
     setCardList((prevState) => {
-      const newArr = prevState.map(prevObj => {
+      const newArr = prevState.map((prevObj) => {
         return {
           ...prevObj,
-          numberInDeck: references.filter(reference => reference === prevObj._id).length
-        }
-      })
+          numberInDeck: references.filter(
+            (reference) => reference === prevObj._id
+          ).length,
+        };
+      });
       return [...newArr].sort((a, b) => {
         let nameA;
         let nameB;
-        if (typeof a[sortParam] == "object") {
-          nameA = a[sortParam]._ref.toLowerCase();
-          nameB = b[sortParam]._ref.toLowerCase();
-        } else if (sortParam == "numberInDeck") {
-          nameA = a[sortParam] > 0 ? a[sortParam] : undefined
-          nameB = b[sortParam] > 0 ? b[sortParam] : undefined
-        } else if (sortParam == "cost") {
-          a[sortParam] ? a[sortParam] != "X" ? nameA = Number(a.cost) || 0 : nameA = 100 : nameA = a.threat;
-          b[sortParam] ? b[sortParam] != "X" ? nameB = Number(b.cost) || 0 : nameB = 100 : nameB = b.threat;
-        } else if (typeof a[sortParam] == "string") {
-          nameA = a[sortParam].toLowerCase()
-          nameB = b[sortParam].toLowerCase()
+        if (typeof a[sortParameter.param] == "object") {
+          nameA = a[sortParameter.param]._ref.toLowerCase();
+          nameB = b[sortParameter.param]._ref.toLowerCase();
+        } else if (sortParameter.param == "numberInDeck") {
+          nameA = a[sortParameter.param] > 0 ? a[sortParameter.param] : undefined;
+          nameB = b[sortParameter.param] > 0 ? b[sortParameter.param] : undefined;
+        } else if (sortParameter.param == "cost") {
+          a[sortParameter.param]
+            ? a[sortParameter.param] != "X"
+              ? (nameA = Number(a.cost) || 0)
+              : (nameA = 100)
+            : (nameA = a.threat);
+          b[sortParameter.param]
+            ? b[sortParameter.param] != "X"
+              ? (nameB = Number(b.cost) || 0)
+              : (nameB = 100)
+            : (nameB = b.threat);
+        } else if (typeof a[sortParameter.param] == "string") {
+          nameA = a[sortParameter.param].toLowerCase();
+          nameB = b[sortParameter.param].toLowerCase();
         } else {
-          nameA = a[sortParam];
-          nameB = b[sortParam];
+          nameA = a[sortParameter.param];
+          nameB = b[sortParameter.param];
         }
-        if (typeof nameA != "number" && typeof nameA != "string" && nameA === nameB) {
+        if (
+          typeof nameA != "number" &&
+          typeof nameA != "string" &&
+          nameA === nameB
+        ) {
           return 0;
         } else if (typeof nameA != "number" && typeof nameA != "string") {
           return 1;
         } else if (typeof nameB != "number" && typeof nameA != "string") {
           return -1;
         } else if (nameA < nameB) {
-          return order ? -1 : 1;
+          return sortParameter.state ? -1 : 1;
         } else if (nameA > nameB) {
-          return order ? 1 : -1;
+          return sortParameter.state ? 1 : -1;
         } else {
           return 0;
         }
       });
     });
+  }, [sortParameter])
+
+
+  const sortList = (sortParam) => {
+    
+      //setOrder((prevState) => !prevState);
+    if (sortParameter.param == "") {
+      setSortParameter(prevState => {
+        return {
+          ...prevState,
+          param: sortParam
+        }
+      })
+    } else if (sortParameter.param != sortParam) {
+        setSortParameter(prevState => {
+          return {
+            state: true,
+            param: sortParam
+          }
+        })
+    } else {
+      setSortParameter(prevState => {
+        return {
+          ...prevState,
+          state: !prevState.state
+        }
+      })
+    }
+    
     
   };
 
   return (
     <Flex>
-      <Box flex="1" onClick={() => {
-        sortList("numberInDeck");
-      }}
+      <Box
+        flex="1"
+        onClick={() => {
+          sortList("numberInDeck");
+        }}
       >
         Qty
       </Box>
