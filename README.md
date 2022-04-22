@@ -100,6 +100,14 @@ Added the ability to define packs to filter by.
 ![Added the ability to define traits to filter by](https://res.cloudinary.com/mikkesblogg/image/upload/v1650184579/Samples/Skjermbilde_2022-04-17_kl._10.33.57_xv4hzn.png)
 Added the ability to define traits to filter by.
 
-![Added a text field for searching all cards regardless of active filters](https://res.cloudinary.com/mikkesblogg/image/upload/v1650184579/Samples/Skjermbilde_2022-04-17_kl._10.33.45_mkyol5.png)
-Updated the text field. It's now possible to add and remove cards directly from the search results.
+![Added a text field for searching all cards regardless of active filters](https://res.cloudinary.com/mikkesblogg/image/upload/v1650613396/Samples/Skjermbilde_2022-04-22_kl._09.42.11_iyjesm.png)
+Updated the text field. Seach for all cards regardless of filters, and click to open a dialog
 
+![When clicking a card it opens a dialog](https://res.cloudinary.com/mikkesblogg/image/upload/v1650613396/Samples/Skjermbilde_2022-04-22_kl._09.40.58_yspihy.png)
+When clicking the name of a card in any of the lists, it opens a dialog with the ability to add and remove cards. When changing the quantity, the dialog registers the change, and closes automaticly.
+
+![Preview of card on hover](https://res.cloudinary.com/mikkesblogg/image/upload/v1650613396/Samples/Skjermbilde_2022-04-22_kl._09.40.37_xdrxan.png)
+I also added a preview of the cards when hovering the name in the card pool or the deck list.
+
+![Sorting of the card pool](https://res.cloudinary.com/mikkesblogg/image/upload/v1650613396/Samples/Skjermbilde_2022-04-22_kl._09.41.45_z4kop7.png)
+I added the possibility to sort the card pool based on quantity, name, sphere, type, cost/threat, willpower, attack, defence and health in a descending or ascending order.
