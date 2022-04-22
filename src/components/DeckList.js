@@ -16,20 +16,20 @@ import {
 
 export const DeckList = React.forwardRef((props, ref) => {
     const { deckList, value, onChange, sortFunction, replaceSpecialCharacters } = props
+
     const references = value.map(reference => reference._ref)
-    const idList = [...value.map(ref => ref._ref)];
-    //const filteredCardList = [...cardList.filter(card => references.indexOf(card._id) != -1)]
-    const typeList = [...new Set(deckList.map(card => card.cardType._ref))].sort((a,b) => {
+
+    const typeList = [...new Set(deckList.map(card => card.cardType._ref))].sort((a, b) => {
         if (a === "hero") {
             return -1
         }
         if (a < b) {
             return -1;
-          }
-          if (a > b) {
+        }
+        if (a > b) {
             return 1;
-          }
-          return 0;
+        }
+        return 0;
     })
     const newArr = [...deckList].map(card => {
         return {
@@ -41,29 +41,31 @@ export const DeckList = React.forwardRef((props, ref) => {
     return (
         <Stack space={3}>
             {typeList.map(type => {
-                
+
                 return (<Stack>
                     <Box marginBottom={3}>
-                    <Text>{type} ({
-                        newArr.filter(card => card.cardType._ref == type)
-                            .map(card => card.quantity)
-                            .reduce((
-                                previousValue, currentValue) => previousValue + currentValue,
-                                0
-                            )
-                    }):</Text>
+                        <Text>{type} ({
+                            newArr.filter(card => card.cardType._ref == type)
+                                .map(card => card.quantity)
+                                .reduce((
+                                    previousValue, currentValue) => previousValue + currentValue,
+                                    0
+                                )
+                        }):</Text>
                     </Box>
                     {deckList.filter(card => card.cardType._ref == type).sort(sortFunction).map(card => {
-                        return (<div>
-                            <CardListDeckComponent
-                                key={card._id}
-                                card={card}
-                                onChange={onChange}
-                                value={
-                                    references.filter(reference => reference === card._id)
-                                }
-                            />
-                        </div>)
+                        return (
+                            <Box>
+                                <CardListDeckComponent
+                                    key={card._id}
+                                    card={card}
+                                    onChange={onChange}
+                                    value={
+                                        references.filter(reference => reference === card._id)
+                                    }
+                                />
+                            </Box>
+                        )
                     })
                     }
                 </Stack>)

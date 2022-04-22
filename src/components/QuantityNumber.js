@@ -23,7 +23,7 @@ import PatchEvent, {
 
 
 export const QuantityNumber = React.forwardRef((props, ref) => {
-    const { deckLimit,  value, cardId, onChange, size, onClose} = props
+    const { deckLimit, value, cardId, onChange, size, onClose } = props
     const handleClick = (number) => {
         // If  higher number
         if (number > value) {
@@ -37,6 +37,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 );
                 onChange(PatchEvent.from(action).prepend(setIfMissing([])));
             } while (i < number);
+            onClose ? onClose() : null
         }
         // If lower number and not zero
         if (number < value && number != 0) {
@@ -48,6 +49,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 );
                 onChange(PatchEvent.from(action));
             } while (i > number);
+            onClose ? onClose() : null
         }
         // If zero (delete)
         if (number === 0) {
@@ -56,10 +58,8 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
             );
             onChange(PatchEvent.from(action));
         }
-        if(onClose) {
-            onClose()
-        }
     }
+
     const numberElement = (color, number) => {
         return (
             <Button onClick={(event) => {handleClick(number)}} radius={0} shadow={1} padding={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}><Text size={size}>{number || "0"}</Text></Button>
@@ -67,7 +67,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     }
 
     return (
-        <Flex wrap="wrap">
+        <Flex>
             {deckLimit.map(number => {
                 if (number != 0 && number === value) {
                     return (

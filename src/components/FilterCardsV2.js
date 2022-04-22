@@ -69,20 +69,24 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     traits: [],
   });
 
+  // Extracting the references of existing cards in the deck
+  const cardReferencesInDeck = value.map(reference => reference._ref)
+
   // FUNCTIONS //
   // Get all cards and create a deck list
   useEffect(() => {
     client.fetch('*[_type == "card"]').then((cards) => {
       setCardList([...cards.filter((card) => !card._id.includes("draft"))]);
-      const references = value.map(reference => reference._ref)
-      setDeckList([...cards.filter(card => references.indexOf(card._id) != -1)]);
+      setDeckList([...cards.filter(card => cardReferencesInDeck.indexOf(card._id) != -1)]);
     });
   }, []);
+
   // Create a deck list when value change
   useEffect(() => {
-    const references = value.map(reference => reference._ref)
-    setDeckList([...cardList.filter(card => references.indexOf(card._id) != -1)]);
+    //const references = value.map(reference => reference._ref)
+    setDeckList([...cardList.filter(card => cardReferencesInDeck.indexOf(card._id) != -1)]);
   }, [value]);
+
   // Get all spheres
   useEffect(() => {
     client.fetch('*[_type == "sphere"]').then((spheres) => {
@@ -101,12 +105,14 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             }) */
     });
   }, []);
+
   // Get all types
   useEffect(() => {
     client.fetch('*[_type == "cardType"]').then((types) => {
       setTypeList([...types.filter((card) => !card._id.includes("draft"))]);
     });
   }, []);
+
   // Get all traits
   useEffect(() => {
     client.fetch('*[_type == "trait"]').then((traits) => {
@@ -154,16 +160,16 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
       <Flex>
         <Box flex="1">
           <Stack space={4}>
-          <DeckInformation deckList={deckList} value={value}/>
-          {value ? (
-            <DeckList
-              deckList={deckList}
-              value={value ? value : []}
-              onChange={onChange}
-              sortFunction={sortFunction}
-              replaceSpecialCharacters={replaceSpecialCharacters}
-            />
-          ) : null}
+            <DeckInformation deckList={deckList} value={value} />
+            {value ? (
+              <DeckList
+                deckList={deckList}
+                value={value ? value : []}
+                onChange={onChange}
+                sortFunction={sortFunction}
+                replaceSpecialCharacters={replaceSpecialCharacters}
+              />
+            ) : null}
           </Stack>
           <Box marginY="3">
             {value && value.length ? (
