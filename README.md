@@ -44,11 +44,14 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       - [x] Function for how many of each card to add: up to three if standard, and one if unique
       - [x] Ability to delete or change quantity of current card in deck on card in cardpool
       - [x] Ability to delete or change quantity of current card in deck on card in deck
-      - [ ] Grouping and sorting of deck
-        - [ ] Titles for each card type in deck
-        - [ ] Sorting of the groups 
-        - [ ] Numbers of cards in deck
-        - [ ] Spheres and other stats.
+      - [x] Grouping and sorting of deck
+        - [x] Titles for each card type in deck
+        - [x] Sorting of the groups 
+        - [x] Numbers of cards in deck
+        - [x] Spheres in deck.
+        - [x] Packs in the deck
+        - [x] Total starting threat of deck
+      - [ ] Make it pretty and intuitive 
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
@@ -59,13 +62,13 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
 It´s a personal project that I hope will allow me to get a deep understanding of how Sanity works, and experience all it has to offer.
 
 - [x] Sanity custom inputs
-- [ ] Sanity exec command
+- [x] Sanity exec command
 - [x] Sanity UI
 - [x] Sanity javascript client (import, delete, patch)
-- [ ] Sanity API
-- [ ] Sanity helper functions
+- [x] Sanity API
+- [x] Sanity helper functions (there is not much documentation about this I think)
 - [x] Sanity schema types
-- [ ] Sanity docs
+- [x] Sanity docs
 - [x] Import data from external source
 
 ## Experience React
@@ -111,3 +114,6 @@ I also added a preview of the cards when hovering the name in the card pool or t
 
 ![Sorting of the card pool](https://res.cloudinary.com/mikkesblogg/image/upload/v1650613396/Samples/Skjermbilde_2022-04-22_kl._09.41.45_z4kop7.png)
 I added the possibility to sort the card pool based on quantity, name, sphere, type, cost/threat, willpower, attack, defence and health in a descending or ascending order.
+
+![Grouping of types in deck and other info](https://res.cloudinary.com/mikkesblogg/image/upload/v1650624218/Samples/Skjermbilde_2022-04-22_kl._12.43.32_hgu9kz.png)
+The deck is now grouped in types, and other useful information about the deck is displayed on the top.
