@@ -153,6 +153,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     <FormField title={type.title}>
       <Flex>
         <Box flex="1">
+          <Stack space={4}>
           <DeckInformation deckList={deckList} value={value}/>
           {value ? (
             <DeckList
@@ -163,6 +164,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
               replaceSpecialCharacters={replaceSpecialCharacters}
             />
           ) : null}
+          </Stack>
           <Box marginY="3">
             {value && value.length ? (
               <Button tone="caution" onClick={clearReferences}>

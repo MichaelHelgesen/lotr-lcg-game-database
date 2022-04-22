@@ -28,10 +28,12 @@ export const DeckInformation = React.forwardRef((props, ref) => {
     
     return (
         <Card padding={[0]}>
+            <Stack space={3}>
             <Text>Number of cards:{ value.length} </Text>
             <Text>Starting threat: {calculatedThreat} </Text>
             <Text>Packs: {packList.map(pack => <span key={pack}>{pack}</span>)}</Text>
             <Text>Spheres: {sphereList.map(sphere => <span key={sphere}>{sphere}</span>)}</Text>
+            </Stack>
         </Card>
     )
 })
