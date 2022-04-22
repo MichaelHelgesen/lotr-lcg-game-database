@@ -17,11 +17,9 @@ import {
 export const CardListSort = React.forwardRef((props, ref) => {
   const { cardList, setCardList, value, sortParameter, setSortParameter } = props;
  
-
   const references = value.map((reference) => reference._ref);
 
   useEffect(() => {
-
     setCardList((prevState) => {
       const newArr = prevState.map((prevObj) => {
         return {

@@ -15,13 +15,13 @@ import {
 } from "@sanity/ui";
 
 export const DeckList = React.forwardRef((props, ref) => {
-    const { cardList, value, onChange } = props
+    const { deckList, value, onChange } = props
     const references = value.map(reference => reference._ref)
-    const filteredCardList = cardList.filter(card => references.indexOf(card._id) != -1)
+    //const filteredCardList = [...cardList.filter(card => references.indexOf(card._id) != -1)]
 
     return (
         <Stack>
-            {filteredCardList.map(card => {
+            {deckList.map(card => {
                 return (
                     <CardListDeckComponent
                         key={card._id}

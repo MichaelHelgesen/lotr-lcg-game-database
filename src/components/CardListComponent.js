@@ -44,7 +44,7 @@ export const CardListComponent = React.forwardRef((props, ref) => {
     return (
         <Card shadow={1} padding={2}>
             <Flex align="center">
-                <CardListComponentQuantity size={size} deckLimit={card.deckLimit} value={value.length} cardId={card._id} onChange={onChange} />
+                <CardListComponentQuantity size={size} deckLimit={card.deckLimit} value={value.length} cardId={card._id} quantityInDeck={card.quantityInDeck} onChange={onChange} />
                 <Box flex="3">
                     <Tooltip
                         content={

@@ -51,6 +51,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
   // STATE HANDLING //
   const [cardList, setCardList] = useState([]);
+  const [deckList, setDeckList] = useState([]);
   const [sphereList, setSphereList] = useState([]);
   const [packList, setPackList] = useState([]);
   const [typeList, setTypeList] = useState([]);
@@ -68,12 +69,19 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   });
 
   // FUNCTIONS //
-  // Get all cards
+  // Get all cards and create a deck list
   useEffect(() => {
     client.fetch('*[_type == "card"]').then((cards) => {
       setCardList([...cards.filter((card) => !card._id.includes("draft"))]);
+      const references = value.map(reference => reference._ref)
+      setDeckList([...cards.filter(card => references.indexOf(card._id) != -1)]);
     });
   }, []);
+  // Create a deck list when value change
+  useEffect(() => {
+    const references = value.map(reference => reference._ref)
+    setDeckList([...cardList.filter(card => references.indexOf(card._id) != -1)]);
+  }, [value]);
   // Get all spheres
   useEffect(() => {
     client.fetch('*[_type == "sphere"]').then((spheres) => {
@@ -146,7 +154,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         <Box flex="1">
           {value ? (
             <DeckList
-              cardList={cardList}
+              deckList={deckList ? deckList : []}
               value={value ? value : []}
               onChange={onChange}
               sortFunction={sortFunction}
