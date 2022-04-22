@@ -8,6 +8,7 @@ import FilterByType from "./FilterByType";
 import FilterByTrait from "./FilterByTrait";
 import CardSearch from "./CardSearch";
 import CardListSort from "./CardListSort";
+import DeckInformation from "./DeckInformation";
 import PatchEvent, {
   set,
   unset,
@@ -152,9 +153,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     <FormField title={type.title}>
       <Flex>
         <Box flex="1">
+          <DeckInformation deckList={deckList} value={value}/>
           {value ? (
             <DeckList
-              deckList={deckList ? deckList : []}
+              deckList={deckList}
               value={value ? value : []}
               onChange={onChange}
               sortFunction={sortFunction}
