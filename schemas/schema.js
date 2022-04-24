@@ -47,7 +47,6 @@ import CardLightboxImage from '../src/components/CardLightboxImage'
 import StarRating from '../src/components/StarRating'
 import { FilterCards } from '../src/components/FilterCards'
 import { FilterCardsV2 } from '../src/components/FilterCardsV2'
-import { FilterCardsV3 } from '../src/components/FilterCardsV3'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
