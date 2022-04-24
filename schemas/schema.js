@@ -3,8 +3,8 @@ import createSchema from 'part:@sanity/base/schema-creator'
 //const sanityClient = require('@sanity/client')
 
 import sanityClient from 'part:@sanity/base/client'
-const client = sanityClient.withConfig({apiVersion: `2022-01-10`})
-const {dataset, projectId, useCdn} = client.clientConfig
+const client = sanityClient.withConfig({ apiVersion: `2022-01-10` })
+const { dataset, projectId, useCdn } = client.clientConfig
 
 const query = '*[_type == "card" && pack._ref == $setPack] {name, pack, _id}'
 const params = { setPack: "Core" }
@@ -47,6 +47,7 @@ import CardLightboxImage from '../src/components/CardLightboxImage'
 import StarRating from '../src/components/StarRating'
 import { FilterCards } from '../src/components/FilterCards'
 import { FilterCardsV2 } from '../src/components/FilterCardsV2'
+import { FilterCardsV3 } from '../src/components/FilterCardsV3'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -359,14 +360,26 @@ export default createSchema({
           inputComponent: FilterCards
         }, */
         {
-          name: "cardSelection",
-          title: "Card selection",
+          name: "deckCreation",
+          title: "Deck creation",
           type: "array",
           of: [{
-            type: "reference",
-            to: {
-              type: "card"
-            }
+            type: "object",
+            fields: [
+              {
+                name: "cardToAdd",
+                title: "Card to add",
+                type: "reference",
+                to: {
+                  type: "card"
+                }
+              },
+              {
+              name: "quantity",
+              title: "Quantity",
+              type: "number"
+              }
+            ]
           }],
           inputComponent: FilterCardsV2
         },
@@ -392,17 +405,28 @@ export default createSchema({
             }
           }]
         },
-        {
+        /* {
           name: "cards",
           title: "Kort",
           type: "array",
           of: [{
-            type: "reference",
-            to: {
-              type: "card"
-            }
-          }]
-        },
+            type: "object",
+            fields: [
+              {
+                name: "kort",
+                title: "kort",
+                type: "reference",
+                to: {type: "card"}
+              },
+              {
+              name: "antall",
+              title: "Antall",
+              type: "number"
+              }
+            ],
+          },
+        ]
+        }, */
         {
           title: 'Beskrivelse',
           name: 'text',

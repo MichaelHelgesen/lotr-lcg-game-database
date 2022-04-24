@@ -15,9 +15,9 @@ import {
 } from "@sanity/ui";
 
 export const CardList = React.forwardRef((props, ref) => {
-    const { cardList, value, onChange, filterList, sortFunction } = props
+    const { cardList, deckList, value, setDeckList, onChange, filterList, sortFunction } = props
 
-    const references = value.map(reference => reference._ref)
+    //const references = value.map(reference => reference._ref)
 
     let filteredCardList = [...cardList]
 
@@ -46,11 +46,12 @@ export const CardList = React.forwardRef((props, ref) => {
                 return (
                     <CardListComponent
                         key={card._id}
+                        deckList={deckList}
+                        setDeckList={setDeckList}
                         card={card}
                         onChange={onChange}
-                        value={
-                            references.filter(reference => reference === card._id)
-                        }
+                        value={value}
+                        cardList={cardList}
                     />
                 )
             })}

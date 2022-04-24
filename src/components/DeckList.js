@@ -15,9 +15,10 @@ import {
 } from "@sanity/ui";
 
 export const DeckList = React.forwardRef((props, ref) => {
-    const { deckList, value, onChange, sortFunction, replaceSpecialCharacters } = props
-
-    const references = value.map(reference => reference._ref)
+    const { deckList, setDeckList, cardList, value, onChange, sortFunction, replaceSpecialCharacters } = props
+    //console.log(deckList)
+    
+    //const references = value.map(reference => reference._ref)
 
     const typeList = [...new Set(deckList.map(card => card.cardType._ref))].sort((a, b) => {
         if (a === "hero") {
@@ -34,7 +35,7 @@ export const DeckList = React.forwardRef((props, ref) => {
     const newArr = [...deckList].map(card => {
         return {
             ...card,
-            quantity: value.filter(ref => ref._ref == card._id).length
+            quantity: value.filter(ref => ref._key == card._id).length
         }
     })
 
@@ -59,10 +60,11 @@ export const DeckList = React.forwardRef((props, ref) => {
                                 <CardListDeckComponent
                                     key={card._id}
                                     card={card}
+                                    cardList={cardList}
+                                    setDeckList={setDeckList}
+                                    deckList={deckList}
                                     onChange={onChange}
-                                    value={
-                                        references.filter(reference => reference === card._id)
-                                    }
+                                    value={value}
                                 />
                             </Box>
                         )

@@ -27,9 +27,8 @@ function urlFor(source) {
 }
 
 export const CardListDeckComponent = React.forwardRef((props, ref) => {
-    const { card, value, onChange, size } = props
+    const { card, cardList, deckList, setDeckList, value, onChange, size } = props
     const [open, setOpen] = useState(false)
-
     const onClose = React.useCallback(
         () => {
             setOpen(false)
@@ -44,7 +43,7 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
     return (
         <Card shadow={1} padding={2}>
             <Flex align="center">
-                <CardListComponentQuantity size={size} deckLimit={card.deckLimit} value={value.length} cardId={card._id} onChange={onChange} />
+                <CardListComponentQuantity cardList={cardList} deckList={deckList} setDeckList={setDeckList} card={card} size={size} deckLimit={card.deckLimit} value={value} cardId={card._id} onChange={onChange}  />
                 <Box flex="2">
                     <Tooltip
                         content={
@@ -87,7 +86,7 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
                     </Tooltip>
                 </Box>
             </Flex>
-            <CardDialog card={card} onClose={onClose} open={open} size={size} value={value.length} onChange={onChange} setOpen={setOpen} />
+            <CardDialog cardList={cardList} setDeckList={setDeckList} deckList={deckList} card={card} onClose={onClose} open={open} size={size} value={value} onChange={onChange} setOpen={setOpen} />
         </Card>
     )
 })

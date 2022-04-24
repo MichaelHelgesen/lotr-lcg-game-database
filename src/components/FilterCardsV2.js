@@ -41,14 +41,16 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   // VARIABLES //
   const {
     type,
-    value,
     markers,
+    value,
     presence,
     compareValue,
     onFocus,
     onBlur,
     onChange,
   } = props;
+
+
 
   // STATE HANDLING //
   const [cardList, setCardList] = useState([]);
@@ -70,7 +72,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   });
 
   // Extracting the references of existing cards in the deck
-  const cardReferencesInDeck = value.map(reference => reference._ref)
+  const cardReferencesInDeck = value ? value.map(refObj => refObj.card._ref) : []
 
   // FUNCTIONS //
   // Get all cards and create a deck list
@@ -81,11 +83,15 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     });
   }, []);
 
-  // Create a deck list when value change
   useEffect(() => {
+    console.log("changing")
+  }, [onChange]);
+
+  // Create a deck list when value change
+ /*  useEffect(() => {
     //const references = value.map(reference => reference._ref)
     setDeckList([...cardList.filter(card => cardReferencesInDeck.indexOf(card._id) != -1)]);
-  }, [value]);
+  }, [value]); */
 
   // Get all spheres
   useEffect(() => {
@@ -164,6 +170,8 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             {value ? (
               <DeckList
                 deckList={deckList}
+                setDeckList={setDeckList}
+                cardList={cardList}
                 value={value ? value : []}
                 onChange={onChange}
                 sortFunction={sortFunction}
@@ -233,6 +241,8 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
           />
           <CardList
             cardList={cardList}
+            deckList={deckList}
+            setDeckList={setDeckList}
             value={value ? value : []}
             onChange={onChange}
             filterList={filterList}

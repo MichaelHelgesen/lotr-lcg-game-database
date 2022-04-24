@@ -28,7 +28,7 @@ function urlFor(source) {
 
 
 export const CardDialog = React.forwardRef((props, ref) => {
-    const { card, open, onClose, value, onChange, size, setOpen } = props
+    const { card, setDeckList, deckList, cardList, open, onClose, value, onChange, size, setOpen } = props
 
     return (
         <Box>
@@ -79,7 +79,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
                                                 shadow={1}
                                                 tone="primary" padding={3}><Text align="center">Health: {card.health}</Text></Card>
                                         </Grid>
-                                        <CardListComponentQuantity size={size} deckLimit={card.deckLimit} value={value} cardId={card._id} onChange={onChange} closeDialog={onClose}/>
+                                        <CardListComponentQuantity size={size} card={card} setDeckList={setDeckList} deckList={deckList} cardList={cardList} deckLimit={card.deckLimit} value={value} cardId={card._id} onChange={onChange} closeDialog={onClose}/>
                                     </Stack>
                                 </Stack>
                             </Card>
