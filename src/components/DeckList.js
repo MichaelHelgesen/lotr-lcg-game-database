@@ -35,17 +35,17 @@ export const DeckList = React.forwardRef((props, ref) => {
     const newArr = [...deckList].map(card => {
         return {
             ...card,
-            quantity: value.filter(ref => ref._key == card._id).length
+            quantity: value[value.map(obj => obj._key).indexOf(card._id)].quantity
         }
     })
 
     return (
-        <Stack space={3}>
+        <Stack space={2}>
             {typeList.map(type => {
-
-                return (<Stack>
-                    <Box marginBottom={3}>
-                        <Text>{type} ({
+                return (
+                <Stack>
+                    <Box marginBottom={2} marginTop={3}>
+                        <Text weight={"semibold"}>{type.slice(0,1).toUpperCase() + type.slice(1)} ({
                             newArr.filter(card => card.cardType._ref == type)
                                 .map(card => card.quantity)
                                 .reduce((
@@ -70,7 +70,8 @@ export const DeckList = React.forwardRef((props, ref) => {
                         )
                     })
                     }
-                </Stack>)
+                </Stack>
+                )
             }
             )}
         </Stack>

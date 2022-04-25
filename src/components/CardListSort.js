@@ -15,29 +15,30 @@ import {
 } from "@sanity/ui";
 
 export const CardListSort = React.forwardRef((props, ref) => {
-  const { cardList, setCardList, value, sortParameter, setSortParameter } = props;
- 
+  const { cardList, setCardList, value, sortParameter, setSortParameter, replaceSpecialCharacters } = props;
+
   const references = value.map((reference) => reference._ref);
 
   useEffect(() => {
     setCardList((prevState) => {
-      const newArr = prevState.map((prevObj) => {
+      /* const newArr = prevState.map((prevObj) => {
         return {
           ...prevObj,
           numberInDeck: references.filter(
             (reference) => reference === prevObj._id
           ).length,
         };
-      });
-      return [...newArr].sort((a, b) => {
+      }); */
+      return [...prevState].sort((a, b) => {
         let nameA;
         let nameB;
         if (typeof a[sortParameter.param] == "object") {
           nameA = a[sortParameter.param]._ref.toLowerCase();
           nameB = b[sortParameter.param]._ref.toLowerCase();
         } else if (sortParameter.param == "numberInDeck") {
-          nameA = a[sortParameter.param] > 0 ? a[sortParameter.param] : undefined;
-          nameB = b[sortParameter.param] > 0 ? b[sortParameter.param] : undefined;
+          console.log("quantity")
+          nameA = value.map(obj => obj._key).indexOf(a._id) != -1  ? value[value.map(obj => obj._key).indexOf(a._id)].quantity : undefined;
+          nameB = value.map(obj => obj._key).indexOf(b._id) != -1  ? value[value.map(obj => obj._key).indexOf(b._id)].quantity : undefined;
         } else if (sortParameter.param == "cost") {
           a[sortParameter.param]
             ? a[sortParameter.param] != "X"
@@ -50,8 +51,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
               : (nameB = 100)
             : (nameB = b.threat);
         } else if (typeof a[sortParameter.param] == "string") {
-          nameA = a[sortParameter.param].toLowerCase();
-          nameB = b[sortParameter.param].toLowerCase();
+          nameA = replaceSpecialCharacters(a[sortParameter.param].toLowerCase());
+          nameB = replaceSpecialCharacters(b[sortParameter.param].toLowerCase());
         } else {
           nameA = a[sortParameter.param];
           nameB = b[sortParameter.param];
@@ -79,8 +80,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
 
 
   const sortList = (sortParam) => {
-    
-      //setOrder((prevState) => !prevState);
+
+    //setOrder((prevState) => !prevState);
     if (sortParameter.param == "") {
       setSortParameter(prevState => {
         return {
@@ -89,12 +90,12 @@ export const CardListSort = React.forwardRef((props, ref) => {
         }
       })
     } else if (sortParameter.param != sortParam) {
-        setSortParameter(prevState => {
-          return {
-            state: true,
-            param: sortParam
-          }
-        })
+      setSortParameter(prevState => {
+        return {
+          state: true,
+          param: sortParam
+        }
+      })
     } else {
       setSortParameter(prevState => {
         return {
@@ -103,8 +104,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
         }
       })
     }
-    
-    
+
+
   };
 
   return (

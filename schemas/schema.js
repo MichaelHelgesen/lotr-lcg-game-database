@@ -364,6 +364,7 @@ export default createSchema({
           type: "array",
           of: [{
             type: "object",
+            name: "test",
             fields: [
               {
                 name: "cardToAdd",

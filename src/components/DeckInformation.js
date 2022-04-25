@@ -8,6 +8,7 @@ import {
     Card,
     Text,
     Button,
+    Inline,
     Flex,
     Box,
     Dialog,
@@ -17,7 +18,7 @@ import {
 } from "@sanity/ui";
 
 export const DeckInformation = React.forwardRef((props, ref) => {
-    const { deckList, value } = props
+    const { deckList, value, packList, sphereList } = props
 
     //!!! Flytte dette til FilterCards?
     const calculatedThreat = deckList
@@ -31,17 +32,38 @@ export const DeckInformation = React.forwardRef((props, ref) => {
             (previousValue, currentValue) => previousValue + currentValue,
             0
         )
-    const packList = [...new Set(deckList.map(card => card.pack._ref))];
-    const sphereList = [...new Set(deckList.map(card => card.sphere._ref))];
-    //!!!   
+    const packsInDeck = [...new Set(deckList.map(card => card.pack._ref))];
+    const spheresInDeck = [...new Set(deckList.map(card => card.sphere._ref))];
+    //!!!
 
     return (
         <Card padding={[0]}>
             <Stack space={3}>
-                <Text>Number of cards:{value ? value.length : "0"} </Text>
-                <Text>Starting threat: {calculatedThreat} </Text>
-                <Text>Packs: {packList.map(pack => <span key={pack}>{pack}</span>)}</Text>
-                <Text>Spheres: {sphereList.map(sphere => <span key={sphere}>{sphere}</span>)}</Text>
+                <Flex>
+                    <Text flex={1} weight={"semibold"}>Cards total:&nbsp;</Text><Text flex={1}>
+                        {
+                            value ?
+                                value.map(obj => obj.quantity)
+                                    .reduce((
+                                        previousValue, currentValue) => previousValue + currentValue,
+                                        0
+                                    )
+                                :
+                                0
+                        }
+                    </Text>
+                </Flex>
+                <Flex>
+                <Text flex={1} weight={"semibold"}>Starting threat:&nbsp;</Text> <Text flex={1}>{calculatedThreat}</Text> 
+               </Flex>
+                <Text weight={"semibold"}>Packs:</Text>
+                <Stack space={2}>
+                    {packList.filter(pack => packsInDeck.indexOf(pack._id) != -1).map(pack => <Text key={pack._id}>- {pack.name}</Text>)}
+                </Stack>
+                <Text weight={"semibold"}>Spheres:</Text>
+                <Stack space={2}>
+                    {sphereList.filter(sphere => spheresInDeck.indexOf(sphere._id) != -1).map(sphere => <Text key={sphere._id}>- {sphere.name}</Text>)}
+                </Stack>
             </Stack>
         </Card>
     )

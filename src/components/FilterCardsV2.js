@@ -157,8 +157,9 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
       //setDeck([]);
       const inputValue = [];
       onChange(PatchEvent.from(set(inputValue)));
+      setDeckList([])
     },
-    [onChange]
+    []
   );
 
   return (
@@ -166,8 +167,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
       <Flex>
         <Box flex="1">
           <Stack space={4}>
-            <DeckInformation deckList={deckList} value={value} />
-            {value ? (
+            
+            {value && value.length ? (
+              <Box>
+                <DeckInformation deckList={deckList} value={value} packList={packList} sphereList={sphereList} />
               <DeckList
                 deckList={deckList}
                 setDeckList={setDeckList}
@@ -177,6 +180,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                 sortFunction={sortFunction}
                 replaceSpecialCharacters={replaceSpecialCharacters}
               />
+              </Box>
             ) : null}
           </Stack>
           <Box marginY="3">
@@ -238,9 +242,12 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             setCardList={setCardList}
             sortParameter={sortParameter}
             setSortParameter={setSortParameter}
+            replaceSpecialCharacters={replaceSpecialCharacters}
           />
           <CardList
             cardList={cardList}
+            traitsList={traitsList}
+            sphereList={sphereList}
             deckList={deckList}
             setDeckList={setDeckList}
             value={value ? value : []}

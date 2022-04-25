@@ -27,7 +27,7 @@ function urlFor(source) {
 }
 
 export const CardListComponent = React.forwardRef((props, ref) => {
-    const { card, cardList, value, deckList, onChange, size, setDeckList } = props
+    const { card, cardList, traitsList, sphereList, value, deckList, onChange, size, setDeckList } = props
     const [open, setOpen] = useState(false)
     
     const onClose = React.useCallback(
@@ -98,7 +98,7 @@ export const CardListComponent = React.forwardRef((props, ref) => {
                         </Flex>
                 </Box>
             </Flex>
-            <CardDialog deckList={deckList} setDeckList={setDeckList} cardList={cardList} card={card} onClose={onClose} open={open} size={size} value={value} onChange={onChange} setOpen={setOpen} />
+            <CardDialog deckList={deckList} traitsList={traitsList} sphereList={sphereList} setDeckList={setDeckList} cardList={cardList} card={card} onClose={onClose} open={open} size={size} value={value} onChange={onChange} setOpen={setOpen} />
         </Card>
     )
 })

@@ -19,6 +19,7 @@ import PatchEvent, {
     prepend,
     insert,
     setIfMissing,
+
 } from "@sanity/form-builder/PatchEvent";
 
 
@@ -36,7 +37,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
             console.log("number not 0")
             if (deckList.indexOf(card) != -1) {
                 console.log("allerede i liste")
-                
+                console.log(value.map(ref => ref._key).indexOf(cardId))
                 const action = insert(
                     [{
                         _key: cardId,
@@ -54,7 +55,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
                 const action = insert(
                     [{
                         _key: cardId,
-                        card: { _ref: cardId, _type: "reference" },
+                        card: { _ref: cardId, _type: "reference", _key: cardId },
                         quantity: number
                     }],
                     "after",
