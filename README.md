@@ -34,6 +34,10 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       ~~- [ ] Filter by stats?~~
     - [x] Change order of list (ascending / descending) based on stats
     - [ ] Card presentation
+      - [ ] See heros as preview images?
+      - [ ] Warning if deck contains two cards with the same name
+      - [ ] Color on name corresponding to it´s sphere?
+      - [ ] Set sphere reference automaticly based on cards in deck?
       - [x] See image and stats on hover?
       - [x] See image and stats on click in dialog?
         - [x] Quantity for adding to and removing from deck
