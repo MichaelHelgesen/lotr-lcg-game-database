@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import CardListComponent from './CardListComponent';
+import CardDialog from './CardDialog';
 import {
     TextInput,
     Stack,
@@ -17,7 +18,7 @@ import {
 } from "@sanity/ui";
 
 export const CardSearch = React.forwardRef((props, ref) => {
-    const { cardList, value, onChange, filterList, selectValue, setSelectValue } = props
+    const { cardList, traitsList, sphereList, setDeckList, size, value, onChange, deckList, filterList, selectValue, setSelectValue } = props
     const references = value.map(reference => reference._ref)
 
     const [open, setOpen] = useState(false)
@@ -35,6 +36,7 @@ export const CardSearch = React.forwardRef((props, ref) => {
     );
 
     const selectedCard = cardList.filter(card => card._id == selectValue)
+        console.log(selectedCard[0])
 
     return (
         <Card padding={[0]}>
@@ -67,28 +69,7 @@ export const CardSearch = React.forwardRef((props, ref) => {
                     onOpen()
                 }}
             />
-            {
-                open && (
-                    <Dialog
-                        width="100%"
-                        header={selectedCard[0].name}
-                        id="id"
-                        onClose={onClose}
-                        zOffset={1000}
-                    >
-                        <Flex padding="4">
-                            <Card flex="1">
-                                image
-                            </Card>
-                            <Card flex="1" marginLeft={[2, 2, 3, 5]}>
-                                text
-                                <Box onClick={onClose}>Close</Box>
-                            </Card>
-
-                        </Flex>
-                    </Dialog>
-                )
-            }
+            <CardDialog deckList={deckList} traitsList={traitsList} sphereList={sphereList} setDeckList={setDeckList} cardList={cardList} card={selectedCard[0]} onClose={onClose} open={open} size={size} value={value} onChange={onChange} setOpen={setOpen} />
         </Card>
     )
 })

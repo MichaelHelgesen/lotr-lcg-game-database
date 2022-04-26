@@ -164,7 +164,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
   return (
     <FormField title={type.title}>
-      <Flex>
+      
         <Box flex="1">
           <Stack space={4}>
             
@@ -174,7 +174,9 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
               <DeckList
                 deckList={deckList}
                 setDeckList={setDeckList}
+                traitsList={traitsList}
                 cardList={cardList}
+                sphereList={sphereList}
                 value={value ? value : []}
                 onChange={onChange}
                 sortFunction={sortFunction}
@@ -229,7 +231,11 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
               cardList={cardList}
               value={value ? value : []}
               onChange={onChange}
+              deckList={deckList}
               filterList={filterList}
+              traitsList={traitsList}
+              sphereList={sphereList}
+              setDeckList={setDeckList}
               sortFunction={sortFunction}
               replaceSpecialCharacters={replaceSpecialCharacters}
               selectValue={selectValue}
@@ -257,7 +263,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             replaceSpecialCharacters={replaceSpecialCharacters}
           />
         </Box>
-      </Flex>
+    
     </FormField>
   );
 });

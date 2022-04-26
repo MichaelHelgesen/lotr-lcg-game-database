@@ -25,10 +25,10 @@ export const CardListComponentDeckQuantity = React.forwardRef((props, ref) => {
         countArray.push(i)
     }
     return (
-        <Box flex="1" >
-            <Flex justify="flex-start">
+        <Box flex="1" padding={0}>
+            
                 <QuantityNumber card={card} cardList={cardList} deckList={deckList} setDeckList={setDeckList} size={size} deckLimit={countArray} value={value} cardId={cardId} onChange={onChange} onClose={closeDialog}/>
-            </Flex>
+           
         </Box>
     )
 })
