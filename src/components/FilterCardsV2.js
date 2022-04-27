@@ -50,8 +50,6 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     onChange,
   } = props;
 
-
-
   // STATE HANDLING //
   const [cardList, setCardList] = useState([]);
   const [deckList, setDeckList] = useState([]);
@@ -62,7 +60,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   const [selectValue, setSelectValue] = useState();
   const [sortParameter, setSortParameter] = useState({
     param: "",
-    state: true
+    state: true,
   });
   const [filterList, setFilterList] = useState({
     sphere: [],
@@ -72,23 +70,27 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   });
 
   // Extracting the references of existing cards in the deck
-  const cardReferencesInDeck = value ? value.map(refObj => refObj.card._ref) : []
+  const cardReferencesInDeck = value
+    ? value.map((refObj) => refObj.card._ref)
+    : [];
 
   // FUNCTIONS //
   // Get all cards and create a deck list
   useEffect(() => {
     client.fetch('*[_type == "card"]').then((cards) => {
       setCardList([...cards.filter((card) => !card._id.includes("draft"))]);
-      setDeckList([...cards.filter(card => cardReferencesInDeck.indexOf(card._id) != -1)]);
+      setDeckList([
+        ...cards.filter((card) => cardReferencesInDeck.indexOf(card._id) != -1),
+      ]);
     });
   }, []);
 
   useEffect(() => {
-    console.log("changing")
+    console.log("changing");
   }, [onChange]);
 
   // Create a deck list when value change
- /*  useEffect(() => {
+  /*  useEffect(() => {
     //const references = value.map(reference => reference._ref)
     setDeckList([...cardList.filter(card => cardReferencesInDeck.indexOf(card._id) != -1)]);
   }, [value]); */
@@ -152,25 +154,25 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     return 0;
   };
   // Delete all references and all cards in deck
-  const clearReferences = React.useCallback(
-    (event) => {
-      //setDeck([]);
-      const inputValue = [];
-      onChange(PatchEvent.from(set(inputValue)));
-      setDeckList([])
-    },
-    []
-  );
+  const clearReferences = React.useCallback((event) => {
+    //setDeck([]);
+    const inputValue = [];
+    onChange(PatchEvent.from(set(inputValue)));
+    setDeckList([]);
+  }, []);
 
   return (
     <FormField title={type.title}>
-      
-        <Box flex="1">
-          <Stack space={4}>
-            
-            {value && value.length ? (
-              <Box>
-                <DeckInformation deckList={deckList} value={value} packList={packList} sphereList={sphereList} />
+      <Box>
+        <Stack space={4}>
+          {value && value.length ? (
+            <Box>
+              <DeckInformation
+                deckList={deckList}
+                value={value}
+                packList={packList}
+                sphereList={sphereList}
+              />
               <DeckList
                 deckList={deckList}
                 setDeckList={setDeckList}
@@ -182,88 +184,87 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                 sortFunction={sortFunction}
                 replaceSpecialCharacters={replaceSpecialCharacters}
               />
-              </Box>
-            ) : null}
-          </Stack>
-          <Box marginY="3">
-            {value && value.length ? (
-              <Button tone="caution" onClick={clearReferences}>
-                Remove all cards
-              </Button>
-            ) : (
-              <Text>
-                Empty deck! Select cards from the cardpool on the right -{`>`}
-              </Text>
-            )}
-          </Box>
+            </Box>
+          ) : null}
+        </Stack>
+        <Box marginY="3">
+          {value && value.length ? (
+            <Button tone="caution" onClick={clearReferences}>
+              Remove all cards
+            </Button>
+          ) : (
+            <Text>
+              Empty deck! Select cards from the cardpool on the right -{`>`}
+            </Text>
+          )}
         </Box>
-        <Box flex="2" marginLeft={[2, 2, 3, 3]}>
-          <Flex>
-            <FilterByPack
-              filterList={filterList.pack}
-              setFilterList={setFilterList}
-              packList={packList}
-            />
-            {
-              <FilterByTrait
-                filterList={filterList.traits}
-                setFilterList={setFilterList}
-                traitsList={traitsList}
-              />
-            }
-          </Flex>
-          <Box>
-            <FilterByType
-              types={typeList}
-              setFilterList={setFilterList}
-              traitsList={traitsList}
-            />
-          </Box>
-          <Box>
-            <FilterBySpheres
-              spheres={sphereList}
-              setFilterList={setFilterList}
-              traitsList={traitsList}
-            />
-          </Box>
-          <Box>
-            <CardSearch
-              cardList={cardList}
-              value={value ? value : []}
-              onChange={onChange}
-              deckList={deckList}
-              filterList={filterList}
-              traitsList={traitsList}
-              sphereList={sphereList}
-              setDeckList={setDeckList}
-              sortFunction={sortFunction}
-              replaceSpecialCharacters={replaceSpecialCharacters}
-              selectValue={selectValue}
-              setSelectValue={setSelectValue}
-            />
-          </Box>
-          <CardListSort
-            cardList={cardList}
-            value={value ? value : []}
-            setCardList={setCardList}
-            sortParameter={sortParameter}
-            setSortParameter={setSortParameter}
-            replaceSpecialCharacters={replaceSpecialCharacters}
+      </Box>
+      <Box>
+        <Flex>
+          <FilterByPack
+            filterList={filterList.pack}
+            setFilterList={setFilterList}
+            packList={packList}
           />
-          <CardList
-            cardList={cardList}
+          {
+            <FilterByTrait
+              filterList={filterList.traits}
+              setFilterList={setFilterList}
+              traitsList={traitsList}
+            />
+          }
+        </Flex>
+        <Box>
+          <FilterByType
+            types={typeList}
+            setFilterList={setFilterList}
             traitsList={traitsList}
-            sphereList={sphereList}
-            deckList={deckList}
-            setDeckList={setDeckList}
+          />
+        </Box>
+        <Box>
+          <FilterBySpheres
+            spheres={sphereList}
+            setFilterList={setFilterList}
+            traitsList={traitsList}
+          />
+        </Box>
+        <Box>
+          <CardSearch
+            cardList={cardList}
             value={value ? value : []}
             onChange={onChange}
+            deckList={deckList}
             filterList={filterList}
+            traitsList={traitsList}
+            sphereList={sphereList}
+            setDeckList={setDeckList}
             sortFunction={sortFunction}
             replaceSpecialCharacters={replaceSpecialCharacters}
+            selectValue={selectValue}
+            setSelectValue={setSelectValue}
           />
         </Box>
-    
+        <CardListSort
+          cardList={cardList}
+          value={value ? value : []}
+          setCardList={setCardList}
+          sortParameter={sortParameter}
+          setSortParameter={setSortParameter}
+          replaceSpecialCharacters={replaceSpecialCharacters}
+        />
+        <CardList
+          cardList={cardList}
+          traitsList={traitsList}
+          sphereList={sphereList}
+          deckList={deckList}
+          setDeckList={setDeckList}
+          value={value ? value : []}
+          onChange={onChange}
+          filterList={filterList}
+          sortFunction={sortFunction}
+          replaceSpecialCharacters={replaceSpecialCharacters}
+        />
+      </Box>
     </FormField>
   );
 });

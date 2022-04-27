@@ -71,11 +71,15 @@ export const CardTooltip = React.forwardRef((props, ref) => {
                   </Text>
                   <Flex>
                     <Text size={[1]} weight={"bold"}>
-                      {card.cost ? !card.willpower ? `C:${card.cost}` : `C:${card.cost}, ` : `T:${card.threat}, `}
-                      {card.willpower ? `W:${card.willpower}, ` : null}
-                      {card.attack ? `A:${card.attack}, ` : null}
-                      {card.defense ? `D:${card.defense}, ` : null}
-                      {card.health ? `H:${card.health}` : null}
+                      {card.cost
+                        ? card.willpower == undefined
+                          ? `C:${card.cost}`
+                          : `C:${card.cost}, `
+                        : `T:${card.threat}, `}
+                      {card.willpower != undefined ? `W:${card.willpower}, ` : null}
+                      {card.attack != undefined ? `A:${card.attack}, ` : null}
+                      {card.defense != undefined ? `D:${card.defense}, ` : null}
+                      {card.health != undefined ? `H:${card.health}` : null}
                     </Text>
                   </Flex>
                   {card.traits && card.traits.length ? (
@@ -110,8 +114,20 @@ export const CardTooltip = React.forwardRef((props, ref) => {
       placement="left"
       portal
     >
-      <span style={{padding:"0 3px 0 0"}} onClick={onOpen} size={size}>
-        {quantity ? `${quantity}x ${card.name}` : card.name}
+      <span
+        style={{
+          padding: "0 3px 0 0",
+        }}
+        onClick={onOpen}
+        size={size}
+      >
+        {quantity ? 
+        
+        <span style={{
+            color: card.sphere._ref == "lore" ? "green" : 
+            card.sphere._ref == "tactics" ? "red" : 
+            card.sphere._ref == "spirit" ? "blue" : "purple"
+          }}>{`${card.cardType._ref != "hero" ? `${quantity}x` : ""} ${card.name}`}</span> : card.name}
       </span>
     </Tooltip>
   );
