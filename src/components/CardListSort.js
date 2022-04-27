@@ -15,7 +15,14 @@ import {
 } from "@sanity/ui";
 
 export const CardListSort = React.forwardRef((props, ref) => {
-  const { cardList, setCardList, value, sortParameter, setSortParameter, replaceSpecialCharacters } = props;
+  const {
+    cardList,
+    setCardList,
+    value,
+    sortParameter,
+    setSortParameter,
+    replaceSpecialCharacters,
+  } = props;
 
   const references = value.map((reference) => reference._ref);
 
@@ -36,9 +43,15 @@ export const CardListSort = React.forwardRef((props, ref) => {
           nameA = a[sortParameter.param]._ref.toLowerCase();
           nameB = b[sortParameter.param]._ref.toLowerCase();
         } else if (sortParameter.param == "numberInDeck") {
-          console.log("quantity")
-          nameA = value.map(obj => obj._key).indexOf(a._id) != -1  ? value[value.map(obj => obj._key).indexOf(a._id)].quantity : undefined;
-          nameB = value.map(obj => obj._key).indexOf(b._id) != -1  ? value[value.map(obj => obj._key).indexOf(b._id)].quantity : undefined;
+          console.log("quantity");
+          nameA =
+            value.map((obj) => obj._key).indexOf(a._id) != -1
+              ? value[value.map((obj) => obj._key).indexOf(a._id)].quantity
+              : undefined;
+          nameB =
+            value.map((obj) => obj._key).indexOf(b._id) != -1
+              ? value[value.map((obj) => obj._key).indexOf(b._id)].quantity
+              : undefined;
         } else if (sortParameter.param == "cost") {
           a[sortParameter.param]
             ? a[sortParameter.param] != "X"
@@ -51,8 +64,12 @@ export const CardListSort = React.forwardRef((props, ref) => {
               : (nameB = 100)
             : (nameB = b.threat);
         } else if (typeof a[sortParameter.param] == "string") {
-          nameA = replaceSpecialCharacters(a[sortParameter.param].toLowerCase());
-          nameB = replaceSpecialCharacters(b[sortParameter.param].toLowerCase());
+          nameA = replaceSpecialCharacters(
+            a[sortParameter.param].toLowerCase()
+          );
+          nameB = replaceSpecialCharacters(
+            b[sortParameter.param].toLowerCase()
+          );
         } else {
           nameA = a[sortParameter.param];
           nameB = b[sortParameter.param];
@@ -76,106 +93,102 @@ export const CardListSort = React.forwardRef((props, ref) => {
         }
       });
     });
-  }, [sortParameter])
-
+  }, [sortParameter]);
 
   const sortList = (sortParam) => {
-
     //setOrder((prevState) => !prevState);
     if (sortParameter.param == "") {
-      setSortParameter(prevState => {
+      setSortParameter((prevState) => {
         return {
           ...prevState,
-          param: sortParam
-        }
-      })
+          param: sortParam,
+        };
+      });
     } else if (sortParameter.param != sortParam) {
-      setSortParameter(prevState => {
+      setSortParameter((prevState) => {
         return {
           state: true,
-          param: sortParam
-        }
-      })
+          param: sortParam,
+        };
+      });
     } else {
-      setSortParameter(prevState => {
+      setSortParameter((prevState) => {
         return {
           ...prevState,
-          state: !prevState.state
-        }
-      })
+          state: !prevState.state,
+        };
+      });
     }
-
-
   };
 
   return (
-    <Flex>
+    <Flex padding={2}>
       <Box
         flex="1"
         onClick={() => {
           sortList("numberInDeck");
         }}
       >
-        Qty
+        <Text size={1}>Qty</Text>
       </Box>
       <Box
-        flex="3"
+        flex="2"
         onClick={() => {
           sortList("name");
         }}
       >
-        Name
+       {sortParameter.indexOf("name") ?  <Text weight={bold} size={1}>Name</Text> :  <Text size={1}>Name</Text>}
       </Box>
       <Box flex="1">
-        <Flex>
+        <Flex align="flex-end" justify="space-between">
           <Box
             onClick={() => {
               sortList("sphere");
             }}
           >
-            S
+            <Text align={"center"} size={1}>S</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("cardType");
             }}
           >
-            T
+            <Text align={"center"} size={1}>T</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("cost");
             }}
           >
-            T/C
+            <Text align={"center"} size={1}>T/C</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("willpower");
             }}
           >
-            W
+            <Text align={"center"} size={1}>W</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("attack");
             }}
           >
-            A
+            <Text align={"center"} size={1}>A</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("defense");
             }}
           >
-            D
+            <Text align={"center"} size={1}>D</Text>
           </Box>
           <Box
             onClick={() => {
               sortList("health");
             }}
           >
-            H
+            <Text align={"center"} size={1}>H</Text>
           </Box>
         </Flex>
       </Box>
