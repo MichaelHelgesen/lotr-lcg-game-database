@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CardListComponent from "./CardListComponent";
+import styles from "../components/cardListSort.css";
 import {
   TextInput,
   Stack,
@@ -121,6 +122,39 @@ export const CardListSort = React.forwardRef((props, ref) => {
     }
   };
 
+  const createSortEl = (parameter, text) => {
+    return (
+      <Box
+        onClick={() => {
+          sortList(parameter);
+        }}
+      >
+        {sortParameter.param == parameter ? (
+          <Flex direction={"column"} align={"center"}>
+            <Text weight={"bold"} align={"center"} size={1}>
+              {text}
+            </Text>
+            <Box style={{ position: "relative" }}>
+              {sortParameter.state ? (
+                <span
+                  style={{ width: "10px" }}
+                  className={styles.caretSmall}
+                ></span>
+              ) : (
+                <span
+                  style={{ width: "10px" }}
+                  className={`${styles.caretSmall} ${styles.smallTop}`}
+                ></span>
+              )}
+            </Box>
+          </Flex>
+        ) : (
+          <Text size={1}>{text}</Text>
+        )}
+      </Box>
+    );
+  };
+
   return (
     <Flex padding={2}>
       <Box
@@ -129,7 +163,18 @@ export const CardListSort = React.forwardRef((props, ref) => {
           sortList("numberInDeck");
         }}
       >
-        <Text size={1}>Qty</Text>
+        {sortParameter.param == "numberInDeck" ? (
+          <Text weight={"bold"} size={1}>
+            Qty
+            {sortParameter.state ? (
+              <span className={styles.caret}></span>
+            ) : (
+              <span className={`${styles.caret} ${styles.top}`}></span>
+            )}
+          </Text>
+        ) : (
+          <Text size={1}>Qty</Text>
+        )}
       </Box>
       <Box
         flex="2"
@@ -137,59 +182,28 @@ export const CardListSort = React.forwardRef((props, ref) => {
           sortList("name");
         }}
       >
-       {sortParameter.indexOf("name") ?  <Text weight={bold} size={1}>Name</Text> :  <Text size={1}>Name</Text>}
+        {sortParameter.param == "name" ? (
+          <Text weight={"bold"} size={1}>
+            Name
+            {sortParameter.state ? (
+              <span className={styles.caret}></span>
+            ) : (
+              <span className={`${styles.caret} ${styles.top}`}></span>
+            )}
+          </Text>
+        ) : (
+          <Text size={1}>Name</Text>
+        )}
       </Box>
       <Box flex="1">
         <Flex align="flex-end" justify="space-between">
-          <Box
-            onClick={() => {
-              sortList("sphere");
-            }}
-          >
-            <Text align={"center"} size={1}>S</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("cardType");
-            }}
-          >
-            <Text align={"center"} size={1}>T</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("cost");
-            }}
-          >
-            <Text align={"center"} size={1}>T/C</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("willpower");
-            }}
-          >
-            <Text align={"center"} size={1}>W</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("attack");
-            }}
-          >
-            <Text align={"center"} size={1}>A</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("defense");
-            }}
-          >
-            <Text align={"center"} size={1}>D</Text>
-          </Box>
-          <Box
-            onClick={() => {
-              sortList("health");
-            }}
-          >
-            <Text align={"center"} size={1}>H</Text>
-          </Box>
+          {createSortEl("sphere", "S")}
+          {createSortEl("cardType", "T")}
+          {createSortEl("cost", "T/C")}
+          {createSortEl("willpower", "W")}
+          {createSortEl("attack", "A")}
+          {createSortEl("defense", "D")}
+          {createSortEl("health", "H")}
         </Flex>
       </Box>
     </Flex>
