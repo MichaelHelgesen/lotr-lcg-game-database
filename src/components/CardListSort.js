@@ -156,9 +156,9 @@ export const CardListSort = React.forwardRef((props, ref) => {
   };
 
   return (
-    <Flex direction={"row"} justify={"flex-end"} padding={2}>
-      <Box
-        
+    <Flex  padding={2} marginTop={2}>
+      <Box 
+        style={{width: "100px"}}
         onClick={() => {
           sortList("numberInDeck");
         }}
@@ -177,7 +177,7 @@ export const CardListSort = React.forwardRef((props, ref) => {
         )}
       </Box>
       <Box
-       
+       flex={"auto"}
         onClick={() => {
           sortList("name");
         }}

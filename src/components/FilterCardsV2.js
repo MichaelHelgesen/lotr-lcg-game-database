@@ -9,6 +9,7 @@ import FilterByTrait from "./FilterByTrait";
 import CardSearch from "./CardSearch";
 import CardListSort from "./CardListSort";
 import DeckInformation from "./DeckInformation";
+import Chart from "./Chart";
 import PatchEvent, {
   set,
   unset,
@@ -235,6 +236,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             onChange={onChange}
             deckList={deckList}
             filterList={filterList}
+            packList={packList}
             traitsList={traitsList}
             sphereList={sphereList}
             setDeckList={setDeckList}

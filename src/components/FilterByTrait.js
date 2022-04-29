@@ -31,7 +31,7 @@ export const FilterByTrait = React.forwardRef((props, ref) => {
 
     return (
         <Box flex="1">
-            <Card radius={0} shadow={1} padding={1} style={{ textAlign: 'center' }} tone={`${filterList.length ? "positive" : ""}`}>
+            <Card radius={0} shadow={1} padding={2} style={{ textAlign: 'center' }} tone={`${filterList.length ? "positive" : ""}`}>
                 <Box onClick={onOpen}>
                     <Text size="1">Select Traits</Text>
                 </Box>

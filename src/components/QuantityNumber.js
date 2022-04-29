@@ -92,20 +92,20 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
 
     const numberElement = (color, number) => {
         return (
-            <Button onClick={(event) => { handleClick(number) }} radius={0} shadow={1} padding={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}><Text size={size}>{number || "0"}</Text></Button>
+            <Button padding={2} onClick={(event) => { handleClick(number) }} radius={0} shadow={1} tone={color || "default"} mode={color == "default" && "ghost"} key={number}><Text size={1}>{number || "0"}</Text></Button>
         )
     }
 
     return (
-        <Flex>
+        <Flex style={{width:"100px"}}>
             {deckLimit.map(number => {
                 if (number != 0 && currentCardInDeck.length && number === currentCardInDeck[0].quantity) {
                     return (
-                        <Button radius={0} shadow={1} padding={1} tone={"positive"} mode={"default"} key={number}><Text size={size}>{number || "0"}</Text></Button>
+                        <Button radius={0} shadow={1} padding={2} tone={"positive"} mode={"default"} key={number}><Text size={1}>{number || "0"}</Text></Button>
                         )
                 } else if (number === 0 && !currentCardInDeck.length) {
                     return (
-                        <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={1} key={0}><Text size={size}>{number}</Text></Box>
+                        <Box style={{ background: "#f5f5f5" }} radius={0} shadow={1} padding={2} key={0}><Text size={1}>{number}</Text></Box>
                     )
                 } else {
                     return (

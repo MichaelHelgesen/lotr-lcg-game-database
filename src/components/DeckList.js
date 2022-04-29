@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CardListDeckComponent from "./CardListDeckComponent";
 import imageUrlBuilder from "@sanity/image-url";
+import DynamicChart from "./Chart";
 import {
   TextInput,
   Stack,
@@ -82,14 +83,13 @@ export const DeckList = React.forwardRef((props, ref) => {
                   </Text>
                 </Box>
                 <Grid columns={4} gap={[2]}>
-                {deckList
-                  .filter((card) => card.cardType._ref == type)
-                  .sort(sortFunction)
-                  .map((card) => {
-                    return (
-                      
+                  {deckList
+                    .filter((card) => card.cardType._ref == type)
+                    .sort(sortFunction)
+                    .map((card) => {
+                      return (
                         <Box>
-                          <Card>
+                          <Card marginBottom={1}>
                             <img
                               src={urlFor(card.cardImage)
                                 .width(200)
@@ -98,7 +98,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                                 .crop("top")
                                 .rect(120, 0, 270, 600)
                                 .url()}
-                                width="100%"
+                              width="100%"
                             />
                           </Card>
                           <CardListDeckComponent
@@ -118,9 +118,9 @@ export const DeckList = React.forwardRef((props, ref) => {
                             }
                           />
                         </Box>
-                    );
-                  })}
-                  </Grid>
+                      );
+                    })}
+                </Grid>
               </Stack>
             </Box>
           );
@@ -131,7 +131,11 @@ export const DeckList = React.forwardRef((props, ref) => {
           .filter((type) => type != "hero")
           .map((type) => {
             return (
-              <Box flex={2} rowStart={type == "ally" ? 1 : "default"} rowEnd={type == "ally" ? 3 : "default"}>
+              <Box
+                flex={2}
+                rowStart={type == "ally" ? 1 : "default"}
+                rowEnd={type == "ally" ? 3 : "default"}
+              >
                 <Stack>
                   <Box marginBottom={2} marginTop={3}>
                     <Text weight={"semibold"}>
@@ -147,6 +151,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                       ):
                     </Text>
                   </Box>
+                  <Stack>
                   {deckList
                     .filter((card) => card.cardType._ref == type)
                     .sort(sortFunction)
@@ -172,11 +177,13 @@ export const DeckList = React.forwardRef((props, ref) => {
                         </Box>
                       );
                     })}
+                    </Stack>
                 </Stack>
               </Box>
             );
           })}
       </Grid>
+      <DynamicChart />
     </Box>
   );
 });

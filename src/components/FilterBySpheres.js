@@ -40,7 +40,7 @@ export const FilterBySpheres = React.forwardRef((props, ref) => {
         <Flex>
             {spheres.map(sphere => {
                 return (
-                    <Card flex="1" padding={1} shadow={1} key={sphere.name} tone={`${status.indexOf(sphere.name) != -1 ? "positive" : ""}`}>
+                    <Card flex="1" padding={2} shadow={1} key={sphere.name} tone={`${status.indexOf(sphere.name) != -1 ? "positive" : ""}`}>
                         <Text onClick={(event) => {handleClick(event, sphere.name)}} size={1} align="center">{sphere.name.slice(0, 3)}</Text>
                     </Card>
                 )

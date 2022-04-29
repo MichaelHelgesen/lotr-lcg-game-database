@@ -35,7 +35,7 @@ export const FilterByType = React.forwardRef((props, ref) => {
         <Flex wrap="wrap">
             {types.map(type => {
                 return (
-                    <Card flex="1" padding={1} shadow={1} key={type.name} tone={`${status.indexOf(type.name) != -1 ? "positive" : ""}`}>
+                    <Card flex="1" padding={2} shadow={1} key={type.name} tone={`${status.indexOf(type.name) != -1 ? "positive" : ""}`}>
                         <Text onClick={(event) => { handleClick(type.name) }} size={1} align="center">{type.name.slice(0, 3)}</Text>
                     </Card>
                 )

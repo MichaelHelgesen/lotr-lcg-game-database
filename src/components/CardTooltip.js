@@ -110,22 +110,22 @@ export const CardTooltip = React.forwardRef((props, ref) => {
           </Text>
         </Container>
       }
-      fallbackPlacements={["right", "top"]}
+      fallbackPlacements={["right", "top", "bottom"]}
       placement="left"
       portal
     >
       <span
-        style={{
-          padding: "0 3px 0 0",
-        }}
+        
         onClick={onOpen}
-        size={size}
+        size={2}
+        weight={"medium"}
       >
         {quantity ? 
         
         <span style={{
             color: card.sphere._ref == "lore" ? "green" : 
-            card.sphere._ref == "tactics" ? "red" : 
+            card.sphere._ref == "tactics" ? "red" :
+            card.sphere._ref == "neutral" ? "gray" : 
             card.sphere._ref == "spirit" ? "blue" : "purple"
           }}>{`${card.cardType._ref != "hero" ? `${quantity}x` : ""} ${card.name}`}</span> : card.name}
       </span>
