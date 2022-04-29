@@ -124,7 +124,7 @@ export const CardListSort = React.forwardRef((props, ref) => {
 
   const createSortEl = (parameter, text) => {
     return (
-      <Box
+      <Box style={{width:"25px"}} align={"center"}
         onClick={() => {
           sortList(parameter);
         }}
@@ -149,16 +149,16 @@ export const CardListSort = React.forwardRef((props, ref) => {
             </Box>
           </Flex>
         ) : (
-          <Text size={1}>{text}</Text>
+          <Text size={1} align={"center"}>{text}</Text>
         )}
       </Box>
     );
   };
 
   return (
-    <Flex padding={2}>
+    <Flex direction={"row"} justify={"flex-end"} padding={2}>
       <Box
-        flex="1"
+        
         onClick={() => {
           sortList("numberInDeck");
         }}
@@ -177,7 +177,7 @@ export const CardListSort = React.forwardRef((props, ref) => {
         )}
       </Box>
       <Box
-        flex="2"
+       
         onClick={() => {
           sortList("name");
         }}
@@ -195,7 +195,7 @@ export const CardListSort = React.forwardRef((props, ref) => {
           <Text size={1}>Name</Text>
         )}
       </Box>
-      <Box flex="1">
+      <Box >
         <Flex align="flex-end" justify="space-between">
           {createSortEl("sphere", "S")}
           {createSortEl("cardType", "T")}

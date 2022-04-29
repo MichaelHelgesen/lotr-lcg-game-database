@@ -46,18 +46,18 @@ export const CardListComponent = React.forwardRef((props, ref) => {
         <Card shadow={1} padding={2}>
             <Flex align="center">
                 <CardListComponentQuantity cardList={cardList} deckList={deckList} setDeckList={setDeckList} card={card} size={size} deckLimit={card.deckLimit} value={value} cardId={card._id} onChange={onChange} />
-                <Box flex="2">
+                <Box >
                     <CardTooltip card={card} size={size} setOpen={setOpen} traitsList={traitsList}/>
                 </Box>
-                <Box flex="1">
+                <Box >
                         <Flex align="flex-end" justify="space-between">
-                            <Box><Text size={[1]} align="center">{card.sphere._ref.slice(0,1)}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.cardType._ref.slice(0,1)}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.cost || card.threat}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.willpower}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.attack}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.defense}</Text></Box>
-                            <Box><Text size={[1]} align="center">{card.health}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.sphere._ref.slice(0,1)}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.cardType._ref.slice(0,1)}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.cost || card.threat}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.willpower}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.attack}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.defense}</Text></Box>
+                            <Box style={{width:"25px"}} align={"center"}><Text size={[1]} align="center">{card.health}</Text></Box>
                         </Flex>
                 </Box>
             </Flex>

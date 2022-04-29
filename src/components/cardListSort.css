@@ -37,7 +37,7 @@
 
   .caretSmall {
     position: absolute;
-    top: 0;
+    top: 6px;
     left: -50%;
     transform: translateX(-50%);
   }
