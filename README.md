@@ -34,7 +34,13 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       ~~- [ ] Filter by stats?~~
     - [x] Change order of list (ascending / descending) based on stats
     - [ ] Card presentation
-      - [ ] See heros as preview images?
+      - [x] See heros as preview images?
+      - [ ] Show charts
+        - [ ] Card cost
+        - [ ] Spheres
+        - [ ] Total cost by sphere
+        - [ ] Card types
+        - [ ] Stats?
       - [ ] Warning if deck contains two cards with the same name
       - [ ] Color on name corresponding to it´s sphere?
       - [ ] Set sphere reference automaticly based on cards in deck?
@@ -121,3 +127,9 @@ I added the possibility to sort the card pool based on quantity, name, sphere, t
 
 ![Grouping of types in deck and other info](https://res.cloudinary.com/mikkesblogg/image/upload/v1650624218/Samples/Skjermbilde_2022-04-22_kl._12.43.32_hgu9kz.png)
 The deck is now grouped in types, and other useful information about the deck is displayed on the top.
+
+![Deck info](https://res.cloudinary.com/mikkesblogg/image/upload/v1651486373/Samples/Skjermbilde_2022-05-02_kl._12.10.50_ubv8ew.png)
+Changed the design of the deck information. Added pictures of heroes.
+
+![Charts](https://res.cloudinary.com/mikkesblogg/image/upload/v1651486373/Samples/Skjermbilde_2022-05-02_kl._12.11.18_voxyxh.png)
+Added charts to get a better visual presentation of the current deck.
