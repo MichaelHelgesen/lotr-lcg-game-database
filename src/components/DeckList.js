@@ -183,7 +183,7 @@ export const DeckList = React.forwardRef((props, ref) => {
             );
           })}
       </Grid>
-      <DynamicChart />
+      <DynamicChart deckList={deckList} value={value} />
     </Box>
   );
 });
