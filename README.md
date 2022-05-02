@@ -42,7 +42,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
         - [ ] Card types
         - [ ] Stats?
       - [ ] Warning if deck contains two cards with the same name
-      - [ ] Color on name corresponding to it´s sphere?
+      - [x] Color on name corresponding to it´s sphere?
       - [ ] Set sphere reference automaticly based on cards in deck?
       - [x] See image and stats on hover?
       - [x] See image and stats on click in dialog?
