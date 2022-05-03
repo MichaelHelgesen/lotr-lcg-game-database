@@ -36,11 +36,11 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
     - [ ] Card presentation
       - [x] See heros as preview images?
       - [ ] Show charts
-        - [ ] Card cost
-        - [ ] Spheres
-        - [ ] Total cost by sphere
-        - [ ] Card types
-        - [ ] Stats?
+        - [x] Card cost
+        - [x] Spheres
+        - [x] Total cost by sphere
+        - [x] Card types
+       ~~ [ ] Stats?~~
       - [ ] Warning if deck contains two cards with the same name
       - [x] Color on name corresponding to it´s sphere?
       - [ ] Set sphere reference automaticly based on cards in deck?
