@@ -4,21 +4,8 @@ import CardListComponentDeckQuantity from "./CardListComponentQuantity";
 import CardDialog from "./CardDialog";
 import CardTooltip from "./CardTooltip";
 import {
-  TextInput,
-  Stack,
-  Label,
-  Grid,
   Card,
-  Text,
-  Button,
-  Inline,
-  Flex,
   Box,
-  Dialog,
-  Checkbox,
-  Portal,
-  Tooltip,
-  Container,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
@@ -32,10 +19,10 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
   const {
     card,
     cardList,
-    deckList,
+    //deckList,
     quantity,
     traitsList,
-    setDeckList,
+    //setDeckList,
     value,
     onChange,
     size,
@@ -62,10 +49,10 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
         />
       </Box>
       <CardDialog
-        deckList={deckList}
+        //deckList={deckList}
         traitsList={traitsList}
         sphereList={sphereList}
-        setDeckList={setDeckList}
+        //setDeckList={setDeckList}
         cardList={cardList}
         card={card}
         onClose={onClose}

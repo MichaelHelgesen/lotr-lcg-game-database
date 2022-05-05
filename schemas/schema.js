@@ -364,7 +364,7 @@ export default createSchema({
           type: "array",
           of: [{
             type: "object",
-            name: "test",
+            name: "cardReference",
             fields: [
               {
                 name: "cardToAdd",
@@ -373,20 +373,7 @@ export default createSchema({
                 to: {
                   type: "card"
                 }
-              },/* 
-              {
-              name: "quantity",
-              title: "Quantity",
-              type: "number"
               },
-              {
-                name: "cardCopy",
-                title: "Card Copy",
-                type: "object",
-                fields: [
-                  {name: 'cardCopy', type: 'object', title: 'Card Copy'},
-                ]
-                } */
             ]
           }],
           inputComponent: FilterCardsV2

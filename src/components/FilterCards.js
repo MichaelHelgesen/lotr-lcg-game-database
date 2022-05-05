@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { FormField } from "@sanity/base/components";
 import FilterBySpheres from "./FilterBySpheres";
 import FilterByType from "./FilterByType";
@@ -7,7 +7,6 @@ import { nanoid } from 'nanoid'
 import PatchEvent, {
     set,
     unset,
-    prepend,
     insert,
     setIfMissing,
 } from "@sanity/form-builder/PatchEvent";
@@ -19,17 +18,13 @@ const { dataset, projectId, useCdn } = client.clientConfig;
 
 // Import UI components from Sanity UI
 import {
-    TextInput,
     Stack,
     Label,
-    Grid,
     Card,
     Text,
     Button,
     Flex,
     Box,
-    Dialog,
-    Avatar,
     Autocomplete,
     SearchIcon
 

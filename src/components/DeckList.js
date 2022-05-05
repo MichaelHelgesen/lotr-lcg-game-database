@@ -1,19 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import CardListDeckComponent from "./CardListDeckComponent";
 import imageUrlBuilder from "@sanity/image-url";
 import DynamicChart from "./Chart";
 import {
-  TextInput,
   Stack,
-  Label,
   Grid,
   Card,
   Text,
-  Button,
-  Flex,
   Box,
-  Dialog,
-  Checkbox,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
@@ -27,21 +21,14 @@ export const DeckList = React.forwardRef((props, ref) => {
   const {
     traitsList,
     sphereList,
-    deckList,
-    setDeckList,
     cardList,
     value,
     onChange,
+    deckInformation,
     sortFunction,
-    replaceSpecialCharacters,
   } = props;
-  //console.log(deckList)
 
-  //const references = value.map(reference => reference._ref)
-
-  const typeList = [
-    ...new Set(deckList.map((card) => card.cardType._ref)),
-  ].sort((a, b) => {
+  const typeList = deckInformation.types.sort((a, b) => {
     if (a === "hero") {
       return -1;
     }
@@ -53,12 +40,13 @@ export const DeckList = React.forwardRef((props, ref) => {
     }
     return 0;
   });
-  const newArr = [...deckList].map((card) => {
-    return {
-      ...card,
-      quantity: value[value.map((obj) => obj._key).indexOf(card._id)].quantity,
-    };
-  });
+
+  /*   const newArr = [...value].map((obj) => {
+      return {
+        ...obj.cardObject,
+        cardQuantity: obj.cardQuantity
+      };
+    }); */
 
   return (
     <Box>
@@ -71,9 +59,9 @@ export const DeckList = React.forwardRef((props, ref) => {
                 <Box marginBottom={2} marginTop={3}>
                   <Text weight={"semibold"}>
                     {type.slice(0, 1).toUpperCase() + type.slice(1)} (
-                    {newArr
-                      .filter((card) => card.cardType._ref == type)
-                      .map((card) => card.quantity)
+                    {value
+                      .filter((obj) => obj.cardObject.cardType._ref == type)
+                      .map((obj) => obj.cardQuantity)
                       .reduce(
                         (previousValue, currentValue) =>
                           previousValue + currentValue,
@@ -83,7 +71,8 @@ export const DeckList = React.forwardRef((props, ref) => {
                   </Text>
                 </Box>
                 <Grid columns={4} gap={[2]}>
-                  {deckList
+                  {value
+                    .map(obj => obj.cardObject)
                     .filter((card) => card.cardType._ref == type)
                     .sort(sortFunction)
                     .map((card) => {
@@ -107,14 +96,12 @@ export const DeckList = React.forwardRef((props, ref) => {
                             sphereList={sphereList}
                             card={card}
                             cardList={cardList}
-                            setDeckList={setDeckList}
-                            deckList={deckList}
                             onChange={onChange}
                             value={value}
-                            quantity={
+                            cardquantity={
                               value[
                                 value.map((obj) => obj._key).indexOf(card._id)
-                              ].quantity
+                              ].cardquantity
                             }
                           />
                         </Box>
@@ -140,9 +127,9 @@ export const DeckList = React.forwardRef((props, ref) => {
                   <Box marginBottom={2} marginTop={3}>
                     <Text weight={"semibold"}>
                       {type.slice(0, 1).toUpperCase() + type.slice(1)} (
-                      {newArr
-                        .filter((card) => card.cardType._ref == type)
-                        .map((card) => card.quantity)
+                      {value
+                        .filter((obj) => obj.cardObject.cardType._ref == type)
+                        .map((obj) => obj.cardQuantity)
                         .reduce(
                           (previousValue, currentValue) =>
                             previousValue + currentValue,
@@ -152,38 +139,42 @@ export const DeckList = React.forwardRef((props, ref) => {
                     </Text>
                   </Box>
                   <Stack>
-                  {deckList
-                    .filter((card) => card.cardType._ref == type)
-                    .sort(sortFunction)
-                    .map((card) => {
-                      return (
-                        <Box>
-                          <CardListDeckComponent
-                            key={card._id}
-                            traitsList={traitsList}
-                            sphereList={sphereList}
-                            card={card}
-                            cardList={cardList}
-                            setDeckList={setDeckList}
-                            deckList={deckList}
-                            onChange={onChange}
-                            value={value}
-                            quantity={
-                              value[
-                                value.map((obj) => obj._key).indexOf(card._id)
-                              ].quantity
-                            }
-                          />
-                        </Box>
-                      );
-                    })}
-                    </Stack>
+                    {value
+                      .map(obj => obj.cardObject)
+                      .filter((card) => card.cardType._ref == type)
+                      .sort(sortFunction)
+                      .map((card) => {
+                        return (
+                          <Box>
+                            <CardListDeckComponent
+                              key={card._id}
+                              traitsList={traitsList}
+                              sphereList={sphereList}
+                              card={card}
+                              cardList={cardList}
+                              //setDeckList={setDeckList}
+                              //deckList={deckList}
+                              onChange={onChange}
+                              value={value}
+                              quantity={
+                                value[
+                                  value.map((obj) => obj._key).indexOf(card._id)
+                                ].cardQuantity
+                              }
+                            />
+                          </Box>
+                        );
+                      })}
+                  </Stack>
                 </Stack>
               </Box>
             );
           })}
       </Grid>
-      <DynamicChart deckList={deckList} value={value} />
+      <DynamicChart
+        value={value}
+        deckInformation={deckInformation}
+      />
     </Box>
   );
 });

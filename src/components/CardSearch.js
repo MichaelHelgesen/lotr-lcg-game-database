@@ -2,18 +2,10 @@ import React, { useState } from "react";
 import CardListComponent from "./CardListComponent";
 import CardDialog from "./CardDialog";
 import {
-  TextInput,
-  Stack,
-  Label,
-  Grid,
   Card,
   Text,
-  Button,
   Inline,
-  Flex,
   Box,
-  Dialog,
-  Checkbox,
   Autocomplete,
   SearchIcon,
 } from "@sanity/ui";
@@ -24,11 +16,11 @@ export const CardSearch = React.forwardRef((props, ref) => {
     packList,
     traitsList,
     sphereList,
-    setDeckList,
+    //setDeckList,
     size,
     value,
     onChange,
-    deckList,
+    //deckList,
     filterList,
     selectValue,
     setSelectValue,
@@ -46,7 +38,6 @@ export const CardSearch = React.forwardRef((props, ref) => {
   }, []);
 
   const selectedCard = cardList.filter((card) => card._id == selectValue);
-  console.log(selectedCard[0]);
 
   return (
     <Card radius={0} padding={0} marginTop={3}>
@@ -97,10 +88,10 @@ export const CardSearch = React.forwardRef((props, ref) => {
         }}
       />
       <CardDialog
-        deckList={deckList}
+        //deckList={deckList}
         traitsList={traitsList}
         sphereList={sphereList}
-        setDeckList={setDeckList}
+        //setDeckList={setDeckList}
         cardList={cardList}
         card={selectedCard[0]}
         onClose={onClose}

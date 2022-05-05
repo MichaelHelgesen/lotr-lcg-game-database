@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Line, Bar } from "react-chartjs-2";
 
-
-
-
 const DynamicChart = (props) => {
-const { deckList, value } = props
+const { value, deckInformation } = props
 
-const cardDataList = [...value.filter(obj => obj.cardCopy.cardType._ref !== "hero").map(obj => {
+const cardDataList = [...value.filter(obj => obj.cardObject.cardType._ref !== "hero").map(obj => {
     return {
-        spheres: obj.cardCopy.sphere._ref,
-        quantity: obj.quantity,
-        cost: obj.cardCopy.cost,
-        //id: obj.cardCopy._id,
-        types: obj.cardCopy.cardType._ref
+        spheres: obj.cardObject.sphere._ref,
+        cardQuantity: obj.cardQuantity,
+        cost: obj.cardObject.cost,
+        types: obj.cardObject.cardType._ref
     }
 })]
-//console.log(cardDataList)
 
 
 const types = [...new Set(cardDataList.map(card => card.types))].sort()
+const numberOfTypes = [...types.map(type => cardDataList.filter(ref => ref.types == type).map(card => card.cardQuantity).reduce((prev, next) => prev + next, 0)), 0]
 
 
-const spheres = [...new Set(value.map(card => card.cardCopy.sphere._ref))].sort()
-//console.log([...spheres.map(sphere => deckList.filter(ref => ref.sphere._ref == sphere && ref.cardType._ref != "hero").map(obj => obj.name + obj.quantity)), 0])
-const numberOfSpheres = [...spheres.map(sphere => cardDataList.filter(ref => ref.spheres == sphere).map(card => card.quantity).reduce((prev, next) => prev + next, 0)), 0]
+//const spheres = [...new Set(value.map(card => card.cardObject.sphere._ref))].sort()
+const numberOfSpheres = [...spheres.map(sphere => cardDataList.filter(ref => ref.spheres == sphere).map(card => card.cardQuantity).reduce((prev, next) => prev + next, 0)), 0]
 const costBySphere = spheres.map(sphere => {
     let totalCost = 0
-    let filteredValue = cardDataList.filter(obj => obj.spheres == sphere).map(el => (el.cost * el.quantity))
+    let filteredValue = cardDataList.filter(obj => obj.spheres == sphere).map(el => (el.cost * el.cardQuantity))
     totalCost = filteredValue.reduce((prevValue, nextValue) => 
         prevValue + nextValue, 0)
 return totalCost
@@ -36,7 +31,7 @@ return totalCost
 const costValues = cardDataList.filter(card => card.cost).map(card => card.cost).sort()
 const numberOfCostValues = [0, ...new Set(costValues)].map(cost => {
     let totalCost = 0
-    let filteredValue = value.filter(obj => obj.cardCopy.cost == cost).map(el => el.quantity)
+    let filteredValue = value.filter(obj => obj.cardObject.cost == cost).map(el => el.cardQuantity)
     totalCost = filteredValue.reduce((prevValue, nextValue) => 
         prevValue + nextValue, 0)
 return totalCost
@@ -51,7 +46,7 @@ return (
           datasets: [
             {
               id: 1,
-              label: "Cost",
+              label: "Card cost",
               data: numberOfCostValues,
               borderColor: [
                 'rgb(255, 99, 132)',
@@ -71,7 +66,7 @@ return (
       <Bar
         datasetIdKey="id1"
         data={{
-          labels: spheres,
+          labels: deckInformation,
           datasets: [
             {
               id: 1,
@@ -107,7 +102,7 @@ return (
           datasets: [
             {
               id: 1,
-              label: "Spheres",
+              label: "Cost by spheres",
               data: [...costBySphere, 0],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -139,8 +134,8 @@ return (
           datasets: [
             {
               id: 1,
-              label: "Spheres",
-              data: [...costBySphere, 0],
+              label: "Types",
+              data: [...numberOfTypes, 0],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 159, 64, 0.2)',

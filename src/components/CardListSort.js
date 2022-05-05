@@ -2,17 +2,9 @@ import React, { useState, useEffect } from "react";
 import CardListComponent from "./CardListComponent";
 import styles from "../components/cardListSort.css";
 import {
-  TextInput,
-  Stack,
-  Label,
-  Grid,
-  Card,
   Text,
-  Button,
   Flex,
   Box,
-  Dialog,
-  Checkbox,
 } from "@sanity/ui";
 
 export const CardListSort = React.forwardRef((props, ref) => {
@@ -44,14 +36,13 @@ export const CardListSort = React.forwardRef((props, ref) => {
           nameA = a[sortParameter.param]._ref.toLowerCase();
           nameB = b[sortParameter.param]._ref.toLowerCase();
         } else if (sortParameter.param == "numberInDeck") {
-          console.log("quantity");
           nameA =
             value.map((obj) => obj._key).indexOf(a._id) != -1
-              ? value[value.map((obj) => obj._key).indexOf(a._id)].quantity
+              ? value[value.map((obj) => obj._key).indexOf(a._id)].cardQuantity
               : undefined;
           nameB =
             value.map((obj) => obj._key).indexOf(b._id) != -1
-              ? value[value.map((obj) => obj._key).indexOf(b._id)].quantity
+              ? value[value.map((obj) => obj._key).indexOf(b._id)].cardQuantity
               : undefined;
         } else if (sortParameter.param == "cost") {
           a[sortParameter.param]

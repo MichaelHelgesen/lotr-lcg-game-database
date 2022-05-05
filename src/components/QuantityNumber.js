@@ -1,22 +1,12 @@
-import React, { useState } from "react";
-import { nanoid } from "nanoid";
+import React from "react";
 import {
-  TextInput,
-  Stack,
-  Label,
-  Grid,
-  Card,
   Text,
   Button,
   Flex,
   Box,
-  Dialog,
-  Checkbox,
 } from "@sanity/ui";
 import PatchEvent, {
-  set,
   unset,
-  prepend,
   insert,
   setIfMissing,
 } from "@sanity/form-builder/PatchEvent";
@@ -25,9 +15,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
   const {
     deckLimit,
     cardList,
-    deckList,
+    //deckList,
     card,
-    setDeckList,
+    //setDeckList,
     value,
     cardId,
     onChange,
@@ -36,23 +26,22 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
   } = props;
 
   const currentCardInDeck = value.length
-    ? value.filter((refObj) => refObj.card._ref == cardId)
+    ? value.filter((obj) => obj.cardReference._ref == cardId)
     : [];
 
+  
+      
   const handleClick = (number) => {
     // If  higher number
     if (number != 0) {
-      console.log("number not 0");
-      if (deckList.indexOf(card) != -1) {
-        console.log("allerede i liste");
-        console.log(value.map((ref) => ref._key).indexOf(cardId));
+      if (value.map(obj => obj.cardReference._ref).indexOf(card._id) != -1) {
         const action = insert(
           [
             {
               _key: cardId,
-              card: { _ref: cardId, _type: "reference" },
-              quantity: number,
-              cardCopy: {...card}
+              cardReference: { _ref: cardId, _type: "reference" },
+              cardQuantity: number,
+              cardObject: {...card}
             },
           ],
           "replace",
@@ -61,21 +50,20 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         onChange(PatchEvent.from(action));
         //setDeckList(prevState => prevState.filter(obj => obj != card))
       } else {
-        console.log("ikke i liste");
         const action = insert(
           [
             {
               _key: cardId,
-              card: { _ref: cardId, _type: "reference", _key: cardId },
-              quantity: number,
-              cardCopy: {...card}
+              cardReference: { _ref: cardId, _type: "reference" },
+              cardQuantity: number,
+              cardObject: {...card}
             },
           ],
           "after",
           [-1]
         );
         onChange(PatchEvent.from(action).prepend(setIfMissing([])));
-        setDeckList((prevState) => [...prevState, card]);
+        //setDeckList((prevState) => [...prevState, card]);
       }
     }
     onClose ? onClose() : null;
@@ -93,10 +81,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         } */
     // If zero (delete)
     if (number === 0) {
-      console.log("number is 0");
       const action = unset([{ _key: cardId }]);
       onChange(PatchEvent.from(action));
-      setDeckList((prevState) => prevState.filter((obj) => obj != card));
+      //setDeckList((prevState) => prevState.filter((obj) => obj != card));
     }
   };
 
@@ -124,7 +111,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         if (
           number != 0 &&
           currentCardInDeck.length &&
-          number === currentCardInDeck[0].quantity
+          number === currentCardInDeck[0].cardQuantity
         ) {
           return (
             <Button

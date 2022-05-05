@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import imageUrlBuilder from "@sanity/image-url";
 import {
-  TextInput,
   Stack,
-  Label,
-  Grid,
   Card,
   Text,
-  Button,
   Flex,
   Tooltip,
-  Box,
   Container,
-  Dialog,
-  Checkbox,
-  Autocomplete,
-  SearchIcon,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
@@ -60,13 +51,11 @@ export const CardTooltip = React.forwardRef((props, ref) => {
                   </Text>
                   <Text size={[1]}>
                     {`
-                      ${
-                        card.sphere._ref.slice(0, 1).toUpperCase() +
-                        card.sphere._ref.slice(1)
-                      }, ${
-                      card.cardType._ref.slice(0, 1).toUpperCase() +
+                      ${card.sphere._ref.slice(0, 1).toUpperCase() +
+                      card.sphere._ref.slice(1)
+                      }, ${card.cardType._ref.slice(0, 1).toUpperCase() +
                       card.cardType._ref.slice(1)
-                    }
+                      }
                         `}
                   </Text>
                   <Flex>
@@ -115,20 +104,19 @@ export const CardTooltip = React.forwardRef((props, ref) => {
       portal
     >
       <span
-        
         onClick={onOpen}
         size={2}
         weight={"medium"}
       >
-        {quantity ? 
-        
-        <span style={{
-            color: card.sphere._ref == "lore" ? "green" : 
-            card.sphere._ref == "tactics" ? "red" :
-            card.sphere._ref == "neutral" ? "gray" : 
-            card.sphere._ref == "spirit" ? "blue" : "purple"
+        {quantity  ?
+          <span style={{
+            color: card.sphere._ref == "lore" ? "green" :
+              card.sphere._ref == "tactics" ? "red" :
+                card.sphere._ref == "neutral" ? "gray" :
+                  card.sphere._ref == "spirit" ? "blue" : "purple"
           }}>{`${card.cardType._ref != "hero" ? `${quantity}x` : ""} ${card.name}`}</span> : card.name}
-      </span>
+          </span>
+      
     </Tooltip>
   );
 });
