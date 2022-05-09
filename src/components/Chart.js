@@ -19,10 +19,10 @@ const numberOfTypes = [...types.map(type => cardDataList.filter(ref => ref.types
 
 
 //const spheres = [...new Set(value.map(card => card.cardObject.sphere._ref))].sort()
-const numberOfSpheres = [...spheres.map(sphere => cardDataList.filter(ref => ref.spheres == sphere).map(card => card.cardQuantity).reduce((prev, next) => prev + next, 0)), 0]
-const costBySphere = spheres.map(sphere => {
+const numberOfSpheres = [...deckInformation.spheres.map(sphere => value.filter(obj => obj.cardObject.sphere._ref == sphere).map(obj => obj.cardQuantity).reduce((prev, next) => prev + next, 0)), 0]
+const costBySphere = deckInformation.spheres.map(sphere => {
     let totalCost = 0
-    let filteredValue = cardDataList.filter(obj => obj.spheres == sphere).map(el => (el.cost * el.cardQuantity))
+    let filteredValue = value.filter(obj => obj.cardObject.sphere._ref == sphere && obj.cardObject.cardType._ref !== "hero").map(obj => (obj.cardObject.cost * obj.cardQuantity))
     totalCost = filteredValue.reduce((prevValue, nextValue) => 
         prevValue + nextValue, 0)
 return totalCost
@@ -66,7 +66,7 @@ return (
       <Bar
         datasetIdKey="id1"
         data={{
-          labels: deckInformation,
+          labels: deckInformation.spheres,
           datasets: [
             {
               id: 1,
@@ -98,7 +98,7 @@ return (
       <Bar
         datasetIdKey="id2"
         data={{
-          labels: spheres,
+          labels: deckInformation.spheres,
           datasets: [
             {
               id: 1,

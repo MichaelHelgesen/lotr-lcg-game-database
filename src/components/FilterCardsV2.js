@@ -250,11 +250,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
               />
               <DeckList
-
                 traitsList={traitsList}
                 deckInformation={deckInformation}
                 cardList={cardList}
-                spheresInDeck={spheresInDeck}
+                //spheresInDeck={spheresInDeck}
                 value={value ? value : []}
                 onChange={onChange}
                 sortFunction={sortFunction}

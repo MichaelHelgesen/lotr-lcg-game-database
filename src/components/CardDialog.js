@@ -4,18 +4,13 @@ import React, { useState } from "react";
 import imageUrlBuilder from "@sanity/image-url";
 import CardListComponentQuantity from "./CardListComponentQuantity";
 import {
-  TextInput,
   Stack,
-  Label,
   Grid,
   Card,
   Text,
-  Button,
   Flex,
   Box,
-  Inline,
   Dialog,
-  Portal,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
@@ -31,17 +26,23 @@ export const CardDialog = React.forwardRef((props, ref) => {
     setDeckList,
     deckList,
     traitsList,
-    sphereList,
+    //sphereList,
     cardList,
     open,
     onClose,
     value,
     onChange,
     size,
-    setOpen,
-    quantity,
+    //setOpen,
   } = props;
 
+  const cardEl = (text, data) => {
+    return (
+      <Card radius={2} shadow={1} tone="primary" padding={3}>
+        <Text align="center">{text} {data}</Text>
+      </Card>
+    )
+  }
 
   return (
     <Box>
@@ -51,9 +52,8 @@ export const CardDialog = React.forwardRef((props, ref) => {
           header={
             <Stack space={2}>
               <Text size={[3]} weight={"bold"}>
-                {`${card.name}, ${card.isUnique ? "unique " : ""} ${
-                  card.sphere._ref
-                } ${card.cardType._ref}`}
+                {`${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
+                  } ${card.cardType._ref}`}
               </Text>
               {card.traits && card.traits.length ? (
                 <Text>

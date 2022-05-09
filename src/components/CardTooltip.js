@@ -17,10 +17,10 @@ function urlFor(source) {
 }
 
 export const CardTooltip = React.forwardRef((props, ref) => {
-  const { card, size, setOpen, traitsList, quantity } = props;
-  const onClose = React.useCallback(() => {
+  const { card, setOpen, traitsList, quantity } = props;
+  /* const onClose = React.useCallback(() => {
     setOpen(false);
-  }, []);
+  }, []); */
 
   const onOpen = React.useCallback(() => {
     setOpen(true);
@@ -77,7 +77,7 @@ export const CardTooltip = React.forwardRef((props, ref) => {
                         .filter((trait) => {
                           return (
                             card.traits
-                              .map((traitObj) => traitObj._ref)
+                              .map(traitObj => traitObj._ref)
                               .indexOf(trait._id) != -1
                           );
                         })
@@ -108,15 +108,15 @@ export const CardTooltip = React.forwardRef((props, ref) => {
         size={2}
         weight={"medium"}
       >
-        {quantity  ?
+        {quantity ?
           <span style={{
             color: card.sphere._ref == "lore" ? "green" :
               card.sphere._ref == "tactics" ? "red" :
                 card.sphere._ref == "neutral" ? "gray" :
                   card.sphere._ref == "spirit" ? "blue" : "purple"
           }}>{`${card.cardType._ref != "hero" ? `${quantity}x` : ""} ${card.name}`}</span> : card.name}
-          </span>
-      
+      </span>
+
     </Tooltip>
   );
 });

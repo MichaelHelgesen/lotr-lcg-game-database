@@ -10,6 +10,7 @@ import {
   Box,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
+
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
 const builder = imageUrlBuilder({ projectId, dataset, useCdn });
@@ -41,13 +42,6 @@ export const DeckList = React.forwardRef((props, ref) => {
     return 0;
   });
 
-  /*   const newArr = [...value].map((obj) => {
-      return {
-        ...obj.cardObject,
-        cardQuantity: obj.cardQuantity
-      };
-    }); */
-
   return (
     <Box>
       {typeList
@@ -72,8 +66,8 @@ export const DeckList = React.forwardRef((props, ref) => {
                 </Box>
                 <Grid columns={4} gap={[2]}>
                   {value
+                  .filter((obj) => obj.cardObject.cardType._ref == type)
                     .map(obj => obj.cardObject)
-                    .filter((card) => card.cardType._ref == type)
                     .sort(sortFunction)
                     .map((card) => {
                       return (
@@ -140,8 +134,8 @@ export const DeckList = React.forwardRef((props, ref) => {
                   </Box>
                   <Stack>
                     {value
+                      .filter((obj) => obj.cardObject.cardType._ref == type)
                       .map(obj => obj.cardObject)
-                      .filter((card) => card.cardType._ref == type)
                       .sort(sortFunction)
                       .map((card) => {
                         return (
@@ -152,8 +146,6 @@ export const DeckList = React.forwardRef((props, ref) => {
                               sphereList={sphereList}
                               card={card}
                               cardList={cardList}
-                              //setDeckList={setDeckList}
-                              //deckList={deckList}
                               onChange={onChange}
                               value={value}
                               quantity={

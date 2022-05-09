@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import imageUrlBuilder from "@sanity/image-url";
-import CardListComponentDeckQuantity from "./CardListComponentQuantity";
 import CardDialog from "./CardDialog";
 import CardTooltip from "./CardTooltip";
 import {
@@ -19,10 +18,8 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
   const {
     card,
     cardList,
-    //deckList,
     quantity,
     traitsList,
-    //setDeckList,
     value,
     onChange,
     size,
@@ -34,9 +31,10 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
     setOpen(false);
   }, []);
 
-  const onOpen = React.useCallback(() => {
+/*   const onOpen = React.useCallback(() => {
     setOpen(true);
-  }, []);
+  }, []); */
+
   return (
     <Card padding={0}>
       <Box>
@@ -49,10 +47,8 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
         />
       </Box>
       <CardDialog
-        //deckList={deckList}
         traitsList={traitsList}
-        sphereList={sphereList}
-        //setDeckList={setDeckList}
+        //sphereList={sphereList}
         cardList={cardList}
         card={card}
         onClose={onClose}
@@ -60,7 +56,7 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
         size={size}
         value={value}
         onChange={onChange}
-        setOpen={setOpen}
+        //setOpen={setOpen}
       />
     </Card>
   );
