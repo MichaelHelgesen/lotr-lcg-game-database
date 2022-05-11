@@ -33,9 +33,11 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
         - [x] Checkboxes for filter by multiple packs?
       ~~- [ ] Filter by stats?~~
     - [x] Change order of list (ascending / descending) based on stats
-    - [ ] Card presentation
+    - [ ] Card / deck presentation (UX / UI)
+      - [ ] Put charts and cardpool in tabs for faster initial loading and less clutter?
+        - [ ] Load cardpool when selecting cardpool tab? 
       - [x] See heros as preview images?
-      - [ ] Show charts
+      - [x] Show charts
         - [x] Card cost
         - [x] Spheres
         - [x] Total cost by sphere
