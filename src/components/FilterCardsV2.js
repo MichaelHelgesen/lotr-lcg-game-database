@@ -11,11 +11,27 @@ import CardListSort from "./CardListSort";
 import DeckInformation from "./DeckInformation";
 import PatchEvent, { set } from "@sanity/form-builder/PatchEvent";
 import sanityClient from "part:@sanity/base/client";
+import DynamicChart from "./Chart";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
 
 // Import UI components from Sanity UI
-import { Stack, Text, Button, Flex, Box } from "@sanity/ui";
+import {
+  Stack,
+  Text,
+  Button,
+  Flex,
+  Box,
+  TabList,
+  Tab,
+  EditIcon,
+  EyeClosedIcon,
+  Card,
+  Spinner,
+  Inline,
+  EyeOpenIcon,
+  TabPanel,
+} from "@sanity/ui";
 
 export const FilterCardsV2 = React.forwardRef((props, ref) => {
   // VARIABLES //
@@ -32,6 +48,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
   // STATE HANDLING //
   const [cardList, setCardList] = useState([]);
+  const [id, setId] = useState("hide");
   const [deckInformation, setDeckInformation] = useState({
     spheres: [],
     packs: [],
@@ -64,14 +81,14 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
   // FUNCTIONS //
   // Get all cards and create a deck list
-  useEffect(() => {
+  /* useEffect(() => {
     client.fetch('*[_type == "card"]').then((cards) => {
       setCardList([...cards.filter((card) => !card._id.includes("draft"))]);
-      /* setDeckList([
-        ...cards.filter((card) => cardReferencesInDeck.indexOf(card._id) != -1),
-      ]); */
+      // setDeckList([
+        // ...cards.filter((card) => cardReferencesInDeck.indexOf(card._id) != -1),
+      //]); 
     });
-  }, []);
+  }, []); */
 
   useEffect(() => {
     console.log("changing");
@@ -165,7 +182,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     }
   }, [value]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setDeckInformation((prevState) => {
       return {
         ...prevState,
@@ -183,12 +200,12 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
             0
           ),
         spheres: [...new Set(value.map((val) => val.cardObject.sphere._ref))],
-        /* [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
+        [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
           return (<span key={index}>
             {index != 0 ? `, ${obj}` : `${obj}`}
           </span>
           )
-        }) */ packs: [
+        })  packs: [
           ...new Set(value.map((obj) => obj.cardObject.pack._ref)),
         ].map((obj, index) => {
           return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
@@ -196,7 +213,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         types: [...new Set(value.map((val) => val.cardObject.cardType._ref))],
       };
     });
-  }, []);
+  }, []); */
 
   // Replace special characters for sorting
   const replaceSpecialCharacters = (string) => {
@@ -224,7 +241,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     const inputValue = [];
     onChange(PatchEvent.from(set(inputValue)));
   }, []);
-
+console.log("value", value)
   return (
     <FormField
       title={type.title}
@@ -249,6 +266,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                 traitsList={traitsList}
                 deckInformation={deckInformation}
                 cardList={cardList}
+                setCardList={setCardList}
                 //spheresInDeck={spheresInDeck}
                 value={value ? value : []}
                 onChange={onChange}
@@ -271,71 +289,150 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         </Box>
       </Box>
       <Box>
-        <Flex>
-          <FilterByPack
-            filterList={filterList.pack}
-            setFilterList={setFilterList}
-            packList={packList}
-          />
-          {
-            <FilterByTrait
-              filterList={filterList.traits}
-              setFilterList={setFilterList}
-              traitsList={traitsList}
+        <Card padding={0}>
+          <TabList space={2}>
+            <Tab
+              aria-controls="content-panel"
+              icon={EditIcon}
+              id="hide-tab"
+              label="Close tabs"
+              onClick={() => setId("hide")}
+              selected={id === "hide"}
+              space={2}
             />
-          }
-        </Flex>
-        <Box>
-          <FilterByType
-            types={typeList}
-            setFilterList={setFilterList}
-            traitsList={traitsList}
-          />
-        </Box>
-        <Box>
-          <FilterBySpheres
-            spheres={sphereList}
-            setFilterList={setFilterList}
-            traitsList={traitsList}
-          />
-        </Box>
-        <Box>
-          <CardSearch
-            cardList={cardList}
-            value={value ? value : []}
-            onChange={onChange}
-            //deckList={deckList}
-            filterList={filterList}
-            packList={packList}
-            traitsList={traitsList}
-            sphereList={sphereList}
-            //setDeckList={setDeckList}
-            sortFunction={sortFunction}
-            replaceSpecialCharacters={replaceSpecialCharacters}
-            selectValue={selectValue}
-            setSelectValue={setSelectValue}
-          />
-        </Box>
-        <CardListSort
-          cardList={cardList}
-          value={value ? value : []}
-          setCardList={setCardList}
-          sortParameter={sortParameter}
-          setSortParameter={setSortParameter}
-          replaceSpecialCharacters={replaceSpecialCharacters}
-        />
-        <CardList
-          cardList={cardList}
-          traitsList={traitsList}
-          sphereList={sphereList}
-          //deckList={deckList}
-          //setDeckList={setDeckList}
-          value={value ? value : []}
-          onChange={onChange}
-          filterList={filterList}
-          sortFunction={sortFunction}
-          replaceSpecialCharacters={replaceSpecialCharacters}
-        />
+            <Tab
+              aria-controls="content-panel"
+              icon={EditIcon}
+              id="content-tab"
+              label="Cardpool"
+              onClick={() => {
+                setId("content");
+                cardList.length == 0 &&
+                  client.fetch('*[_type == "card"]').then((cards) => {
+                    setCardList([
+                      ...cards.filter((card) => !card._id.includes("draft")),
+                    ]);
+                  });
+              }}
+              selected={id === "content"}
+              space={2}
+            />
+            <Tab
+              aria-controls="preview-panel"
+              icon={id === "preview" ? EyeOpenIcon : EyeClosedIcon}
+              id="preview-tab"
+              label="Charts"
+              onClick={() => setId("preview")}
+              selected={id === "preview"}
+              space={2}
+            />
+          </TabList>
+          <TabPanel
+            aria-labelledby="hide-tab"
+            hidden={id !== "hide"}
+            id="hide-panel"
+          >
+            <Card border marginTop={2} padding={4} radius={2}>
+              <Text muted={true}>
+                Choose one of the tabs above to load cardpool or charts.
+              </Text>
+            </Card>
+          </TabPanel>
+
+          <TabPanel
+            aria-labelledby="content-tab"
+            hidden={id !== "content"}
+            id="content-panel"
+          >
+            <Card border marginTop={2} padding={4} radius={2}>
+              {cardList.length == 0 ? (
+                <Inline>
+                  <Text>{`${"Loading..."}`}&nbsp;&nbsp;</Text>
+                  <Spinner />
+                </Inline>
+              ) : (
+                <Box>
+                  <Flex>
+                    <FilterByPack
+                      filterList={filterList.pack}
+                      setFilterList={setFilterList}
+                      packList={packList}
+                    />
+                    {
+                      <FilterByTrait
+                        filterList={filterList.traits}
+                        setFilterList={setFilterList}
+                        traitsList={traitsList}
+                      />
+                    }
+                  </Flex>
+                  <Box>
+                    <FilterByType
+                      types={typeList}
+                      setFilterList={setFilterList}
+                      traitsList={traitsList}
+                    />
+                  </Box>
+                  <Box>
+                    <FilterBySpheres
+                      spheres={sphereList}
+                      setFilterList={setFilterList}
+                      traitsList={traitsList}
+                    />
+                  </Box>
+                  <Box>
+                    <CardSearch
+                      cardList={cardList}
+                      setCardList={setCardList}
+                      value={value ? value : []}
+                      onChange={onChange}
+                      //deckList={deckList}
+                      filterList={filterList}
+                      packList={packList}
+                      traitsList={traitsList}
+                      sphereList={sphereList}
+                      //setDeckList={setDeckList}
+                      sortFunction={sortFunction}
+                      replaceSpecialCharacters={replaceSpecialCharacters}
+                      selectValue={selectValue}
+                      setSelectValue={setSelectValue}
+                    />
+                  </Box>
+                  <CardListSort
+                    cardList={cardList}
+                    value={value ? value : []}
+                    setCardList={setCardList}
+                    sortParameter={sortParameter}
+                    setSortParameter={setSortParameter}
+                    replaceSpecialCharacters={replaceSpecialCharacters}
+                  />
+                  <CardList
+                    cardList={cardList}
+                    setCardList={setCardList}
+                    traitsList={traitsList}
+                    sphereList={sphereList}
+                    //deckList={deckList}
+                    //setDeckList={setDeckList}
+                    value={value ? value : []}
+                    onChange={onChange}
+                    filterList={filterList}
+                    sortFunction={sortFunction}
+                    replaceSpecialCharacters={replaceSpecialCharacters}
+                  />
+                </Box>
+              )}
+            </Card>
+          </TabPanel>
+          <TabPanel
+            aria-labelledby="preview-tab"
+            hidden={id !== "preview"}
+            id="preview-panel"
+          >
+            <Card border marginTop={2} padding={4}>
+              {value ? <DynamicChart value={value} deckInformation={deckInformation} /> : <Text>No cards in deck</Text>}
+            </Card>
+          </TabPanel>
+        </Card>
       </Box>
     </FormField>
   );

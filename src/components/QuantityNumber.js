@@ -28,9 +28,6 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
   const currentCardInDeck = value.length
     ? value.filter((obj) => obj.cardReference._ref == cardId)
     : [];
-
-  
-      
   const handleClick = (number) => {
     // If  higher number
     if (number != 0) {

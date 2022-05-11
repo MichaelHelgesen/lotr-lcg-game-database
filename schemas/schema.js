@@ -361,7 +361,10 @@ export default createSchema({
         {
           name: "deckCreation",
           title: "Deck creation",
-          type: "array",
+          type: "object",
+          fields: [
+            {name: "deck",
+            type: "array",
           of: [{
             type: "object",
             name: "cardReference",
@@ -375,7 +378,16 @@ export default createSchema({
                 }
               },
             ]
-          }],
+          }]},
+          {name: "sphere",
+            type: "array",
+          of: [{
+            type: "reference",
+            to: {
+              type: "sphere"
+            }
+          }]}
+          ],
           inputComponent: FilterCardsV2
         },
         {
