@@ -9,21 +9,13 @@ import FilterByTrait from "./FilterByTrait";
 import CardSearch from "./CardSearch";
 import CardListSort from "./CardListSort";
 import DeckInformation from "./DeckInformation";
-import PatchEvent, {
-  set,
-} from "@sanity/form-builder/PatchEvent";
+import PatchEvent, { set } from "@sanity/form-builder/PatchEvent";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
 const { dataset, projectId, useCdn } = client.clientConfig;
 
 // Import UI components from Sanity UI
-import {
-  Stack,
-  Text,
-  Button,
-  Flex,
-  Box,
-} from "@sanity/ui";
+import { Stack, Text, Button, Flex, Box } from "@sanity/ui";
 
 export const FilterCardsV2 = React.forwardRef((props, ref) => {
   // VARIABLES //
@@ -45,10 +37,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     packs: [],
     threat: 0,
     totalCards: 0,
-    types: []
-  })
-  const [spheresInDeck, setSpheresInDeck] = useState([])
-  const [packsInDeck, setPacksInDeck] = useState([])
+    types: [],
+  });
+  const [spheresInDeck, setSpheresInDeck] = useState([]);
+  const [packsInDeck, setPacksInDeck] = useState([]);
   const [sphereList, setSphereList] = useState([]);
   const [packList, setPackList] = useState([]);
   const [typeList, setTypeList] = useState([]);
@@ -85,8 +77,6 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     console.log("changing");
   }, [onChange]);
 
-
-
   // Create a deck list when value change
   /*  useEffect(() => {
     //const references = value.map(reference => reference._ref)
@@ -102,7 +92,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   // Get all packs
   useEffect(() => {
     client.fetch('*[_type == "pack"]').then((packs) => {
-      setPackList([...packs.filter((card) => !card._id.includes("draft"))])
+      setPackList([...packs.filter((card) => !card._id.includes("draft"))]);
       /* setDeckInformation(prevState => {
         return {
           packs: [...packs.filter(pack => [...new Set(value.map(obj => obj.cardObject.pack._ref))].indexOf(pack._id) !== -1).map((pack, index) => {
@@ -113,7 +103,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
           })]
         }
       }) */
-    })
+    });
   }, []);
 
   // Get all types
@@ -138,18 +128,24 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if (value) {
-      setSpheresInDeck([...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
-        return (<span key={index}>
-          {index != 0 ? `, ${obj}` : `${obj}`}
-        </span>
+      setSpheresInDeck(
+        [...new Set(value.map((obj) => obj.cardObject.sphere._ref))].map(
+          (obj, index) => {
+            return (
+              <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>
+            );
+          }
         )
-      }))
-      setPacksInDeck([...new Set(value.map(obj => obj.cardObject.pack._ref))].map((obj, index) => {
-        return (<span key={index}>
-          {index != 0 ? `, ${obj}` : `${obj}`}
-        </span>
+      );
+      setPacksInDeck(
+        [...new Set(value.map((obj) => obj.cardObject.pack._ref))].map(
+          (obj, index) => {
+            return (
+              <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>
+            );
+          }
         )
-      }))
+      );
       /* setDeckInformation(prevState => {
         return {
           packs: [...packList.filter(pack => [...new Set(value.map(obj => obj.cardObject.pack._ref))].indexOf(pack._id) !== -1).map((pack, index) => {
@@ -167,38 +163,39 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         }
       }) */
     }
-
-  }, [value])
+  }, [value]);
 
   useEffect(() => {
-    setDeckInformation(prevState => {
+    setDeckInformation((prevState) => {
       return {
         ...prevState,
         threat: value
-          .filter(obj => obj.cardObject.threat)
+          .filter((obj) => obj.cardObject.threat)
           .map((obj) => obj.cardObject.threat)
-          .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
+          .reduce(
+            (previousValue, currentValue) => previousValue + currentValue,
+            0
+          ),
         totalCards: value
           .map((obj) => obj.cardQuantity)
           .reduce(
-            (previousValue, currentValue) => previousValue + currentValue, 0),
-        spheres: [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
+            (previousValue, currentValue) => previousValue + currentValue,
+            0
+          ),
+        spheres: [...new Set(value.map((val) => val.cardObject.sphere._ref))],
+        /* [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
           return (<span key={index}>
             {index != 0 ? `, ${obj}` : `${obj}`}
           </span>
           )
+        }) */ packs: [
+          ...new Set(value.map((obj) => obj.cardObject.pack._ref)),
+        ].map((obj, index) => {
+          return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
         }),
-        packs: [...new Set(value.map(obj => obj.cardObject.pack._ref))].map((obj, index) => {
-          return (<span key={index}>
-            {index != 0 ? `, ${obj}` : `${obj}`}
-          </span>
-          )
-        }),
-        types: [
-          ...new Set(value.map((val) => val.cardObject.cardType._ref))
-        ]
-      }
-    })
+        types: [...new Set(value.map((val) => val.cardObject.cardType._ref))],
+      };
+    });
   }, []);
 
   // Replace special characters for sorting
@@ -247,7 +244,6 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
                 spheresInDeck={spheresInDeck}
                 packsInDeck={packsInDeck}
                 deckInformation={deckInformation}
-
               />
               <DeckList
                 traitsList={traitsList}

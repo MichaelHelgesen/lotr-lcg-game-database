@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CardListDeckComponent from "./CardListDeckComponent";
 import imageUrlBuilder from "@sanity/image-url";
 import DynamicChart from "./Chart";
@@ -8,6 +8,13 @@ import {
   Card,
   Text,
   Box,
+  TabList,
+  Tab,
+  EditIcon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+  TabPanel,
+  Heading,
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 
@@ -19,6 +26,8 @@ function urlFor(source) {
 }
 
 export const DeckList = React.forwardRef((props, ref) => {
+  const [id, setId] = useState("hide");
+
   const {
     traitsList,
     sphereList,
@@ -66,8 +75,8 @@ export const DeckList = React.forwardRef((props, ref) => {
                 </Box>
                 <Grid columns={4} gap={[2]}>
                   {value
-                  .filter((obj) => obj.cardObject.cardType._ref == type)
-                    .map(obj => obj.cardObject)
+                    .filter((obj) => obj.cardObject.cardType._ref == type)
+                    .map((obj) => obj.cardObject)
                     .sort(sortFunction)
                     .map((card) => {
                       return (
@@ -135,7 +144,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                   <Stack>
                     {value
                       .filter((obj) => obj.cardObject.cardType._ref == type)
-                      .map(obj => obj.cardObject)
+                      .map((obj) => obj.cardObject)
                       .sort(sortFunction)
                       .map((card) => {
                         return (
@@ -163,10 +172,66 @@ export const DeckList = React.forwardRef((props, ref) => {
             );
           })}
       </Grid>
-      <DynamicChart
-        value={value}
-        deckInformation={deckInformation}
-      />
+      <Box>
+        <Card padding={0}>
+          <TabList space={2}>
+          <Tab
+              aria-controls="content-panel"
+              icon={EditIcon}
+              id="hide-tab"
+              label="Close tabs"
+              onClick={() => setId("content")}
+              selected={id === "hide"}
+              space={2}
+            />
+            <Tab
+              aria-controls="content-panel"
+              icon={EditIcon}
+              id="content-tab"
+              label="Cardpool"
+              onClick={() => setId("content")}
+              selected={id === "content"}
+              space={2}
+            />
+            <Tab
+              aria-controls="preview-panel"
+              icon={id === "preview" ? EyeOpenIcon : EyeClosedIcon}
+              id="preview-tab"
+              label="Charts"
+              onClick={() => setId("preview")}
+              selected={id === "preview"}
+              space={2}
+            />
+          </TabList>
+          <TabPanel
+            aria-labelledby="hide-tab"
+            hidden={id !== "hide"}
+            id="hide-panel"
+          >
+            <Card border marginTop={2} padding={4} radius={2}>
+              <Heading>Hide</Heading>
+            </Card>
+          </TabPanel>
+          <TabPanel
+            aria-labelledby="content-tab"
+            hidden={id !== "content"}
+            id="content-panel"
+          >
+            <Card border marginTop={2} padding={4} radius={2}>
+              <Heading>Content</Heading>
+            </Card>
+          </TabPanel>
+          <TabPanel
+            aria-labelledby="preview-tab"
+            hidden={id !== "preview"}
+            id="preview-panel"
+          >
+            <Card border marginTop={2} padding={4}>
+              <DynamicChart value={value} deckInformation={deckInformation} />
+            </Card>
+          </TabPanel>
+        </Card>
+      </Box>
     </Box>
   );
 });

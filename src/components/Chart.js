@@ -19,7 +19,12 @@ const numberOfTypes = [...types.map(type => cardDataList.filter(ref => ref.types
 
 
 //const spheres = [...new Set(value.map(card => card.cardObject.sphere._ref))].sort()
-const numberOfSpheres = [...deckInformation.spheres.map(sphere => value.filter(obj => obj.cardObject.sphere._ref == sphere).map(obj => obj.cardQuantity).reduce((prev, next) => prev + next, 0)), 0]
+const numberOfSpheres = [...deckInformation.spheres.map(sphere => 
+  {
+    const filteredValue = value.filter(obj => obj.cardObject.sphere._ref == sphere && obj.cardObject.cardType._ref !== "hero").map(obj => obj.cardQuantity).reduce((prev, next) => prev + next, 0)
+    return filteredValue
+  }), 0]
+console.log("numberofsphears", numberOfSpheres)
 const costBySphere = deckInformation.spheres.map(sphere => {
     let totalCost = 0
     let filteredValue = value.filter(obj => obj.cardObject.sphere._ref == sphere && obj.cardObject.cardType._ref !== "hero").map(obj => (obj.cardObject.cost * obj.cardQuantity))
