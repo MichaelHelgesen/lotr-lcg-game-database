@@ -34,8 +34,8 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
       ~~- [ ] Filter by stats?~~
     - [x] Change order of list (ascending / descending) based on stats
     - [ ] Card / deck presentation (UX / UI)
-      - [ ] Put charts and cardpool in tabs for faster initial loading and less clutter?
-        - [ ] Load cardpool when selecting cardpool tab? 
+      - [x] Put charts and cardpool in tabs for faster initial loading and less clutter?
+        - [x] Load cardpool when selecting cardpool tab? 
       - [x] See heros as preview images?
       - [x] Show charts
         - [x] Card cost
