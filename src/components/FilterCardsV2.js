@@ -146,7 +146,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (value) {
       setSpheresInDeck(
-        [...new Set(value.map((obj) => obj.cardObject.sphere._ref))].map(
+        [...new Set(value.deck.map((obj) => obj.cardObject.sphere._ref))].map(
           (obj, index) => {
             return (
               <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>
@@ -155,7 +155,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         )
       );
       setPacksInDeck(
-        [...new Set(value.map((obj) => obj.cardObject.pack._ref))].map(
+        [...new Set(value.deck.map((obj) => obj.cardObject.pack._ref))].map(
           (obj, index) => {
             return (
               <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>
@@ -163,7 +163,8 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
           }
         )
       );
-      /* setDeckInformation(prevState => {
+      
+       /* setDeckInformation(prevState => {
         return {
           packs: [...packList.filter(pack => [...new Set(value.map(obj => obj.cardObject.pack._ref))].indexOf(pack._id) !== -1).map((pack, index) => {
             return (<span key={index}>
@@ -179,41 +180,42 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
           })
         }
       }) */
+      
     }
   }, [value]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     setDeckInformation((prevState) => {
       return {
         ...prevState,
-        threat: value
+        threat: value.deck
           .filter((obj) => obj.cardObject.threat)
           .map((obj) => obj.cardObject.threat)
           .reduce(
             (previousValue, currentValue) => previousValue + currentValue,
             0
           ),
-        totalCards: value
+        totalCards: value.deck
           .map((obj) => obj.cardQuantity)
           .reduce(
             (previousValue, currentValue) => previousValue + currentValue,
             0
           ),
-        spheres: [...new Set(value.map((val) => val.cardObject.sphere._ref))],
-        [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
+        spheres: [...new Set(value.deck.map((val) => val.cardObject.sphere._ref))],
+        /* [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
           return (<span key={index}>
             {index != 0 ? `, ${obj}` : `${obj}`}
           </span>
           )
-        })  packs: [
-          ...new Set(value.map((obj) => obj.cardObject.pack._ref)),
+        })  */ packs: [
+          ...new Set(value.deck.map((obj) => obj.cardObject.pack._ref)),
         ].map((obj, index) => {
           return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
         }),
-        types: [...new Set(value.map((val) => val.cardObject.cardType._ref))],
+        types: [...new Set(value.deck.map((val) => val.cardObject.cardType._ref))],
       };
     });
-  }, []); */
+  }, []);
 
   // Replace special characters for sorting
   const replaceSpecialCharacters = (string) => {
@@ -254,10 +256,10 @@ console.log("value", value)
     >
       <Box>
         <Stack space={4}>
-          {value && value.length ? (
+          {value && value.deck.length ? (
             <Box>
               <DeckInformation
-                value={value}
+                value={value ? value.deck : []}
                 spheresInDeck={spheresInDeck}
                 packsInDeck={packsInDeck}
                 deckInformation={deckInformation}
@@ -268,7 +270,7 @@ console.log("value", value)
                 cardList={cardList}
                 setCardList={setCardList}
                 //spheresInDeck={spheresInDeck}
-                value={value ? value : []}
+                value={value ? value.deck : []}
                 onChange={onChange}
                 sortFunction={sortFunction}
                 replaceSpecialCharacters={replaceSpecialCharacters}
@@ -277,13 +279,13 @@ console.log("value", value)
           ) : null}
         </Stack>
         <Box marginY="3">
-          {value && value.length ? (
+          {value && value.deck.length ? (
             <Button tone="caution" onClick={clearReferences}>
               Remove all cards
             </Button>
           ) : (
             <Text>
-              Empty deck! Select cards from the cardpool on the right -{`>`}
+              Empty deck! Select cards from the cardpool below
             </Text>
           )}
         </Box>
@@ -334,7 +336,7 @@ console.log("value", value)
           >
             <Card border marginTop={2} padding={4} radius={2}>
               <Text muted={true}>
-                Choose one of the tabs above to load cardpool or charts.
+                Tabs closed. Choose one of the tabs above to load cardpool or charts.
               </Text>
             </Card>
           </TabPanel>
@@ -384,7 +386,7 @@ console.log("value", value)
                     <CardSearch
                       cardList={cardList}
                       setCardList={setCardList}
-                      value={value ? value : []}
+                      value={value ? value.deck : []}
                       onChange={onChange}
                       //deckList={deckList}
                       filterList={filterList}
@@ -400,7 +402,7 @@ console.log("value", value)
                   </Box>
                   <CardListSort
                     cardList={cardList}
-                    value={value ? value : []}
+                    value={value ? value.deck : []}
                     setCardList={setCardList}
                     sortParameter={sortParameter}
                     setSortParameter={setSortParameter}
@@ -413,7 +415,7 @@ console.log("value", value)
                     sphereList={sphereList}
                     //deckList={deckList}
                     //setDeckList={setDeckList}
-                    value={value ? value : []}
+                    value={value ? value.deck : []}
                     onChange={onChange}
                     filterList={filterList}
                     sortFunction={sortFunction}
@@ -429,7 +431,7 @@ console.log("value", value)
             id="preview-panel"
           >
             <Card border marginTop={2} padding={4}>
-              {value ? <DynamicChart value={value} deckInformation={deckInformation} /> : <Text>No cards in deck</Text>}
+              {value ? <DynamicChart value={value.deck} deckInformation={deckInformation} /> : <Text>No cards in deck</Text>}
             </Card>
           </TabPanel>
         </Card>

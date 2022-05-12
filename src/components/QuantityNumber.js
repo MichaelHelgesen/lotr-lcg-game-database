@@ -8,6 +8,7 @@ import {
 import PatchEvent, {
   unset,
   insert,
+  set,
   setIfMissing,
 } from "@sanity/form-builder/PatchEvent";
 
@@ -31,7 +32,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
   const handleClick = (number) => {
     // If  higher number
     if (number != 0) {
-      if (value.map(obj => obj.cardReference._ref).indexOf(card._id) != -1) {
+      /* if (value.map(obj => obj.cardReference._ref).indexOf(card._id) != -1) {
         const action = insert(
           [
             {
@@ -46,22 +47,27 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         );
         onChange(PatchEvent.from(action));
         //setDeckList(prevState => prevState.filter(obj => obj != card))
-      } else {
-        const action = insert(
-          [
-            {
+      } else { */
+        const action = set(
+          {
+            _key: 2,
+            //_type: "object"
+            deck: [
+              ...value.filter(obj => obj.cardReference._ref != cardId),
+              {
               _key: cardId,
               cardReference: { _ref: cardId, _type: "reference" },
               cardQuantity: number,
               cardObject: {...card}
-            },
-          ],
-          "after",
-          [-1]
+            }],
+            sphere: [{_key: cardId, _ref: card.sphere._ref, _type: "reference" },
+            ]
+          },
+         
         );
-        onChange(PatchEvent.from(action).prepend(setIfMissing([])));
+        onChange(PatchEvent.from(action));
         //setDeckList((prevState) => [...prevState, card]);
-      }
+      /* } */
     }
     onClose ? onClose() : null;
     // If lower number and not zero
@@ -78,11 +84,24 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         } */
     // If zero (delete)
     if (number === 0) {
-      const action = unset([{ _key: cardId }]);
+      const action = set(
+        {
+          _key: 2,
+          //_type: "object"
+          deck: [
+            ...value.deck.filter(obj => obj.cardObject._id != cardId),
+            ],
+          sphere: [{_key: cardId, _ref: card.sphere._ref, _type: "reference" },
+          ]
+        },
+       
+      );
       onChange(PatchEvent.from(action));
+      //const action = unset([{ _key: cardId }]);
+      //onChange(PatchEvent.from(action));
       //setDeckList((prevState) => prevState.filter((obj) => obj != card));
     }
-  };
+};
 
   const numberElement = (color, number) => {
     return (
@@ -122,7 +141,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
               <Text size={1}>{number || "0"}</Text>
             </Button>
           );
-        } else if (number === 0 && !currentCardInDeck.length) {
+        }/*  else if (number === 0 && !currentCardInDeck.length) {
           return (
             <Box
               style={{ background: "#f5f5f5" }}
@@ -134,7 +153,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
               <Text size={1}>{number}</Text>
             </Box>
           );
-        } else {
+        } */ else {
           return numberElement("default", number);
         }
       })}
