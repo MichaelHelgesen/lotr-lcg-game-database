@@ -215,7 +215,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
         types: [...new Set(value.deck.map((val) => val.cardObject.cardType._ref))],
       };
     });
-  }, []);
+  }, [value]);
 
   // Replace special characters for sorting
   const replaceSpecialCharacters = (string) => {

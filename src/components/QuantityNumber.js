@@ -60,9 +60,12 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
               cardQuantity: number,
               cardObject: {...card}
             }],
-            sphere: [{_key: cardId, _ref: card.sphere._ref, _type: "reference" },
-            ]
-          },
+            sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
+              ), card.sphere._ref]
+            .map((obj, index) => { 
+              return { _key: index, _ref: obj, _type: "reference" }
+            })
+          }
          
         );
         onChange(PatchEvent.from(action));
@@ -89,10 +92,13 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
           _key: 2,
           //_type: "object"
           deck: [
-            ...value.deck.filter(obj => obj.cardObject._id != cardId),
+            ...value.filter(obj => obj.cardObject._id != cardId),
             ],
-          sphere: [{_key: cardId, _ref: card.sphere._ref, _type: "reference" },
-          ]
+            sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
+              )]
+            .map((obj, index) => { 
+              return { _key: index, _ref: obj, _type: "reference" }
+            })
         },
        
       );
