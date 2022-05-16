@@ -25,6 +25,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
     card,
     setDeckList,
     deckList,
+    deckInformation,
     traitsList,
     //sphereList,
     cardList,
@@ -52,7 +53,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
           header={
             <Stack space={2}>
               <Text size={[3]} weight={"bold"}>
-                {`${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
+                {`*${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
                   } ${card.cardType._ref}`}
               </Text>
               {card.traits && card.traits.length ? (
@@ -136,6 +137,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
                     card={card}
                     setDeckList={setDeckList}
                     deckList={deckList}
+                    deckInformation={deckInformation}
                     cardList={cardList}
                     deckLimit={card.deckLimit}
                     value={value}

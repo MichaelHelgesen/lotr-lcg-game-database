@@ -22,6 +22,7 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
     traitsList,
     value,
     onChange,
+    deckInformation,
     size,
     sphereList,
   } = props;
@@ -52,6 +53,7 @@ export const CardListDeckComponent = React.forwardRef((props, ref) => {
         cardList={cardList}
         card={card}
         onClose={onClose}
+        deckInformation={deckInformation}
         open={open}
         size={size}
         value={value}

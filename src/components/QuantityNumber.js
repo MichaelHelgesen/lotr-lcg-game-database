@@ -15,6 +15,7 @@ import PatchEvent, {
 export const QuantityNumber = React.forwardRef((props, ref) => {
   const {
     deckLimit,
+    deckInformation,
     cardList,
     //deckList,
     card,
@@ -48,28 +49,34 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
         onChange(PatchEvent.from(action));
         //setDeckList(prevState => prevState.filter(obj => obj != card))
       } else { */
-        const action = set(
-          {
-            _key: 2,
-            //_type: "object"
-            deck: [
-              ...value.filter(obj => obj.cardReference._ref != cardId),
-              {
+      const action = set(
+        {
+          _key: 2,
+          //_type: "object"
+          deck: [
+            ...value.filter(obj => obj.cardReference._ref != cardId),
+            {
               _key: cardId,
               cardReference: { _ref: cardId, _type: "reference" },
               cardQuantity: number,
-              cardObject: {...card}
+              cardObject: { ...card }
             }],
-            sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
-              ), card.sphere._ref]
-            .map((obj, index) => { 
-              return { _key: index, _ref: obj, _type: "reference" }
+          /* sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
+            ), card.sphere._ref]
+          .map((obj, index) => { 
+            return { _key: index, _ref: obj, _type: "reference" }
+          }) */
+          sphere: deckInformation.spheres.length ?
+            [...deckInformation.spheres.filter(obj => obj != card.sphere._ref), card.sphere._ref].map((obj, index) => {
+              return { _key: index + 1, _ref: obj, _type: "reference" }
             })
-          }
-         
-        );
-        onChange(PatchEvent.from(action));
-        //setDeckList((prevState) => [...prevState, card]);
+            :
+            [{ _key: 0, _ref: card.sphere._ref, _type: "reference" }]
+        }
+
+      );
+      onChange(PatchEvent.from(action));
+      //setDeckList((prevState) => [...prevState, card]);
       /* } */
     }
     onClose ? onClose() : null;
@@ -92,22 +99,22 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
           _key: 2,
           //_type: "object"
           deck: [
-            ...value.filter(obj => obj.cardObject._id != cardId),
-            ],
-            sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
-              )]
-            .map((obj, index) => { 
+            // ...value.filter(obj => obj.cardObject._id != cardId),
+          ],
+          sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
+          )]
+            .map((obj, index) => {
               return { _key: index, _ref: obj, _type: "reference" }
             })
         },
-       
+
       );
       onChange(PatchEvent.from(action));
       //const action = unset([{ _key: cardId }]);
       //onChange(PatchEvent.from(action));
       //setDeckList((prevState) => prevState.filter((obj) => obj != card));
     }
-};
+  };
 
   const numberElement = (color, number) => {
     return (

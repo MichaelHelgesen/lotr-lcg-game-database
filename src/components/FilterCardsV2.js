@@ -144,7 +144,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   }, []);
 
   useEffect(() => {
-    if (value) {
+    if (value && Object.keys(value).length !== 0) {
       setSpheresInDeck(
         [...new Set(value.deck.map((obj) => obj.cardObject.sphere._ref))].map(
           (obj, index) => {
@@ -163,58 +163,60 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
           }
         )
       );
-      
-       /* setDeckInformation(prevState => {
-        return {
-          packs: [...packList.filter(pack => [...new Set(value.map(obj => obj.cardObject.pack._ref))].indexOf(pack._id) !== -1).map((pack, index) => {
-            return (<span key={index}>
-              {index != 0 ? `, ${pack.name}` : `${pack.name}`}
-            </span>
-            )
-          })],
-          spheres: [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
-            return (<span key={index}>
-              {index != 0 ? `, ${obj}` : `${obj}`}
-            </span>
-            )
-          })
-        }
-      }) */
-      
+
+      /* setDeckInformation(prevState => {
+       return {
+         packs: [...packList.filter(pack => [...new Set(value.map(obj => obj.cardObject.pack._ref))].indexOf(pack._id) !== -1).map((pack, index) => {
+           return (<span key={index}>
+             {index != 0 ? `, ${pack.name}` : `${pack.name}`}
+           </span>
+           )
+         })],
+         spheres: [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
+           return (<span key={index}>
+             {index != 0 ? `, ${obj}` : `${obj}`}
+           </span>
+           )
+         })
+       }
+     }) */
+
     }
   }, [value]);
 
   useEffect(() => {
-    setDeckInformation((prevState) => {
-      return {
-        ...prevState,
-        threat: value.deck
-          .filter((obj) => obj.cardObject.threat)
-          .map((obj) => obj.cardObject.threat)
-          .reduce(
-            (previousValue, currentValue) => previousValue + currentValue,
-            0
-          ),
-        totalCards: value.deck
-          .map((obj) => obj.cardQuantity)
-          .reduce(
-            (previousValue, currentValue) => previousValue + currentValue,
-            0
-          ),
-        spheres: [...new Set(value.deck.map((val) => val.cardObject.sphere._ref))],
-        /* [...new Set(value.map(obj => obj.cardObject.sphere._ref))].map((obj, index) => {
-          return (<span key={index}>
-            {index != 0 ? `, ${obj}` : `${obj}`}
-          </span>
-          )
-        })  */ packs: [
-          ...new Set(value.deck.map((obj) => obj.cardObject.pack._ref)),
-        ].map((obj, index) => {
-          return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
-        }),
-        types: [...new Set(value.deck.map((val) => val.cardObject.cardType._ref))],
+    
+      setDeckInformation((prevState) => {
+        if (value && Object.keys(value).length !== 0) {
+        return {
+          ...prevState,
+          threat: value.deck
+            .filter((obj) => obj.cardObject.threat)
+            .map((obj) => obj.cardObject.threat)
+            .reduce(
+              (previousValue, currentValue) => previousValue + currentValue,
+              0
+            ),
+          totalCards: value.deck
+            .map((obj) => obj.cardQuantity)
+            .reduce(
+              (previousValue, currentValue) => previousValue + currentValue,
+              0
+            ),
+          spheres: [...new Set(value.deck.map((val) => val.cardObject.sphere._ref))],
+          packs: [
+            ...new Set(value.deck.map((obj) => obj.cardObject.pack._ref)),
+          ].map((obj, index) => {
+            return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
+          }),
+          types: [...new Set(value.deck.map((val) => val.cardObject.cardType._ref))],
+        };
+      } else {
+        return {...prevState}
       };
-    });
+      
+    } )
+
   }, [value]);
 
   // Replace special characters for sorting
@@ -240,10 +242,10 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   // Delete all references and all cards in deck
   const clearReferences = React.useCallback((event) => {
     //setDeck([]);
-    const inputValue = [];
+    const inputValue = {};
     onChange(PatchEvent.from(set(inputValue)));
   }, []);
-console.log("value", value)
+
   return (
     <FormField
       title={type.title}
@@ -256,7 +258,7 @@ console.log("value", value)
     >
       <Box>
         <Stack space={4}>
-          {value && value.deck.length ? (
+          {value && Object.keys(value).length !== 0 ? (
             <Box>
               <DeckInformation
                 value={value ? value.deck : []}
@@ -279,22 +281,18 @@ console.log("value", value)
           ) : null}
         </Stack>
         <Box marginY="3">
-          {value && value.deck.length ? (
-            <Button tone="caution" onClick={clearReferences}>
-              Remove all cards
-            </Button>
-          ) : (
+          {value && Object.keys(value).length === 0 &&
             <Text>
               Empty deck! Select cards from the cardpool below
             </Text>
-          )}
+          }
         </Box>
       </Box>
       <Box>
         <Card padding={0}>
           <TabList space={2}>
             <Tab
-              aria-controls="content-panel"
+              aria-controls="hide-panel"
               icon={EditIcon}
               id="hide-tab"
               label="Close tabs"
@@ -320,12 +318,21 @@ console.log("value", value)
               space={2}
             />
             <Tab
-              aria-controls="preview-panel"
-              icon={id === "preview" ? EyeOpenIcon : EyeClosedIcon}
-              id="preview-tab"
+              aria-controls="charts-panel"
+              icon={id === "charts" ? EyeOpenIcon : EyeClosedIcon}
+              id="charts-tab"
               label="Charts"
-              onClick={() => setId("preview")}
-              selected={id === "preview"}
+              onClick={() => setId("charts")}
+              selected={id === "charts"}
+              space={2}
+            />
+            <Tab
+              aria-controls="delete-panel"
+              icon={id === "delete" ? EyeOpenIcon : EyeClosedIcon}
+              id="delete-tab"
+              label="Empty deck"
+              onClick={() => setId("delete")}
+              selected={id === "delete"}
               space={2}
             />
           </TabList>
@@ -386,7 +393,7 @@ console.log("value", value)
                     <CardSearch
                       cardList={cardList}
                       setCardList={setCardList}
-                      value={value ? value.deck : []}
+                      value={value && Object.keys(value).length !== 0 ? value.deck : []}
                       onChange={onChange}
                       //deckList={deckList}
                       filterList={filterList}
@@ -402,7 +409,7 @@ console.log("value", value)
                   </Box>
                   <CardListSort
                     cardList={cardList}
-                    value={value ? value.deck : []}
+                    value={value && Object.keys(value).length !== 0 ? value.deck : []}
                     setCardList={setCardList}
                     sortParameter={sortParameter}
                     setSortParameter={setSortParameter}
@@ -412,10 +419,11 @@ console.log("value", value)
                     cardList={cardList}
                     setCardList={setCardList}
                     traitsList={traitsList}
+                    deckInformation={deckInformation}
                     sphereList={sphereList}
                     //deckList={deckList}
                     //setDeckList={setDeckList}
-                    value={value ? value.deck : []}
+                    value={value && Object.keys(value).length !== 0 ? value.deck : []}
                     onChange={onChange}
                     filterList={filterList}
                     sortFunction={sortFunction}
@@ -426,14 +434,31 @@ console.log("value", value)
             </Card>
           </TabPanel>
           <TabPanel
-            aria-labelledby="preview-tab"
-            hidden={id !== "preview"}
-            id="preview-panel"
+            aria-labelledby="charts-tab"
+            hidden={id !== "charts"}
+            id="charts-panel"
           >
             <Card border marginTop={2} padding={4}>
-              {value ? <DynamicChart value={value.deck} deckInformation={deckInformation} /> : <Text>No cards in deck</Text>}
+              {value && Object.keys(value).length !== 0 ? <DynamicChart value={value.deck} deckInformation={deckInformation} /> : <Text>No cards in deck</Text>}
             </Card>
           </TabPanel>
+          <TabPanel
+            aria-labelledby="delete-tab"
+            hidden={id !== "delete"}
+            id="delete-panel"
+          >
+            <Card border marginTop={2} padding={4}>
+              <Card>
+                <Text>Click the button below to empty the deck.</Text>
+              </Card>
+              <Card marginTop={3}>
+                <Button tone="caution" onClick={clearReferences}>
+                  Remove all cards
+                </Button>
+              </Card>
+            </Card>
+          </TabPanel>
+
         </Card>
       </Box>
     </FormField>

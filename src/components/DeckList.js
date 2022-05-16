@@ -90,6 +90,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                             sphereList={sphereList}
                             card={card}
                             cardList={cardList}
+                            deckInformation={deckInformation}
                             onChange={onChange}
                             value={value}
                             cardquantity={

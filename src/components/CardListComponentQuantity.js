@@ -21,6 +21,7 @@ export const CardListComponentQuantity = React.forwardRef((props, ref) => {
     cardList,
     setDeckList,
     deckList,
+    deckInformation,
     value,
     cardId,
     onChange,
@@ -45,6 +46,7 @@ export const CardListComponentQuantity = React.forwardRef((props, ref) => {
         size={size}
         deckLimit={countArray}
         value={value}
+        deckInformation={deckInformation}
         cardId={cardId}
         onChange={onChange}
         onClose={closeDialog}
