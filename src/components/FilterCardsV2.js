@@ -218,7 +218,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     } )
 
   }, [value]);
-
+console.log(deckInformation)
   // Replace special characters for sorting
   const replaceSpecialCharacters = (string) => {
     return string

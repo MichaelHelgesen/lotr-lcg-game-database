@@ -28,7 +28,7 @@ export const DeckList = React.forwardRef((props, ref) => {
     deckInformation,
     sortFunction,
   } = props;
-
+console.log(deckInformation)
   const typeList = deckInformation.types.sort((a, b) => {
     if (a === "hero") {
       return -1;
@@ -146,6 +146,7 @@ export const DeckList = React.forwardRef((props, ref) => {
                               traitsList={traitsList}
                               sphereList={sphereList}
                               card={card}
+                              deckInformation={deckInformation}
                               cardList={cardList}
                               onChange={onChange}
                               value={value}

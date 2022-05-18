@@ -26,7 +26,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
     size,
     onClose,
   } = props;
-
+console.log(deckInformation)
   const currentCardInDeck = value.length
     ? value.filter((obj) => obj.cardReference._ref == cardId)
     : [];
@@ -99,9 +99,9 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
           _key: 2,
           //_type: "object"
           deck: [
-            // ...value.filter(obj => obj.cardObject._id != cardId),
+             ...value.filter(obj => obj.cardObject._id != cardId),
           ],
-          sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref).filter(obj => obj != card.sphere._ref)
+          sphere: [...new Set(value.map((obj) => obj.cardObject.sphere._ref)/* .filter(obj => obj != card.sphere._ref) */
           )]
             .map((obj, index) => {
               return { _key: index, _ref: obj, _type: "reference" }
@@ -154,7 +154,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
               <Text size={1}>{number || "0"}</Text>
             </Button>
           );
-        }/*  else if (number === 0 && !currentCardInDeck.length) {
+        } else if (number === 0 && !currentCardInDeck.length) {
           return (
             <Box
               style={{ background: "#f5f5f5" }}
@@ -166,7 +166,7 @@ export const QuantityNumber = React.forwardRef((props, ref) => {
               <Text size={1}>{number}</Text>
             </Box>
           );
-        } */ else {
+        } else {
           return numberElement("default", number);
         }
       })}

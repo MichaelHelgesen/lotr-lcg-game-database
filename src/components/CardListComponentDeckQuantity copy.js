@@ -1,21 +1,11 @@
 import React, { useState } from 'react'
 import QuantityNumber from './QuantityNumber';
 import {
-    TextInput,
-    Stack,
-    Label,
-    Grid,
-    Card,
-    Text,
-    Button,
-    Flex,
-    Box,
-    Dialog,
-    Checkbox
+    Box
 } from "@sanity/ui";
 
 export const CardListComponentDeckQuantity = React.forwardRef((props, ref) => {
-    const { deckLimit, card, cardList, setDeckList, deckList, value, cardId, onChange, size, closeDialog} = props
+    const { deckLimit, card, deckInformation, cardList, setDeckList, deckList, value, cardId, onChange, size, closeDialog} = props
     //console.log("cardList", cardList)
     //console.log("deckList", deckList)
     //console.log(card)
@@ -27,7 +17,7 @@ export const CardListComponentDeckQuantity = React.forwardRef((props, ref) => {
     return (
         <Box flex="1" padding={0}>
             
-                <QuantityNumber card={card} cardList={cardList} deckList={deckList} setDeckList={setDeckList} size={size} deckLimit={countArray} value={value} cardId={cardId} onChange={onChange} onClose={closeDialog}/>
+                <QuantityNumber card={card} deckInformation={deckInformation} cardList={cardList} deckList={deckList} setDeckList={setDeckList} size={size} deckLimit={countArray} value={value} cardId={cardId} onChange={onChange} onClose={closeDialog}/>
            
         </Box>
     )
