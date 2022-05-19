@@ -8,7 +8,7 @@ import {
 
 export const DeckInformation = React.forwardRef((props, ref) => {
   const { deckInformation } = props;
-console.log(deckInformation)
+
   const flexEl = ((text, data) => {
     return (
       <Flex>

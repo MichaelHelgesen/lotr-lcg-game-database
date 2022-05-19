@@ -280,7 +280,7 @@ console.log(deckInformation)
             </Box>
           ) : null}
         </Stack>
-        <Box marginY="3">
+        <Box marginY="5">
           {value && Object.keys(value).length === 0 &&
             <Text>
               Empty deck! Select cards from the cardpool below
@@ -395,6 +395,7 @@ console.log(deckInformation)
                       setCardList={setCardList}
                       value={value && Object.keys(value).length !== 0 ? value.deck : []}
                       onChange={onChange}
+                      deckInformation={deckInformation}
                       //deckList={deckList}
                       filterList={filterList}
                       packList={packList}

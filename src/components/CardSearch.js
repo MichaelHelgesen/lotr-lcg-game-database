@@ -15,6 +15,7 @@ export const CardSearch = React.forwardRef((props, ref) => {
     cardList,
     packList,
     traitsList,
+    deckInformation,
     sphereList,
     //setDeckList,
     size,
@@ -96,10 +97,12 @@ export const CardSearch = React.forwardRef((props, ref) => {
         card={selectedCard[0]}
         onClose={onClose}
         open={open}
+        deckInformation={deckInformation}
         size={size}
         value={value}
         onChange={onChange}
         setOpen={setOpen}
+
       />
     </Card>
   );

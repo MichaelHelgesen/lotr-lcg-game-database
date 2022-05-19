@@ -53,7 +53,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
           header={
             <Stack space={2}>
               <Text size={[3]} weight={"bold"}>
-                {`*${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
+                {`${card.isUnique ? "* " : ""} ${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
                   } ${card.cardType._ref}`}
               </Text>
               {card.traits && card.traits.length ? (

@@ -4,20 +4,10 @@ import CardListComponentQuantity from "./CardListComponentQuantity";
 import CardDialog from "./CardDialog";
 import CardTooltip from "./CardTooltip";
 import {
-  TextInput,
-  Stack,
-  Label,
-  Grid,
   Card,
   Text,
-  Button,
   Flex,
-  Box,
-  Dialog,
-  Checkbox,
-  Portal,
-  Tooltip,
-  Container,
+  Box
 } from "@sanity/ui";
 import sanityClient from "part:@sanity/base/client";
 const client = sanityClient.withConfig({ apiVersion: `2022-01-10` });
