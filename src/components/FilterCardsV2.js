@@ -185,7 +185,6 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
   }, [value]);
 
   useEffect(() => {
-    
       setDeckInformation((prevState) => {
         if (value && Object.keys(value).length !== 0) {
         return {
@@ -204,11 +203,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
               0
             ),
           spheres: [...new Set(value.deck.map((val) => val.cardObject.sphere._ref))],
-          packs: [
-            ...new Set(value.deck.map((obj) => obj.cardObject.pack._ref)),
-          ].map((obj, index) => {
-            return <span key={index}>{index != 0 ? `, ${obj}` : `${obj}`}</span>;
-          }),
+          packs: [...new Set(value.deck.map((obj) => obj.cardObject.pack._ref))],
           types: [...new Set(value.deck.map((val) => val.cardObject.cardType._ref))],
         };
       } else {
@@ -218,6 +213,7 @@ export const FilterCardsV2 = React.forwardRef((props, ref) => {
     } )
 
   }, [value]);
+
 console.log(deckInformation)
   // Replace special characters for sorting
   const replaceSpecialCharacters = (string) => {
@@ -265,6 +261,8 @@ console.log(deckInformation)
                 spheresInDeck={spheresInDeck}
                 packsInDeck={packsInDeck}
                 deckInformation={deckInformation}
+                sphereList={sphereList}
+                packList={packList}
               />
               <DeckList
                 traitsList={traitsList}

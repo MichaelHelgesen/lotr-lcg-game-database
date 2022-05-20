@@ -140,7 +140,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
             </Box>
           </Flex>
         ) : (
-          <Text size={1} align={"center"}>{text}</Text>
+          
+          <Text size={1} align={"center"}><img src={text} height="15px" /></Text>
         )}
       </Box>
     );
@@ -191,9 +192,9 @@ export const CardListSort = React.forwardRef((props, ref) => {
           {createSortEl("sphere", "S")}
           {createSortEl("cardType", "T")}
           {createSortEl("cost", "T/C")}
-          {createSortEl("willpower", "W")}
-          {createSortEl("attack", "A")}
-          {createSortEl("defense", "D")}
+          {createSortEl("willpower", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039420/lotr-database/willpower_oxivt2.png")}
+          {createSortEl("attack", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039455/lotr-database/attack_dpmbir.png")}
+          {createSortEl("defense", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039842/lotr-database/defence_ynue14.png")}
           {createSortEl("health", "H")}
         </Flex>
       </Box>
