@@ -65,14 +65,14 @@ export const CardSearch = React.forwardRef((props, ref) => {
                 style={{
                   color:
                     option.sphere._ref == "lore"
-                      ? "green"
+                      ? "#51b848"
                       : option.sphere._ref == "tactics"
-                      ? "red"
+                      ? "#c00106"
                       : option.sphere._ref == "neutral"
-                      ? "gray"
+                      ? "#616161"
                       : option.sphere._ref == "spirit"
-                      ? "blue"
-                      : "purple",
+                      ? "#2980b9"
+                      : "#ad62a5",
                 }}
               >{`${option.name}`}
               </Text><Text muted={true} size={1} >&nbsp;-&nbsp;{option.cardType._ref}, {packList.filter(pack => pack._id == option.pack._ref).map(obj => obj.name)}</Text>

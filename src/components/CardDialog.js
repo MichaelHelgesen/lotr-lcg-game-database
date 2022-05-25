@@ -53,8 +53,8 @@ export const CardDialog = React.forwardRef((props, ref) => {
           header={
             <Stack space={2}>
               <Text size={[3]} weight={"bold"}>
-                {`${card.isUnique ? "* " : ""} ${card.name}, ${card.isUnique ? "unique " : ""} ${card.sphere._ref
-                  } ${card.cardType._ref}`}
+                {card.isUnique ? <img src="https://res.cloudinary.com/mikkesblogg/image/upload/v1653388731/lotr-database/unique_vfs8ky.png" width="15px"/> : ""} {card.name}, {card.isUnique ? "unique " : ""} {card.sphere._ref
+                  } {card.cardType._ref}
               </Text>
               {card.traits && card.traits.length ? (
                 <Text>
@@ -77,7 +77,7 @@ export const CardDialog = React.forwardRef((props, ref) => {
               ) : null}
             </Stack>
           }
-          id={card._id}
+          id="testDialog"
           onClose={onClose}
           zOffset={1000}
         >

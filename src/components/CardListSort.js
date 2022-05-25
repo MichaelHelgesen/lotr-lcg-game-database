@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CardListComponent from "./CardListComponent";
 import styles from "../components/cardListSort.css";
-import {
-  Text,
-  Flex,
-  Box,
-} from "@sanity/ui";
+import { Text, Flex, Box } from "@sanity/ui";
 
 export const CardListSort = React.forwardRef((props, ref) => {
   const {
@@ -115,16 +111,25 @@ export const CardListSort = React.forwardRef((props, ref) => {
 
   const createSortEl = (parameter, text) => {
     return (
-      <Box style={{width:"25px"}} align={"center"}
+      <Box
+        style={{ width: "25px" }}
+        align={"center"}
         onClick={() => {
           sortList(parameter);
         }}
       >
         {sortParameter.param == parameter ? (
           <Flex direction={"column"} align={"center"}>
-            <Text weight={"bold"} align={"center"} size={1}>
+            <Flex size={1} style={{height:"100%", justifyContent:"center", fontSize:"0.8125rem", display:"flex", alignItems: "center"}}>
+            {text.indexOf("https://") === 0 ? (
+              <img src={text} height="13px" style={{marginBottom:"2px"}} />
+            ) : (
+              text
+            )}
+          </Flex>
+            {/* <Flex weight={"bold"} align={"center"} size={1} style={{height:"100%", justifyContent:"center", fontSize:"0.8125rem", display:"flex", alignItems: "center"}}>
               {text}
-            </Text>
+            </Flex> */}
             <Box style={{ position: "relative" }}>
               {sortParameter.state ? (
                 <span
@@ -140,17 +145,22 @@ export const CardListSort = React.forwardRef((props, ref) => {
             </Box>
           </Flex>
         ) : (
-          
-          <Text size={1} align={"center"}><img src={text} height="15px" /></Text>
+          <Flex size={1} style={{height:"100%", justifyContent:"center", fontSize:"0.8125rem", display:"flex", alignItems: "center"}}>
+            {text.indexOf("https://") === 0 ? (
+              <img src={text} height="13px" style={{marginBottom:"2px"}} />
+            ) : (
+              text
+            )}
+          </Flex>
         )}
       </Box>
     );
   };
 
   return (
-    <Flex  padding={2} marginTop={2}>
-      <Box 
-        style={{width: "100px"}}
+    <Flex padding={2}>
+      <Box
+        style={{ width: "100px", display:"flex", alignItems:"center" }}
         onClick={() => {
           sortList("numberInDeck");
         }}
@@ -169,7 +179,8 @@ export const CardListSort = React.forwardRef((props, ref) => {
         )}
       </Box>
       <Box
-       flex={"auto"}
+      style={{display:"flex", alignItems:"center" }}
+        flex={"auto"}
         onClick={() => {
           sortList("name");
         }}
@@ -187,14 +198,23 @@ export const CardListSort = React.forwardRef((props, ref) => {
           <Text size={1}>Name</Text>
         )}
       </Box>
-      <Box >
+      <Box>
         <Flex align="flex-end" justify="space-between">
           {createSortEl("sphere", "S")}
           {createSortEl("cardType", "T")}
           {createSortEl("cost", "T/C")}
-          {createSortEl("willpower", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039420/lotr-database/willpower_oxivt2.png")}
-          {createSortEl("attack", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039455/lotr-database/attack_dpmbir.png")}
-          {createSortEl("defense", "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039842/lotr-database/defence_ynue14.png")}
+          {createSortEl(
+            "willpower",
+            "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039420/lotr-database/willpower_oxivt2.png"
+          )}
+          {createSortEl(
+            "attack",
+            "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039455/lotr-database/attack_dpmbir.png"
+          )}
+          {createSortEl(
+            "defense",
+            "https://res.cloudinary.com/mikkesblogg/image/upload/v1653039842/lotr-database/defence_ynue14.png"
+          )}
           {createSortEl("health", "H")}
         </Flex>
       </Box>

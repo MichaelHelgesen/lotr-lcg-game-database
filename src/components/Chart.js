@@ -19,7 +19,7 @@ const numberOfTypes = [...types.map(type => cardDataList.filter(ref => ref.types
 
 
 //const spheres = [...new Set(value.map(card => card.cardObject.sphere._ref))].sort()
-const numberOfSpheres = [...deckInformation.spheres.map(sphere => 
+const numberOfSpheres = [...deckInformation.spheres.sort().map(sphere => 
   {
     const filteredValue = value.filter(obj => obj.cardObject.sphere._ref == sphere && obj.cardObject.cardType._ref !== "hero").map(obj => obj.cardQuantity).reduce((prev, next) => prev + next, 0)
     return filteredValue
@@ -77,19 +77,21 @@ return (
               label: "Spheres",
               data: numberOfSpheres,
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
+                'rgba(173, 98, 165, 0.2)',
+                'rgba(81, 184, 72, 0.2)',
+                'rgba(97, 97, 97, 0.2)',
+                'rgba(41, 128, 185, 0.2)',
+                'rgba(192, 1, 6, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
               ],
               borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
+                'rgb(173, 98, 165)',
+                'rgb(81, 184, 72)',
+                'rgb(97, 97, 97)',
+                'rgb(41, 128, 185)',
+                'rgb(192, 1, 6)',
                 'rgb(54, 162, 235)',
                 'rgb(153, 102, 255)',
                 'rgb(201, 203, 207)'
@@ -109,19 +111,21 @@ return (
               label: "Cost by spheres",
               data: [...costBySphere, 0],
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
+                'rgba(173, 98, 165, 0.2)',
+                'rgba(81, 184, 72, 0.2)',
+                'rgba(97, 97, 97, 0.2)',
+                'rgba(41, 128, 185, 0.2)',
+                'rgba(192, 1, 6, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
               ],
               borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
+                'rgb(173, 98, 165)',
+                'rgb(81, 184, 72)',
+                'rgb(97, 97, 97)',
+                'rgb(41, 128, 185)',
+                'rgb(192, 1, 6)',
                 'rgb(54, 162, 235)',
                 'rgb(153, 102, 255)',
                 'rgb(201, 203, 207)'

@@ -46,7 +46,7 @@
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: 1px;
     border-top: 4px solid #000000;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;

@@ -24,8 +24,8 @@ export const CardTooltip = React.forwardRef((props, ref) => {
       content={
         <Container padding={2} width="0">
           <Text muted size={1}>
-            <Flex padding="4">
-              <Card flex="1">
+            <Flex padding="3">
+              <Card flex="1" width={100}>
                 <img
                   src={urlFor(card.cardImage)
                     .width(100)
@@ -37,7 +37,7 @@ export const CardTooltip = React.forwardRef((props, ref) => {
                 />
               </Card>
 
-              <Card flex="2" marginLeft={[2, 2, 3, 5]}>
+              <Card flex="2" marginLeft={[3]}>
                 <Stack padding={0} space={2}>
                   <Text
                     size={[2]}
@@ -45,14 +45,14 @@ export const CardTooltip = React.forwardRef((props, ref) => {
                     style={{
                       color:
                         card.sphere._ref == "lore"
-                          ? "green"
+                          ? "#51b848"
                           : card.sphere._ref == "tactics"
-                          ? "red"
+                          ? "#c00106"
                           : card.sphere._ref == "neutral"
-                          ? "gray"
+                          ? "#616161"
                           : card.sphere._ref == "spirit"
-                          ? "blue"
-                          : "purple",
+                          ? "#2980b9"
+                          : "#ad62a5",
                     }}
                   >
                     {card.name}
