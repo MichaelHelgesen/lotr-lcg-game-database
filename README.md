@@ -13,7 +13,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
 - [x] Custom card image component with lightbox function to be able to view a full screen version of a card
 - [x] Rating component to be able to rate cards
 - [x] Custom view in Sanity Studio
-- [ ] Custom icons in Sanity Studio
+- [x] Custom icons in Sanity Studio
 - [x] Comment fields on most documents for writing down experiences and thoughts
 - [x] Create decks out of cards imported to Sanity Studio
   - [x] Decks may refer to "scenario", "spheres", and "cards"
@@ -63,7 +63,7 @@ I´m trying to create a custom version of [Sanitys](https://www.sanity.io) headl
         - [x] Spheres in deck.
         - [x] Packs in the deck
         - [x] Total starting threat of deck
-      - [ ] Make it pretty and intuitive 
+      - [x] Make it pretty and intuitive 
 - [x] Add game journal entries after playing a game
   - [x] Journal may refer to "deck" and "scenario"
 - [x] Add rules questions and answers
